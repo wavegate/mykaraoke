@@ -5,6 +5,7 @@ import SidebarMenu from "@/components/SidebarMenu/SidebarMenu";
 import Title from "@/components/Title/Title";
 import Header from "@/components/Header/Header";
 import Page from "@/components/Page/Page";
+import { motion } from "framer-motion";
 
 export default function HomePage() {
   const { isLoading, error, data } = useQuery({
@@ -18,19 +19,15 @@ export default function HomePage() {
   if (error) return "An error has occurred: " + error.message;
 
   return (
-    <div className={`relative flex flex-col min-h-screen`}>
-      <Header />
-
-      <div className={`flex flex-1`}>
-        <SidebarMenu expanded={false} />
-        <div className={`flex-1`}>
-          <Page>
-            {data.map((user) => {
-              return <div>{user.email}</div>;
-            })}
-          </Page>
-        </div>
-      </div>
-    </div>
+    <motion.div
+      className={`absolute flex flex-col min-h-screen`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {data.map((user, index) => {
+        return <div key={index}>{user.email}</div>;
+      })}
+    </motion.div>
   );
 }

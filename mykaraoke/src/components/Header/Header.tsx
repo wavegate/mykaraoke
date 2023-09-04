@@ -5,6 +5,7 @@ import Title from "../Title/Title";
 import "./index.scss";
 import Avatar from "../Avatar/Avatar";
 import Dropdown from "../Dropdown/Dropdown";
+import { Link } from "react-router-dom";
 
 interface IHeader {}
 
@@ -25,7 +26,7 @@ export default function Header({}: IHeader) {
           }
           content={
             <div className={`w-max`}>
-              This is a section that will be displayed on hover.
+              <Link to="/login">Login</Link>
             </div>
           }
           gap={12}
