@@ -1,17 +1,10 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import express from "express";
 import cors from "cors";
 import pkg from "pg";
 const { Client } = pkg;
 import dotenv from "dotenv";
+import { SALT } from "./constants.js";
+import bcrypt from "bcrypt";
 dotenv.config();
 const client = new Client({
     ssl: {
@@ -22,10 +15,27 @@ await client.connect();
 const app = express();
 const port = 3000;
 app.use(cors());
-app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const results = yield client.query("SELECT * FROM users;");
+app.use(express.json());
+app.get("/", async (req, res) => {
+    const results = await client.query("SELECT * FROM users;");
     res.json(results.rows);
-}));
+});
+app.post("/login", async (req, res) => {
+    const requestBody = req.body;
+    const results = await client.query("SELECT * from users WHERE username = $1", [requestBody.username]);
+    return res.json(results.rows);
+});
+app.post("/register", async (req, res) => {
+    const requestBody = req.body;
+    const results = await client.query("SELECT * from users WHERE username = $1", [requestBody.username]);
+    if (results.rows.length > 0) {
+        return res.status(409).json({ message: "Username is already registered." });
+    }
+    const salt = await bcrypt.genSalt(SALT);
+    const hashedPassword = await bcrypt.hash(requestBody.password, salt);
+    const newUser = await client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *;", [requestBody.username, requestBody.email, hashedPassword]);
+    return res.json(newUser.rows);
+});
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

@@ -25,8 +25,9 @@ export default function Header({}: IHeader) {
             <Avatar imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ6th-oTbkDMbDOPGU_kkRMM55lfvRYgM8JA&usqp=CAU" />
           }
           content={
-            <div className={`w-max`}>
+            <div className={`w-max flex flex-col gap-1`}>
               <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
             </div>
           }
           gap={12}

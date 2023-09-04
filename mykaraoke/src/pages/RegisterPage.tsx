@@ -12,22 +12,39 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
+  email: z.string().min(2).max(50),
   password: z.string().min(2).max(50),
 });
 export default function LoginPage() {
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      email: "",
       password: "",
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    axios.post(`http://localhost:3000/login`, values);
+    axios
+      .post(`http://localhost:3000/register`, values)
+      .then(() => {
+        toast({
+          title: "Registration successful!",
+        });
+      })
+      .catch((error: AxiosError) => {
+        toast({
+          variant: "destructive",
+          title: "Registration failed!",
+          description: error.response?.data.message,
+        });
+      });
   }
   return (
     <motion.div
@@ -36,7 +53,7 @@ export default function LoginPage() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div>Login</div>
+      <div>Register</div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -47,6 +64,20 @@ export default function LoginPage() {
                 <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input placeholder="username" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="email" {...field} />
                 </FormControl>
 
                 <FormMessage />

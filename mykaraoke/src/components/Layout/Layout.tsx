@@ -2,6 +2,7 @@ import AnimatedRoutes from "../AnimatedRoutes/AnimatedRoutes";
 import Header from "../Header/Header";
 import Page from "../Page/Page";
 import SidebarMenu from "../SidebarMenu/SidebarMenu";
+import { Toaster } from "../ui/toaster";
 
 export default function Layout() {
   return (
@@ -14,6 +15,7 @@ export default function Layout() {
           <Page>
             <AnimatedRoutes />
           </Page>
+          <Toaster />
         </div>
       </div>
     </div>

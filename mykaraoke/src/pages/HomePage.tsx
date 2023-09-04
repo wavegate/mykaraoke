@@ -20,7 +20,7 @@ export default function HomePage() {
 
   return (
     <motion.div
-      className={`absolute flex flex-col min-h-screen`}
+      className={`absolute`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
