@@ -1,0 +1,21 @@
+.trigger.show-content {
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    height: var(--gap);
+    width: 100%;
+    background: transparent;
+  }
+
+  &.top {
+    &::before {
+      bottom: 100%;
+    }
+  }
+  &.bottom {
+    &::before {
+      top: 100%;
+    }
+  }
+}
