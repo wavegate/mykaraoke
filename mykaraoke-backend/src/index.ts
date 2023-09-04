@@ -5,6 +5,7 @@ const { Client } = pkg;
 import dotenv from "dotenv";
 import { SALT } from "./constants.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 dotenv.config();
 
 const client = new Client({
@@ -20,6 +21,24 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
+// Middleware to verify JWT token
+const verifyToken = (req: Request, res: Response, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; // Extract the token part
+
+  if (token) {
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ message: "Token verification failed" });
+      }
+      req.user = decoded;
+      next();
+    });
+  } else {
+    return res.status(401).json({ message: "No token provided" });
+  }
+};
+
 app.get("/", async (req: Request, res: Response) => {
   const results = await client.query("SELECT * FROM users;");
   res.json(results.rows);
@@ -34,6 +53,10 @@ app.post("/login", async (req: Request, res: Response) => {
   return res.json(results.rows);
 });
 
+app.get("/user", verifyToken, async (req: Request, res: Response) => {
+  return res.json(req.user);
+});
+
 app.post("/register", async (req: Request, res: Response) => {
   const requestBody = req.body;
   const results = await client.query(
@@ -45,11 +68,14 @@ app.post("/register", async (req: Request, res: Response) => {
   }
   const salt = await bcrypt.genSalt(SALT);
   const hashedPassword = await bcrypt.hash(requestBody.password, salt);
-  const newUser = await client.query(
-    "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *;",
-    [requestBody.username, requestBody.email, hashedPassword]
-  );
-  return res.json(newUser.rows);
+  const newUser = (
+    await client.query(
+      "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING username, email;",
+      [requestBody.username, requestBody.email, hashedPassword]
+    )
+  ).rows[0];
+  const token = jwt.sign(newUser, process.env.TOKEN_SECRET!);
+  return res.json(token);
 });
 
 app.listen(port, () => {

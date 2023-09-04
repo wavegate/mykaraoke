@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios, { AxiosError } from "axios";
 import { useToast } from "@/components/ui/use-toast";
+import { useContext } from "react";
+import GlobalContext from "@/context/GlobalContext";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -21,6 +23,7 @@ const formSchema = z.object({
   password: z.string().min(2).max(50),
 });
 export default function LoginPage() {
+  const globalContext = useContext(GlobalContext);
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,7 +36,8 @@ export default function LoginPage() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     axios
       .post(`http://localhost:3000/register`, values)
-      .then(() => {
+      .then((res) => {
+        localStorage.setItem("token", res?.data);
         toast({
           title: "Registration successful!",
         });

@@ -6,10 +6,14 @@ import "./index.scss";
 import Avatar from "../Avatar/Avatar";
 import Dropdown from "../Dropdown/Dropdown";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import GlobalContext from "@/context/GlobalContext";
 
 interface IHeader {}
 
 export default function Header({}: IHeader) {
+  const globalContext = useContext(GlobalContext);
+  const user = globalContext?.user;
   return (
     <nav
       className={`w-full px-6 py-3 bg-[#ffffffcc] sticky z-10 top-0 shadow flex justify-between items-center`}
@@ -20,6 +24,7 @@ export default function Header({}: IHeader) {
       </div>
       <div className={`flex items-center gap-4`}>
         <NavMenuItem icon={faMoon} />
+        {user?.username}
         <Dropdown
           trigger={
             <Avatar imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ6th-oTbkDMbDOPGU_kkRMM55lfvRYgM8JA&usqp=CAU" />
