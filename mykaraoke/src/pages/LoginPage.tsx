@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,13 +11,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { useToast } from "@/components/ui/use-toast";
+import AnimatedPage from "@/components/AnimatedPage/AnimatedPage";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
   password: z.string().min(2).max(50),
 });
 export default function LoginPage() {
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -27,15 +30,24 @@ export default function LoginPage() {
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    axios.post(`http://localhost:3000/login`, values);
+    axios
+      .post(`http://localhost:3000/login`, values)
+      .then((res) => {
+        localStorage.setItem("token", res?.data);
+        toast({
+          title: "Login successful!",
+        });
+      })
+      .catch((error: AxiosError) => {
+        toast({
+          variant: "destructive",
+          title: "Login failed!",
+          description: error.response?.data.message,
+        });
+      });
   }
   return (
-    <motion.div
-      className={`absolute`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
+    <AnimatedPage>
       <div>Login</div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -69,6 +81,6 @@ export default function LoginPage() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-    </motion.div>
+    </AnimatedPage>
   );
 }
