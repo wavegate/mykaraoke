@@ -8,6 +8,15 @@ import Dropdown from "../Dropdown/Dropdown";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import GlobalContext from "@/context/GlobalContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Button } from "../ui/button";
 
 interface IHeader {}
 
@@ -25,19 +34,28 @@ export default function Header({}: IHeader) {
       <div className={`flex items-center gap-4`}>
         <NavMenuItem icon={faMoon} />
         {user?.username}
-        <Dropdown
-          trigger={
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            {/* <Button variant="ghost" className="h-8 w-8 p-0"> */}
             <Avatar imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ6th-oTbkDMbDOPGU_kkRMM55lfvRYgM8JA&usqp=CAU" />
-          }
-          content={
-            <div className={`w-max flex flex-col gap-1`}>
+            {/* </Button> */}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(job.id)}
+            >
+              Copy payment ID
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
               <Link to="/login">Login</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
               <Link to="/register">Register</Link>
-            </div>
-          }
-          gap={12}
-          position="bottomRight"
-        ></Dropdown>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </nav>
   );
