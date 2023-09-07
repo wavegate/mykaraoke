@@ -1,4 +1,9 @@
-import { faComments, faHouse, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClipboardQuestion,
+  faComments,
+  faHouse,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import SidebarMenuItem from "../SidebarMenuItem/SidebarMenuItem";
 import "./index.scss";
 
@@ -14,6 +19,12 @@ export default function SidebarMenu({ expanded }: ISidebarMenu) {
         active={true}
         label={"Dashboard"}
         icon={faHouse}
+      />
+      <SidebarMenuItem
+        link="/mock"
+        active={false}
+        label={"Mock Interview"}
+        icon={faClipboardQuestion}
       />
       <SidebarMenuItem
         link="/profile"

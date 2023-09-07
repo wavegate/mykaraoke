@@ -15,7 +15,7 @@ import puppeteer from "puppeteer";
   await page.waitForSelector("#session_key");
 
   await page.type("#session_key", "frankjobapptracker@gmail.com"); // Replace 'Your Text Here' with the desired text
-  await page.type("#session_password", ""); // Replace 'Your Text Here' with the desired text
+  await page.type("#session_password", "testTest2@2"); // Replace 'Your Text Here' with the desired text
 
   await page.click(".sign-in-form__submit-btn--full-width");
 
