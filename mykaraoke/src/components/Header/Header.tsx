@@ -6,7 +6,7 @@ import "./index.scss";
 import Avatar from "../Avatar/Avatar";
 import Dropdown from "../Dropdown/Dropdown";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { forwardRef, useContext } from "react";
 import GlobalContext from "@/context/GlobalContext";
 import {
   DropdownMenu,
@@ -20,12 +20,13 @@ import { Button } from "../ui/button";
 
 interface IHeader {}
 
-export default function Header({}: IHeader) {
+const Header = forwardRef(({}: IHeader, ref) => {
   const globalContext = useContext(GlobalContext);
   const user = globalContext?.user;
   return (
     <nav
       className={`w-full px-6 py-3 bg-[#ffffffcc] sticky z-10 top-0 shadow flex justify-between items-center`}
+      ref={ref}
     >
       <div className={`flex gap-5 items-center`}>
         <Title />
@@ -50,4 +51,6 @@ export default function Header({}: IHeader) {
       </div>
     </nav>
   );
-}
+});
+
+export default Header;

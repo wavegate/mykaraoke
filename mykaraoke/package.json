@@ -24,7 +24,7 @@
     "@radix-ui/react-toast": "^1.1.4",
     "@tanstack/react-query": "^4.32.6",
     "@tanstack/react-table": "^8.9.7",
-    "@uidotdev/usehooks": "^2.1.0",
+    "@uidotdev/usehooks": "^2.2.0",
     "axios": "^1.5.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
