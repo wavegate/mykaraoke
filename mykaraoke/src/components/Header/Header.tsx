@@ -4,7 +4,6 @@ import Subtitle from "../Subtitle/Subtitle";
 import Title from "../Title/Title";
 import "./index.scss";
 import Avatar from "../Avatar/Avatar";
-import Dropdown from "../Dropdown/Dropdown";
 import { Link } from "react-router-dom";
 import { forwardRef, useContext } from "react";
 import GlobalContext from "@/context/GlobalContext";
@@ -12,15 +11,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
 
-interface IHeader {}
-
-const Header = forwardRef(({}: IHeader, ref) => {
+const Header = forwardRef<any, any>((_, ref) => {
   const globalContext = useContext(GlobalContext);
   const user = globalContext?.user;
   return (

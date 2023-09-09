@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AnimatedPage from "@/components/AnimatedPage/AnimatedPage";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { z } from "zod";
 import {
   Form,
@@ -15,17 +15,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { columns } from "./columns";
 import { DataTable } from "./DataTable";
+import { API_URL } from "@/constants";
+
+console.log(API_URL);
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
@@ -34,11 +28,10 @@ const formSchema = z.object({
 });
 
 export default function HomePage() {
-  const { isLoading, error, data } = useQuery({
+  const { data } = useQuery({
     queryKey: ["jobs"],
-    // queryFn: () => fetch("http://54.200.165.61/").then((res) => res.json()),
     queryFn: () =>
-      axios.get("http://localhost:3000/jobs").then((res) => {
+      axios.get(`${API_URL}/jobs`).then((res) => {
         return res?.data;
       }),
   });
@@ -57,7 +50,7 @@ export default function HomePage() {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (newJob) => axios.post(`http://localhost:3000/job`, newJob),
+    mutationFn: (newJob) => axios.post(`${API_URL}job`, newJob),
     // When mutate is called:
     onMutate: async (newJob) => {
       // Cancel any outgoing refetches
@@ -68,19 +61,19 @@ export default function HomePage() {
       const previousJobs = queryClient.getQueryData(["jobs"]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData(["jobs"], (old) => [...old, newJob]);
+      queryClient.setQueryData(["jobs"], (old: any) => [...old, newJob]);
 
       // Return a context object with the snapshotted value
       return { previousJobs };
     },
     // If the mutation fails,
     // use the context returned from onMutate to roll back
-    onError: (err, newTodo, context) => {
-      queryClient.setQueryData(["jobs"], context.previousJobs);
+    onError: (err: any, _, context) => {
+      queryClient.setQueryData(["jobs"], context?.previousJobs);
       toast({
         variant: "destructive",
         title: "Failed to create job!",
-        description: error.response?.data.message,
+        description: err.response?.data.message,
       });
     },
     // Always refetch after error or success:
@@ -93,7 +86,7 @@ export default function HomePage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate(values);
+    mutation.mutate(values as any);
   }
 
   return (

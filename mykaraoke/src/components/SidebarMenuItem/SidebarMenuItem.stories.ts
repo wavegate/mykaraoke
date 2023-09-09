@@ -15,7 +15,6 @@ type Story = StoryObj<typeof meta>;
 export const Home: Story = {
   args: {
     link: "/",
-    active: true,
     label: "Home",
     icon: faHouse,
   },

@@ -19,6 +19,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "skipDefaultLibCheck": true,
+    "noImplicitAny": false,
 
     "baseUrl": ".",
     "paths": {

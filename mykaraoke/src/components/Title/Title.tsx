@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import "./index.scss";
 
-interface ITitle {}
-
 export default function Title() {
   return (
     <Link to="/">

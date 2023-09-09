@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import axios, { AxiosError } from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import AnimatedPage from "@/components/AnimatedPage/AnimatedPage";
+import { API_URL } from "@/constants";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -32,7 +33,7 @@ export default function RegisterPage() {
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
     axios
-      .post(`http://localhost:3000/register`, values)
+      .post(`${API_URL}/register`, values)
       .then((res) => {
         localStorage.setItem("token", res?.data);
         toast({
@@ -43,7 +44,7 @@ export default function RegisterPage() {
         toast({
           variant: "destructive",
           title: "Registration failed!",
-          description: error.response?.data.message,
+          description: (error.response?.data as any).message,
         });
       });
   }

@@ -1,7 +1,6 @@
 import {
   CSSProperties,
   ReactNode,
-  useEffect,
   useLayoutEffect,
   useRef,
   useState,

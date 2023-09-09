@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import AnimatedPage from "@/components/AnimatedPage/AnimatedPage";
+import { API_URL } from "@/constants";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -31,14 +32,14 @@ export default function LoginPage() {
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
     axios
-      .post(`http://localhost:3000/login`, values)
+      .post(`${API_URL}/login`, values)
       .then((res) => {
         localStorage.setItem("token", res?.data);
         toast({
           title: "Login successful!",
         });
       })
-      .catch((error: AxiosError) => {
+      .catch((error: any) => {
         toast({
           variant: "destructive",
           title: "Login failed!",

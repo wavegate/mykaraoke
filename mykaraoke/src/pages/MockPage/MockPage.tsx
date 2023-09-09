@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AnimatedPage from "@/components/AnimatedPage/AnimatedPage";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { z } from "zod";
 import {
   Form,
@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 
 import { DataTable } from "../DataTable";
 import { columns } from "./columns";
+import { API_URL } from "@/constants";
 
 const formSchema = z.object({
   question: z.string().min(2).max(255),
@@ -25,11 +26,11 @@ const formSchema = z.object({
 });
 
 export default function MockPage() {
-  const { isLoading, error, data } = useQuery({
+  const { data } = useQuery({
     queryKey: ["questions"],
     // queryFn: () => fetch("http://54.200.165.61/").then((res) => res.json()),
     queryFn: () =>
-      axios.get("http://localhost:3000/questions").then((res) => {
+      axios.get(`${API_URL}/questions`).then((res) => {
         return res?.data;
       }),
   });
@@ -48,7 +49,7 @@ export default function MockPage() {
 
   const mutation = useMutation({
     mutationFn: (newQuestion) =>
-      axios.post(`http://localhost:3000/questions`, newQuestion),
+      axios.post(`${API_URL}/questions`, newQuestion),
     // When mutate is called:
     onMutate: async (newQuestion) => {
       // Cancel any outgoing refetches
@@ -59,19 +60,22 @@ export default function MockPage() {
       const previousQuestions = queryClient.getQueryData(["questions"]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData(["questions"], (old) => [...old, newQuestion]);
+      queryClient.setQueryData(["questions"], (old: any) => [
+        ...old,
+        newQuestion,
+      ]);
 
       // Return a context object with the snapshotted value
       return { previousQuestions };
     },
     // If the mutation fails,
     // use the context returned from onMutate to roll back
-    onError: (err, newQuestion, context) => {
+    onError: (err: any, _, context) => {
       queryClient.setQueryData(["questions"], context?.previousQuestions);
       toast({
         variant: "destructive",
         title: "Failed to create question!",
-        description: error.response?.data.message,
+        description: err.response?.data.message,
       });
     },
     // Always refetch after error or success:
@@ -84,7 +88,7 @@ export default function MockPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate(values);
+    mutation.mutate(values as any);
   }
 
   return (

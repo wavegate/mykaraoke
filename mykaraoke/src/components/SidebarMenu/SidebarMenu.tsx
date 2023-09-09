@@ -6,7 +6,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import SidebarMenuItem from "../SidebarMenuItem/SidebarMenuItem";
 import "./index.scss";
-import { useMeasure } from "@uidotdev/usehooks";
 import { useEffect, useRef } from "react";
 
 interface ISidebarMenu {
@@ -14,19 +13,16 @@ interface ISidebarMenu {
   setSideBarMenuMeasure: any;
 }
 
-export default function SidebarMenu({
-  expanded,
-  setSideBarMenuMeasure,
-}: ISidebarMenu) {
+export default function SidebarMenu({ setSideBarMenuMeasure }: ISidebarMenu) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (ref.current) {
-          const width = ref.current.getBoundingClientRect().width;
-          setSideBarMenuMeasure(width);
-        }
+    const resizeObserver = new ResizeObserver(() => {
+      // for (const entry of entries) {
+      if (ref.current) {
+        const width = ref.current.getBoundingClientRect().width;
+        setSideBarMenuMeasure(width);
       }
+      // }
     });
     if (ref.current) {
       resizeObserver.observe(ref.current);
