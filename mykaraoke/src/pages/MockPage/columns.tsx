@@ -57,7 +57,11 @@ export const columns: ColumnDef<Question>[] = [
     cell: ({ row }) => {
       const question = row.original;
 
-      return <RecordAnswer id={question.id} />;
+      return (
+        <div>
+          <RecordAnswer id={question.id} />
+        </div>
+      );
     },
   },
   {
@@ -66,10 +70,12 @@ export const columns: ColumnDef<Question>[] = [
     cell: ({ row }) => {
       const question = row.original;
 
-      return (
+      return question.user_answer ? (
         <a href={question.user_answer} target="_blank">
           Listen to answer
         </a>
+      ) : (
+        <div></div>
       );
     },
   },

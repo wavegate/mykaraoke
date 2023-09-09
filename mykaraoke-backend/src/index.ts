@@ -264,7 +264,7 @@ app.post(
       model: "gpt-3.5-turbo",
     });
 
-    await client.query(
+    const question_answer = await client.query(
       "UPDATE questions SET user_answer = ($1), user_answer_transcription = ($2), analysis = ($3) WHERE id = ($4) RETURNING *;",
       [
         fileName,
@@ -273,7 +273,7 @@ app.post(
         requestBody.id,
       ]
     );
-    return res;
+    return res.json(question_answer);
   }
 );
 

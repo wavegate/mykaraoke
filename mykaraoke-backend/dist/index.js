@@ -212,13 +212,13 @@ app.post("/answer", upload.single("file"), verifyToken, async (req, res) => {
         ],
         model: "gpt-3.5-turbo",
     });
-    await client.query("UPDATE questions SET user_answer = ($1), user_answer_transcription = ($2), analysis = ($3) WHERE id = ($4) RETURNING *;", [
+    const question_answer = await client.query("UPDATE questions SET user_answer = ($1), user_answer_transcription = ($2), analysis = ($3) WHERE id = ($4) RETURNING *;", [
         fileName,
         transcription.text,
         analysis.choices[0].message.content,
         requestBody.id,
     ]);
-    return res;
+    return res.json(question_answer);
 });
 app.post("/login", async (req, res) => {
     const requestBody = req.body;
