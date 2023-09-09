@@ -6,5 +6,5 @@ interface IPage {
 }
 
 export default function Page({ children }: IPage) {
-  return <div className={`p-[24px]`}>{children}</div>;
+  return <div className={`relative`}>{children}</div>;
 }

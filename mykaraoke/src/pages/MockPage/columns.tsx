@@ -1,3 +1,4 @@
+import RecordAnswer from "@/components/RecordAnswer/RecordAnswer";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Mic, MoreHorizontal } from "lucide-react";
 
 export type Question = {
   id: string;
@@ -47,6 +48,15 @@ export const columns: ColumnDef<Question>[] = [
           Listen to audio
         </a>
       );
+    },
+  },
+  {
+    id: "record",
+    header: "Record answer",
+    cell: ({ row }) => {
+      const question = row.original;
+
+      return <RecordAnswer />;
     },
   },
   {
