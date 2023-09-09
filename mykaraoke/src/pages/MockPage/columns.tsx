@@ -9,13 +9,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Mic, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 export type Question = {
   id: string;
   question: string;
   answer: string;
   audio_url: string;
+  user_answer: string;
 };
 
 export const columns: ColumnDef<Question>[] = [
@@ -56,8 +57,29 @@ export const columns: ColumnDef<Question>[] = [
     cell: ({ row }) => {
       const question = row.original;
 
-      return <RecordAnswer />;
+      return <RecordAnswer id={question.id} />;
     },
+  },
+  {
+    accessorKey: "user_answer",
+    header: "User Answer",
+    cell: ({ row }) => {
+      const question = row.original;
+
+      return (
+        <a href={question.user_answer} target="_blank">
+          Listen to answer
+        </a>
+      );
+    },
+  },
+  {
+    accessorKey: "user_answer_transcription",
+    header: "User Answer Transcription",
+  },
+  {
+    accessorKey: "analysis",
+    header: "Analysis",
   },
   {
     id: "actions",

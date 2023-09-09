@@ -3,16 +3,10 @@ import { AudioRecorder } from "react-audio-voice-recorder";
 
 export default function RecordAnswer({ id }) {
   const addAudioElement = (blob) => {
-    console.log(blob);
     const formData = new FormData();
-    formData.append("file", blob, "answer");
+    formData.append("file", blob);
     formData.append("id", id);
     axios.post("http://localhost:3000/answer", formData);
-    // const url = URL.createObjectURL(blob);
-    // const audio = document.createElement("audio");
-    // audio.src = url;
-    // audio.controls = true;
-    // document.body.appendChild(audio);
   };
   return (
     <AudioRecorder
@@ -21,7 +15,7 @@ export default function RecordAnswer({ id }) {
         noiseSuppression: true,
         echoCancellation: true,
       }}
-      downloadOnSavePress={true}
+      downloadOnSavePress={false}
       downloadFileExtension="webm"
     />
   );

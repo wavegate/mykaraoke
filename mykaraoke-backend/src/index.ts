@@ -9,7 +9,8 @@ import jwt, { verify } from "jsonwebtoken";
 import axios from "axios";
 import fs from "fs";
 import crypto from "crypto";
-dotenv.config();
+import multer from "multer";
+import OpenAI from "openai";
 
 import {
   PutObjectCommand,
@@ -19,6 +20,11 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import { Upload } from "@aws-sdk/lib-storage";
+
+dotenv.config();
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_KEY,
+});
 
 const bucketName = process.env.BUCKET_NAME;
 const bucketRegion = process.env.BUCKET_REGION;
@@ -45,6 +51,8 @@ const app = express();
 const port = 3000;
 app.use(cors());
 app.use(express.json());
+
+const upload = multer();
 
 const randomFileName = (bytes = 32) => crypto.randomBytes(16).toString("hex");
 
@@ -126,7 +134,7 @@ app.post("/questions", verifyToken, async (req: Request, res: Response) => {
   const requestBody = req.body;
   const postData = {
     text: requestBody.question,
-    voice: "denis",
+    voice: "larry",
     quality: "medium",
     output_format: "mp3",
     speed: 1,
@@ -185,16 +193,89 @@ app.post("/questions", verifyToken, async (req: Request, res: Response) => {
 app.get("/questions", verifyToken, async (req: Request, res: Response) => {
   const questions = (await client.query("SELECT * from questions;")).rows;
   for (const question of questions) {
-    const getObjectParams = {
-      Bucket: bucketName,
-      Key: question.audio_url,
-    };
-    const command = new GetObjectCommand(getObjectParams);
-    const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
-    question.audio_url = url;
+    if (question.audio_url) {
+      const getObjectParams = {
+        Bucket: bucketName,
+        Key: question.audio_url,
+      };
+      const command = new GetObjectCommand(getObjectParams);
+      const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+      question.audio_url = url;
+    }
+  }
+  for (const question of questions) {
+    if (question.user_answer) {
+      const getObjectParams = {
+        Bucket: bucketName,
+        Key: question.user_answer,
+      };
+      const command = new GetObjectCommand(getObjectParams);
+      const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+      question.user_answer = url;
+    }
   }
   return res.json(questions);
 });
+
+app.post(
+  "/answer",
+  upload.single("file"),
+  verifyToken,
+  async (req: Request, res: Response) => {
+    const requestBody = req.body;
+    const requestFile = req.file;
+
+    if (!requestFile) {
+      return res.status(404).json({ message: "No file uploaded." });
+    }
+    const fileName = randomFileName();
+
+    const params = {
+      Bucket: bucketName,
+      Key: fileName,
+      Body: requestFile?.buffer,
+      ContentType: requestFile?.mimetype,
+    };
+
+    const command = new PutObjectCommand(params);
+    await s3.send(command);
+
+    fs.writeFileSync("test.webm", requestFile.buffer);
+
+    const transcription = await openai.audio.transcriptions.create({
+      file: fs.createReadStream("test.webm"),
+      model: "whisper-1",
+    });
+
+    const question = (
+      await client.query("SELECT * FROM questions WHERE id = ($1);", [
+        requestBody.id,
+      ])
+    ).rows[0];
+
+    const analysis = await openai.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: `You are an interviewer for a tech company. The user will give you an answer. The question the user is answering is ${question.question}. The answer for that question is ${question.answer}. Provide a short review of the user's answer to the provided question and provided answer as well as a score of the user's answer from 1 to 10.`,
+        },
+        { role: "user", content: transcription.text },
+      ],
+      model: "gpt-3.5-turbo",
+    });
+
+    await client.query(
+      "UPDATE questions SET user_answer = ($1), user_answer_transcription = ($2), analysis = ($3) WHERE id = ($4) RETURNING *;",
+      [
+        fileName,
+        transcription.text,
+        analysis.choices[0].message.content,
+        requestBody.id,
+      ]
+    );
+    return res;
+  }
+);
 
 app.post("/login", async (req: Request, res: Response) => {
   const requestBody = req.body;

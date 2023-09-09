@@ -36,24 +36,15 @@ export default function Header({}: IHeader) {
         {user?.username}
         <DropdownMenu>
           <DropdownMenuTrigger>
-            {/* <Button variant="ghost" className="h-8 w-8 p-0"> */}
             <Avatar imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ6th-oTbkDMbDOPGU_kkRMM55lfvRYgM8JA&usqp=CAU" />
-            {/* </Button> */}
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(job.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link to="/login">Login</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link to="/register">Register</Link>
-            </DropdownMenuItem>
+            <Link to="/login">
+              <DropdownMenuItem>Login</DropdownMenuItem>
+            </Link>
+            <Link to="/register">
+              <DropdownMenuItem>Register</DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
