@@ -1,6 +1,6 @@
 const API_URL = import.meta.env.PROD
-  ? "http://54.200.165.61"
+  ? "https://jobapptracker.net"
   : import.meta.env.DEV
-  ? "http://localhost:3000"
+  ? "https://jobapptracker.net"
   : "";
 export { API_URL };

@@ -19,8 +19,6 @@ import { columns } from "./columns";
 import { DataTable } from "./DataTable";
 import { API_URL } from "@/constants";
 
-console.log(API_URL);
-
 const formSchema = z.object({
   title: z.string().min(2).max(50),
   link: z.string().min(2).max(50),
