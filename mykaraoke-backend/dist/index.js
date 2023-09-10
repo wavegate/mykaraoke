@@ -10,6 +10,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import express from "express";
+import cors from "cors";
 import pkg from "pg";
 const { Client } = pkg;
 import dotenv from "dotenv";
@@ -47,7 +48,7 @@ const client = new Client({
 await client.connect();
 const app = express();
 const port = 3000;
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 const upload = multer();
 const randomFileName = (bytes = 32) => crypto.randomBytes(16).toString("hex");
