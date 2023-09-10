@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/react';
-
+import { reactRouterParameters, withRouter } from 'storybook-addon-react-router-v6';
 import { withThemeByClassName } from '@storybook/addon-styling';
 
 /* TODO: update import to your tailwind styles file. If you're using Angular, inject this through your angular.json config instead */
@@ -14,6 +14,7 @@ const preview: Preview = {
         date: /Date$/,
       },
     },
+    reactRouter: reactRouterParameters({})
   },
 
   decorators: [
@@ -26,6 +27,7 @@ const preview: Preview = {
       },
       defaultTheme: 'light',
     }),
+    withRouter
   ],
 };
 
