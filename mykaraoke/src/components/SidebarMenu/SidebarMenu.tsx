@@ -34,7 +34,7 @@ export default function SidebarMenu({ setSideBarMenuMeasure }: ISidebarMenu) {
   }, [ref, setSideBarMenuMeasure]);
   return (
     <div
-      className={`flex flex-col gap-1 max-w-xs p-2 shadow basis-56 overflow-x-hidden w-[240px] fixed h-full`}
+      className={`flex flex-col gap-1 max-w-xs p-2 shadow basis-56 overflow-x-hidden w-[240px] fixed h-full top-[56px]`}
       ref={ref}
     >
       <SidebarMenuItem link="/" label={"Dashboard"} icon={faHouse} />

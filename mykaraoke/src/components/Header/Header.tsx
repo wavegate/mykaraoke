@@ -19,7 +19,7 @@ const Header = forwardRef<any, any>((_, ref) => {
   const user = globalContext?.user;
   return (
     <nav
-      className={`w-full px-6 py-3 bg-[#ffffffcc] sticky z-10 top-0 shadow flex justify-between items-center`}
+      className={`w-full px-6 py-3 bg-[#ffffffcc] fixed z-10 top-0 shadow flex justify-between items-center`}
       ref={ref}
     >
       <div className={`flex gap-5 items-center`}>

@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -12,33 +17,58 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 export type Job = {
   id: string;
-  title: string;
-  link: string;
+  position_name: string;
+  salary: string;
+  company: string;
+  location: string;
+  url: string;
+  posting_date_parsed: string;
   description: string;
+  external_apply_link: string;
 };
 
 export const columns: ColumnDef<Job>[] = [
   {
-    accessorKey: "title",
+    accessorKey: "company",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title
+          Company
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "link",
-    header: "Link",
+    accessorKey: "position_name",
+    header: "Position",
+  },
+  {
+    accessorKey: "salary",
+    header: "Salary",
+  },
+  {
+    accessorKey: "posting_date_parsed",
+    header: "Posting Date",
   },
   {
     accessorKey: "description",
     header: "Description",
+    cell: ({ row }) => {
+      const job = row.original;
+
+      return (
+        <Collapsible>
+          <CollapsibleTrigger>Click to view</CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className={`whitespace-pre-line`}>{job.description}</div>
+          </CollapsibleContent>
+        </Collapsible>
+      );
+    },
   },
   {
     id: "actions",
@@ -54,15 +84,18 @@ export const columns: ColumnDef<Job>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(job.id)}
-            >
-              Copy payment ID
+            <DropdownMenuItem>
+              <a href={job.url} target="_blank">
+                Visit Listing
+              </a>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+
+            <DropdownMenuItem>
+              {" "}
+              <a href={job.external_apply_link} target="_blank">
+                External Apply Link
+              </a>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

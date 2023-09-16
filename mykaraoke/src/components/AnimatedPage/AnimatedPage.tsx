@@ -8,7 +8,7 @@ interface IAnimatedPage {
 export default function AnimatedPage({ children }: IAnimatedPage) {
   return (
     <motion.div
-      className={`absolute p-4`}
+      className={`absolute p-4 top-[56px] w-full`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

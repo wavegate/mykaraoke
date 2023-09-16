@@ -32,6 +32,7 @@ export default function HomePage() {
       axios.get(`${API_URL}/jobs`).then((res) => {
         return res?.data;
       }),
+    refetchOnWindowFocus: false,
   });
 
   const { toast } = useToast();
@@ -90,7 +91,7 @@ export default function HomePage() {
   return (
     <AnimatedPage>
       {data && <DataTable columns={columns} data={data} />}
-      <Form {...form}>
+      {/* <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
@@ -136,7 +137,7 @@ export default function HomePage() {
           />
           <Button type="submit">Submit</Button>
         </form>
-      </Form>
+      </Form> */}
     </AnimatedPage>
   );
 }

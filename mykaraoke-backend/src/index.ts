@@ -49,7 +49,7 @@ await client.connect();
 
 const app = express();
 const port = 3000;
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 const upload = multer();
@@ -126,7 +126,7 @@ app.post("/job", verifyToken, async (req: Request, res: Response) => {
 });
 
 app.get("/jobs", verifyToken, async (req: Request, res: Response) => {
-  const jobs = (await client.query("SELECT * from jobs;")).rows;
+  const jobs = (await client.query("SELECT * from indeed_jobs;")).rows;
   return res.json(jobs);
 });
 
