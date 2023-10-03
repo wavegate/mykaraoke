@@ -1,24 +1,20 @@
 import json
 from sklearn.feature_extraction.text import CountVectorizer
 import re
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+openai_key = os.environ.get("OPENAI_KEY")
 
 # Open the JSON file for reading
 with open(
-    "./../crawlers/dataset_indeed-scraper_2023-09-25_23-42-45-248.json",
+    "data/dataset_indeed-scraper_2023-09-16_01-10-37-409.json",
     "r",
     encoding="utf-8",
 ) as json_file:
-    # Load the JSON data from the file
     data = json.load(json_file)
-# # Open the JSON file for reading
-# with open(
-#     "./../crawlers/dataset_indeed-scraper_2023-09-16_01-10-37-409.json",
-#     "r",
-#     encoding="utf-8",
-# ) as json_file:
-#     # Load the JSON data from the file
-#     data = json.load(json_file)
-
 
 # def create_regex_pattern(input_string):
 #     case_insensitive_pattern = rf"(?i)\b{input_string}\b"
@@ -733,43 +729,43 @@ descriptions = [item["jobDescription"] for item in data]
 # for keyword, count in sorted_counts:
 #     print(f"keyword: {keyword} - Count: {count}")
 
-vectorizer = CountVectorizer(
-    token_pattern="[a-zA-Z0-9$&+,:;=?@#|<>.^*()%!-]+", stop_words="english"
-)
-# # Print the list of descriptions
-# # for description in descriptions:
-# #     print(description)
+# vectorizer = CountVectorizer(
+#     token_pattern="[a-zA-Z0-9$&+,:;=?@#|<>.^*()%!-]+", stop_words="english"
+# )
+# # # Print the list of descriptions
+# # # for description in descriptions:
+# # #     print(description)
 
-X = vectorizer.fit_transform(descriptions)
-feature_names = vectorizer.get_feature_names_out()
-count_list = X.toarray().sum(axis=0)
-word_count_dict = dict(zip(feature_names, count_list))
-# Sort the dictionary by counts in descending order
-sorted_word_count = dict(
-    sorted(word_count_dict.items(), key=lambda item: item[1], reverse=False)
-)
+# X = vectorizer.fit_transform(descriptions)
+# feature_names = vectorizer.get_feature_names_out()
+# count_list = X.toarray().sum(axis=0)
+# word_count_dict = dict(zip(feature_names, count_list))
+# # Sort the dictionary by counts in descending order
+# sorted_word_count = dict(
+#     sorted(word_count_dict.items(), key=lambda item: item[1], reverse=False)
+# )
 
-print(sorted_word_count)
-# filtered_list = [
-#     (s, sorted_word_count[s])
-#     for s in sorted_word_count
-#     if any(word == s for word in sorted_word_count)
-# ]
-# print(filtered_list)
+# print(sorted_word_count)
+# # filtered_list = [
+# #     (s, sorted_word_count[s])
+# #     for s in sorted_word_count
+# #     if any(word == s for word in sorted_word_count)
+# # ]
+# # print(filtered_list)
 
-import numpy as np
-
-
-class NpEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, np.integer):
-            return int(obj)
-        if isinstance(obj, np.floating):
-            return float(obj)
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return super(NpEncoder, self).default(obj)
+# import numpy as np
 
 
-with open("datafile", "w") as file:
-    json.dump(sorted_word_count, file, cls=NpEncoder)
+# class NpEncoder(json.JSONEncoder):
+#     def default(self, obj):
+#         if isinstance(obj, np.integer):
+#             return int(obj)
+#         if isinstance(obj, np.floating):
+#             return float(obj)
+#         if isinstance(obj, np.ndarray):
+#             return obj.tolist()
+#         return super(NpEncoder, self).default(obj)
+
+
+# with open("datafile", "w") as file:
+#     json.dump(sorted_word_count, file, cls=NpEncoder)
