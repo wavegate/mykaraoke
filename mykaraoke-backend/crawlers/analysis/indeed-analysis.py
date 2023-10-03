@@ -3,18 +3,62 @@ from sklearn.feature_extraction.text import CountVectorizer
 import re
 import os
 from dotenv import load_dotenv
+import openai
 
 load_dotenv()
 
-openai_key = os.environ.get("OPENAI_KEY")
+openai.api_key = os.environ.get("OPENAI_KEY")
 
-# Open the JSON file for reading
+filename = "dataset_indeed-scraper_2023-09-16_01-10-37-409"
+
 with open(
-    "data/dataset_indeed-scraper_2023-09-16_01-10-37-409.json",
+    f"input_data/{filename}.json",
     "r",
     encoding="utf-8",
 ) as json_file:
     data = json.load(json_file)
+
+try:
+    with open(f"output_data/{filename}.json", "r", encoding="utf-8") as file:
+        previous_data = json.load(file)
+except FileNotFoundError:
+    previous_data = []
+
+descriptions = [item["description"] for item in data]
+# print(len(previous_data))
+
+start_index = len(previous_data)
+for index, description in enumerate(descriptions):
+    if index >= start_index:
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "The user will give you a job description. I want you to return to me a comma delimited list of technical keywords sought for in the job description.",
+                },
+                {"role": "user", "content": description},
+            ],
+        )
+        keywords = completion.choices[0].message.content
+        keywords = [word.strip() for word in keywords.split(",")]
+        previous_data.append(keywords)
+        with open(f"output_data/{filename}.json", "w", encoding="utf-8") as file:
+            json.dump(previous_data, file, indent=4)
+        print(f"added {index}")
+        print(completion)
+
+# completion = openai.ChatCompletion.create(
+#     model="gpt-3.5-turbo",
+#     messages=[
+#         {
+#             "role": "system",
+#             "content": "The user will give you a job description. I want you to extract, only if available, the type of position (frontend, backend, fullstack, devops, test, or uiux), the level of experience (entry, junior, mid, or senior), if the job is remote (true or false), the education required (Bachelor, Master's, PhD, or high school), and the salary (in per hour or per year). Return the information as a comma-delimited list with the following: type, level, remote, education, and salary (leave empty if not present).",
+#         },
+#         {"role": "user", "content": descriptions[-2]},
+#     ],
+# )
+
 
 # def create_regex_pattern(input_string):
 #     case_insensitive_pattern = rf"(?i)\b{input_string}\b"
@@ -22,6 +66,7 @@ with open(
 
 
 # keywords = [
+# "bun",
 #     "laravel",
 #     "react",
 #     "redux",
@@ -709,7 +754,7 @@ with open(
 # counts = {keyword: 0 for keyword in keywords}
 
 # # Extract descriptions from the 'items' array
-descriptions = [item["jobDescription"] for item in data]
+# descriptions = [item["description"] for item in data]
 
 # # Iterate through the list of strings
 # for string in descriptions:
