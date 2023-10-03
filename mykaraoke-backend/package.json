@@ -6,8 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"tsc -watch\" \"nodemon ./dist\"",
+    "teststart": "concurrently \"tsc -watch\" \"nodemon ./dist/test.js\"",
     "build": "tsc",
-    "dev": "node ./src"
+    "dev": "node ./src",
+    "prisma-migrate": "prisma migrate dev"
   },
   "type": "module",
   "author": "",
@@ -16,6 +18,7 @@
     "@aws-sdk/client-s3": "^3.405.0",
     "@aws-sdk/lib-storage": "^3.405.0",
     "@aws-sdk/s3-request-presigner": "^3.405.0",
+    "@prisma/client": "^5.3.1",
     "@types/express": "^4.17.17",
     "axios": "^1.5.0",
     "bcrypt": "^5.1.1",
@@ -27,6 +30,7 @@
     "multer": "^1.4.5-lts.1",
     "openai": "^4.0.0",
     "pg": "^8.11.2",
+    "prisma": "^5.3.1",
     "puppeteer": "^21.1.1",
     "typescript": "^5.1.6"
   },

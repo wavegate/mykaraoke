@@ -1,5 +1,3 @@
-import "./index.scss";
-
 interface IAvatar {
   imgSrc: string | undefined;
 }

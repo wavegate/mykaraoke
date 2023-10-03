@@ -17,7 +17,7 @@ import AnimatedPage from "@/components/AnimatedPage/AnimatedPage";
 import { API_URL } from "@/constants";
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
+  email: z.string().min(2).max(50),
   password: z.string().min(2).max(50),
 });
 export default function LoginPage() {
@@ -26,7 +26,7 @@ export default function LoginPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -54,12 +54,12 @@ export default function LoginPage() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="username" {...field} />
+                  <Input placeholder="email" {...field} />
                 </FormControl>
 
                 <FormMessage />

@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import "./index.scss";
 
 interface ISubtitle {
   children: ReactNode;

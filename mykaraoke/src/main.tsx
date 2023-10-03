@@ -11,6 +11,17 @@ axios.interceptors.request.use((request) => {
   return request;
 });
 
+axios.interceptors.response.use(
+  (response) => {
+    console.log(response);
+    return response;
+  },
+  (err) => {
+    console.log(err);
+    return Promise.reject(err);
+  }
+);
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />

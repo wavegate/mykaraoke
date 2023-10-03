@@ -38,7 +38,7 @@ export default function SidebarMenu({ setSideBarMenuMeasure }: ISidebarMenu) {
       ref={ref}
     >
       <SidebarMenuItem link="/" label={"Dashboard"} icon={faHouse} />
-      <SidebarMenuItem
+      {/* <SidebarMenuItem
         link="/mock"
         label={"Mock Interview"}
         icon={faClipboardQuestion}
@@ -48,7 +48,7 @@ export default function SidebarMenu({ setSideBarMenuMeasure }: ISidebarMenu) {
         link="/discussion"
         label={"Discussion"}
         icon={faComments}
-      />
+      /> */}
     </div>
   );
 }

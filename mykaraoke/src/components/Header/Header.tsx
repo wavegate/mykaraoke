@@ -2,7 +2,6 @@ import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import NavMenuItem from "../NavMenuItem/NavMenuItem";
 import Subtitle from "../Subtitle/Subtitle";
 import Title from "../Title/Title";
-import "./index.scss";
 import Avatar from "../Avatar/Avatar";
 import { Link } from "react-router-dom";
 import { forwardRef, useContext } from "react";
