@@ -387,11 +387,6 @@ for from_format, to_format in format_map.items():
 
 sorted_items = sorted(keyword_map.items(), key=lambda x: x[1], reverse=False)
 
-# print(sorted_items)
-
-# with open(f"keywords_counted/{filename}.json", "w", encoding="utf-8") as file:
-#     json.dump(sorted_items, file, indent=4)
-
 filter_out_words = [
     "computer science",
     "benefits",
@@ -561,3 +556,6 @@ print(category_list)
 for item in category_list:
     if fuzz.ratio(item[0], "next") > 30:
         print(item)
+
+with open(f"keywords_counted/{filename}.json", "w", encoding="utf-8") as file:
+    json.dump(category_list, file, indent=4)
