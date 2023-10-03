@@ -1,5 +1,6 @@
 import json
-from sklearn.feature_extraction.text import CountVectorizer
+
+# from sklearn.feature_extraction.text import CountVectorizer
 import re
 import os
 from dotenv import load_dotenv
@@ -43,7 +44,7 @@ for index, description in enumerate(descriptions):
         keywords = completion.choices[0].message.content
         keywords = [word.strip() for word in keywords.split(",")]
         previous_data.append(keywords)
-        with open(f"output_data/{filename}.json", "w", encoding="utf-8") as file:
+        with open(f"keywords_extracted/{filename}.json", "w", encoding="utf-8") as file:
             json.dump(previous_data, file, indent=4)
         print(f"added {index}")
         print(completion)
