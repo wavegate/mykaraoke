@@ -25,7 +25,7 @@ const Header = forwardRef<any, any>((_, ref) => {
         <Title />
         <Subtitle>Job Application Manager</Subtitle>
       </div>
-      <div className={`flex items-center gap-4`}>
+      {/* <div className={`flex items-center gap-4`}>
         <NavMenuItem icon={faMoon} />
         {user?.username}
         <DropdownMenu>
@@ -41,7 +41,7 @@ const Header = forwardRef<any, any>((_, ref) => {
             </Link>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
+      </div> */}
     </nav>
   );
 });

@@ -9,15 +9,15 @@ import GlobalContext from "@/context/GlobalContext";
 import { API_URL } from "@/constants";
 
 export default function Layout() {
-  const globalContext = useContext(GlobalContext);
-  useQuery({
-    queryKey: ["userData"],
-    queryFn: () =>
-      axios.get(`${API_URL}/user`).then((res) => {
-        globalContext?.setUser(res.data);
-        return res.data || null;
-      }),
-  });
+  // const globalContext = useContext(GlobalContext);
+  // useQuery({
+  //   queryKey: ["userData"],
+  //   queryFn: () =>
+  //     axios.get(`${API_URL}/user`).then((res) => {
+  //       globalContext?.setUser(res.data);
+  //       return res.data || null;
+  //     }),
+  // });
   const [sidebarMenuMeasure, setSidebarMenuMeasure] = useState<any>(null);
   return (
     <div className={`relative flex flex-col min-h-screen`}>

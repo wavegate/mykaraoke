@@ -26,6 +26,12 @@ model JobListing {
   salary      Int?
   listingLink String?
   applyLink   String?
-  source      String
+  source      String?
   sourceId    String?
+}
+
+model Keyword {
+  name     String  @id
+  count    Int
+  category String?
 }

@@ -9,7 +9,8 @@
     "teststart": "concurrently \"tsc -watch\" \"nodemon ./dist/test.js\"",
     "build": "tsc",
     "dev": "node ./src",
-    "prisma-migrate": "prisma migrate dev"
+    "prisma-migrate": "prisma migrate dev",
+    "store-keywords": "tsc && node ./dist/database_manipulation/store_keywords_in_database.js"
   },
   "type": "module",
   "author": "",
