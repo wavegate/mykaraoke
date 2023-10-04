@@ -92,6 +92,17 @@ export default function HomePage() {
 
   return (
     <AnimatedPage>
+      <div>
+        How is data obtained? First, web development job listings were crawled
+        from Indeed. The search query was "Web Developer" in "Cupertino, CA".{" "}
+        Next, ChatGPT is used to extract a list of technical keywords from each
+        job description. Variations in strings are manually mapped onto
+        predefined keywords, and unnecessary terms are filtered out. For
+        example, "Reactjs" is mapped onto "React.js", and the term "medical
+        insurance" is filtered out. Each job listing is stored in the database
+        alongside its list of keywords. These listings are then queried for
+        visualization.
+      </div>
       {data && <DataTable columns={columns} data={data} />}
       {data && <ChloropethChart data={data} category="Programming Language" />}
       <div className={`grid grid-cols-2`}>

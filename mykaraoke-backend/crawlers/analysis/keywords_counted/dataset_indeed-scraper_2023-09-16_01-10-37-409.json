@@ -167,10 +167,6 @@
         11
     ],
     [
-        "entity framework",
-        11
-    ],
-    [
         "functional programming",
         11
     ],
@@ -200,6 +196,11 @@
         "Perl",
         11,
         "Programming Language"
+    ],
+    [
+        "Entity Framework",
+        11,
+        "Framework"
     ],
     [
         "Hadoop",
@@ -949,10 +950,6 @@
         ".NET",
         31,
         "Framework"
-    ],
-    [
-        "frameworks",
-        33
     ],
     [
         "restful apis",

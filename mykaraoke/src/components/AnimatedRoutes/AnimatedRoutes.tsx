@@ -1,4 +1,5 @@
 import HomePage from "@/pages/HomePage";
+import JobListingPage from "@/pages/JobListingPage";
 import LoginPage from "@/pages/LoginPage";
 import MockPage from "@/pages/MockPage/MockPage";
 import RegisterPage from "@/pages/RegisterPage";
@@ -17,6 +18,7 @@ export default function AnimatedRoutes() {
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/register" element={<RegisterPage />}></Route>
         <Route path="/resume" element={<ResumePage />}></Route>
+        <Route path="/jobListings" element={<JobListingPage />}></Route>
       </Routes>
     </AnimatePresence>
   );

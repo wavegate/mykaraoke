@@ -10,7 +10,8 @@
     "build": "tsc",
     "dev": "node ./src",
     "prisma-migrate": "prisma migrate dev",
-    "store-keywords": "tsc && node ./dist/database_manipulation/store_keywords_in_database.js"
+    "store-keywords": "tsc && node ./dist/database_manipulation/store_keywords_in_database.js",
+    "store-joblistings": "tsc && node ./dist/database_manipulation/store_joblistings.js"
   },
   "type": "module",
   "author": "",

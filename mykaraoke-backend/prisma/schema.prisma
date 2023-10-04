@@ -17,21 +17,30 @@ model User {
 }
 
 model JobListing {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String
-  level       String?
-  postingDate DateTime?
-  location    String?
-  salary      Int?
-  listingLink String?
-  applyLink   String?
-  source      String?
-  sourceId    String?
+  id             Int       @id @default(autoincrement())
+  title          String
+  company        String
+  description    String
+  specialization String?
+  level          String?
+  postingDate    DateTime?
+  crawlDate      DateTime?
+  location       String?
+  salary         String?
+  listingLink    String?
+  applyLink      String?
+  source         String?
+  sourceId       String?
+  keywords       Keyword[]
 }
 
 model Keyword {
-  name     String  @id
-  count    Int
-  category String?
+  name        String       @id
+  jobListings JobListing[]
+  categories  Category[]
+}
+
+model Category {
+  name     String    @id
+  keywords Keyword[]
 }

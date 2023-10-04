@@ -5,7 +5,7 @@ const getKeywords = async (req: Request, res: Response) => {
   try {
     const keywords = await prisma.keyword.findMany({
       orderBy: {
-        count: "desc",
+        // count: "desc",
       },
     });
     if (keywords) {

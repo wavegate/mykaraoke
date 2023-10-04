@@ -43,6 +43,11 @@ export default function SidebarMenu({ setSideBarMenuMeasure }: ISidebarMenu) {
         label={"Sample Resume"}
         icon={faClipboardQuestion}
       />
+      <SidebarMenuItem
+        link="/jobListings"
+        label={"Job Listings"}
+        icon={faClipboardQuestion}
+      />
       {/* <SidebarMenuItem
         link="/mock"
         label={"Mock Interview"}
