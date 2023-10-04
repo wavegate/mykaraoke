@@ -394,7 +394,7 @@ format_map = {
     "linux": "Linux",
     "webpack": "Webpack",
     "maven": "Maven",
-    "entity Framework": "Entity Framework",
+    "entity framework": "Entity Framework",
     "git": "Git",
     "gcp": "GCP",
     "c#": "C#",
@@ -570,6 +570,7 @@ filter_out_words = [
     "bachelor's degree",
     "commuter benefits",
     "harassment",
+    "frameworks",
 ]
 
 filtered_words = [

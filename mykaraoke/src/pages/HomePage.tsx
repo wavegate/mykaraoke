@@ -18,6 +18,8 @@ import axios from "axios";
 import { columns } from "./columns";
 import { DataTable } from "./DataTable";
 import { API_URL } from "@/constants";
+import BarChart from "@/components/BarChart/BarChart";
+import ChloropethChart from "@/components/ChloropethChart/ChloropethChart";
 
 // const formSchema = z.object({
 //   title: z.string().min(2).max(50),
@@ -91,6 +93,19 @@ export default function HomePage() {
   return (
     <AnimatedPage>
       {data && <DataTable columns={columns} data={data} />}
+      {data && <ChloropethChart data={data} category="Programming Language" />}
+      <div className={`grid grid-cols-2`}>
+        {data && <BarChart data={data} category="Programming Language" />}
+        {data && <BarChart data={data} category="General Skill" />}
+        {data && <BarChart data={data} category="Personality Trait" />}
+        {data && <BarChart data={data} category="Framework" />}
+        {data && <BarChart data={data} category="Engineering Process" />}
+        {data && <BarChart data={data} category="Engineering Practice" />}
+        {data && <BarChart data={data} category="Cloud" />}
+        {data && <BarChart data={data} category="DevOps" />}
+        {data && <BarChart data={data} category="Tool" />}
+      </div>
+
       {/* <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
