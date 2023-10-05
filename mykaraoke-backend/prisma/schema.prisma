@@ -37,12 +37,12 @@ model JobListing {
 }
 
 model Keyword {
-  value       String       @id
+  name        String       @id
   jobListings JobListing[]
   categories  Category[]
 }
 
 model Category {
-  value    String    @id
+  name     String    @id
   keywords Keyword[]
 }
