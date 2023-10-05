@@ -23,7 +23,6 @@ export default function ChloropethChart({ data }: any) {
           .features;
 
         const stateNames = states.map((state) => state.properties.name);
-        console.log(stateNames);
 
         new Chart((canvas as any).getContext("2d"), {
           type: "choropleth",

@@ -23,7 +23,7 @@ const Header = forwardRef<any, any>((_, ref) => {
     >
       <div className={`flex gap-5 items-center`}>
         <Title />
-        <Subtitle>Job Application Manager</Subtitle>
+        <Subtitle>Argos Jobs</Subtitle>
       </div>
       {/* <div className={`flex items-center gap-4`}>
         <NavMenuItem icon={faMoon} />

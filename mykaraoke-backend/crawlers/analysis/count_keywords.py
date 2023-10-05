@@ -577,18 +577,15 @@ filtered_words = [
     item for item in sorted_items if item[1] > 9 and item[0] not in filter_out_words
 ]
 
-category_list = []
+category_map = {}
 for keyword_tuple in filtered_words:
     if keyword_tuple[0] in categories_map:
-        category_list.append(
-            (
-                keyword_tuple[0],
-                keyword_tuple[1],
-                categories_map[keyword_tuple[0]],
-            )
+        category_map[keyword_tuple[0]] = (
+            keyword_tuple[1],
+            categories_map[keyword_tuple[0]],
         )
     else:
-        category_list.append(keyword_tuple)
+        category_map[keyword_tuple[0]] = keyword_tuple[1]
 
 
 # print(category_list)
@@ -605,4 +602,4 @@ for keyword_tuple in filtered_words:
 #         print(item)
 
 with open(f"keywords_counted/{filename}.json", "w", encoding="utf-8") as file:
-    json.dump(category_list, file, indent=4)
+    json.dump(category_map, file, indent=4)

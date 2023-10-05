@@ -3,10 +3,13 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import GlobalContext, { IUser } from "./context/GlobalContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const queryClient = new QueryClient();
 
 export default function App() {
+  useEffect(() => {
+    document.title = "Argos Jobs";
+  });
   const [user, setUser] = useState<IUser | null>(null);
 
   return (

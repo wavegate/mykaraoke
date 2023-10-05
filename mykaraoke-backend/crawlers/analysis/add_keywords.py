@@ -17,18 +17,29 @@ with open(
 ) as json_file:
     keywords = json.load(json_file)
 
+with open(
+    f"keywords_counted/{filename}.json",
+    "r",
+    encoding="utf-8",
+) as json_file:
+    countedKeywords = json.load(json_file)
+
 for i in range(len(jobDescriptions)):
     currentKeywords = []
 
     for keyword in keywords[i]:
         keyword = keyword.lower()
-        foundWord = False
+        foundWord = True
+        if keyword in filter_out_words:
+            continue
+        if keyword not in countedKeywords:
+            foundWord = False
         if keyword in similarity_map:
+            foundWord = True
             keyword = similarity_map[keyword]
-            foundWord = True
         if keyword in format_map:
-            keyword = format_map[keyword]
             foundWord = True
+            keyword = format_map[keyword]
         if foundWord:
             currentKeywords.append(keyword)
 

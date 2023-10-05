@@ -73,11 +73,11 @@ const getJobListings = async (req: Request, res: Response) => {
   try {
     const queryResult = await prisma.jobListing.findMany({
       orderBy: {
-        // count: "desc",
+        postingDate: "desc",
       },
-      include: {
-        keywords: true,
-      },
+      // include: {
+      //   keywords: true,
+      // },
     });
     if (queryResult) {
       res.json(queryResult);

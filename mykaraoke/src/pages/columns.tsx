@@ -77,7 +77,9 @@ export const columns: ColumnDef<Keyword>[] = [
     cell: ({ row }) => {
       return (
         <div className="font-medium">
-          {row.original.averageSalary.toFixed(2)}
+          {row.original.averageSalary
+            ? row.original.averageSalary.toFixed(2)
+            : ""}
         </div>
       );
     },

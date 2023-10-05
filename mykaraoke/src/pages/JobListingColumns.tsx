@@ -63,17 +63,17 @@ export const jobListingColumns: ColumnDef<Job>[] = [
     },
   },
   columnDef("source", "Source"),
-  {
-    accessorKey: "keywords",
-    header: "Keywords",
-    cell: ({ row }) => {
-      return (
-        <div className="text-right font-medium">
-          {row.original.keywords.map((keyword) => {
-            return <div key={keyword.name}>{keyword.name}</div>;
-          })}
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "keywords",
+  //   header: "Keywords",
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className="text-right font-medium">
+  //         {row.original.keywords.map((keyword) => {
+  //           return <div key={keyword.name}>{keyword.name}</div>;
+  //         })}
+  //       </div>
+  //     );
+  //   },
+  // },
 ];

@@ -1,1464 +1,802 @@
-[
-    [
-        "technical lead",
-        10
-    ],
-    [
-        "dynamic environment",
-        10
-    ],
-    [
-        "reusable components",
-        10
-    ],
-    [
-        "strategy",
-        10
-    ],
-    [
-        "use cases",
-        10
-    ],
-    [
-        "execution",
-        10
-    ],
-    [
-        "build systems",
-        10
-    ],
-    [
-        "cross-platform",
-        10
-    ],
-    [
-        "source control",
-        10
-    ],
-    [
-        "federal laws",
-        10
-    ],
-    [
-        "performance testing",
-        10
-    ],
-    [
-        "application performance",
-        10
-    ],
-    [
-        "bachelor\u2019s degree",
-        10
-    ],
-    [
-        "oauth",
-        10
-    ],
-    [
-        "requirements gathering",
-        10
-    ],
-    [
-        "websites",
-        10
-    ],
-    [
-        "debug",
-        10
-    ],
-    [
-        "cloud environments",
-        10
-    ],
-    [
-        "technical skills",
-        10
-    ],
-    [
-        "it",
-        10
-    ],
-    [
-        "safety",
-        10
-    ],
-    [
-        "Jest",
+{
+    "technical lead": 10,
+    "dynamic environment": 10,
+    "reusable components": 10,
+    "strategy": 10,
+    "use cases": 10,
+    "execution": 10,
+    "build systems": 10,
+    "cross-platform": 10,
+    "source control": 10,
+    "federal laws": 10,
+    "performance testing": 10,
+    "application performance": 10,
+    "bachelor\u2019s degree": 10,
+    "oauth": 10,
+    "requirements gathering": 10,
+    "websites": 10,
+    "debug": 10,
+    "cloud environments": 10,
+    "technical skills": 10,
+    "it": 10,
+    "safety": 10,
+    "Jest": [
         10,
         "Framework"
     ],
-    [
-        "Spark",
-        10
-    ],
-    [
-        "analytical",
-        11
-    ],
-    [
-        "protocols",
-        11
-    ],
-    [
-        "design system",
-        11
-    ],
-    [
-        "programming skills",
-        11
-    ],
-    [
-        "collaborative environment",
-        11
-    ],
-    [
-        "operations",
-        11
-    ],
-    [
-        "data processing",
-        11
-    ],
-    [
-        "database design",
-        11
-    ],
-    [
-        "mockups",
-        11
-    ],
-    [
-        "detail-oriented",
+    "Spark": 10,
+    "analytical": 11,
+    "protocols": 11,
+    "design system": 11,
+    "programming skills": 11,
+    "collaborative environment": 11,
+    "operations": 11,
+    "data processing": 11,
+    "database design": 11,
+    "mockups": 11,
+    "detail-oriented": [
         11,
         "Personality Trait"
     ],
-    [
-        "system design",
+    "system design": [
         11,
         "Specialization"
     ],
-    [
-        "data scientists",
-        11
-    ],
-    [
-        "restful web services",
-        11
-    ],
-    [
-        "emerging technologies",
-        11
-    ],
-    [
-        "team environment",
-        11
-    ],
-    [
-        "technical design",
-        11
-    ],
-    [
-        "testable code",
-        11
-    ],
-    [
-        "design reviews",
-        11
-    ],
-    [
-        "functional programming",
-        11
-    ],
-    [
-        "storage",
-        11
-    ],
-    [
-        "empathy",
+    "data scientists": 11,
+    "restful web services": 11,
+    "emerging technologies": 11,
+    "team environment": 11,
+    "technical design": 11,
+    "testable code": 11,
+    "design reviews": 11,
+    "functional programming": 11,
+    "storage": 11,
+    "empathy": [
         11,
         "Personality Trait"
     ],
-    [
-        "integration tests",
-        11
-    ],
-    [
-        "challenges",
-        11
-    ],
-    [
-        "reusability",
+    "integration tests": 11,
+    "challenges": 11,
+    "reusability": [
         11,
         "Engineering Principle"
     ],
-    [
-        "Perl",
+    "Perl": [
         11,
         "Programming Language"
     ],
-    [
-        "Entity Framework",
+    "Entity Framework": [
         11,
         "Framework"
     ],
-    [
-        "Hadoop",
+    "Hadoop": [
         11,
         "Tool"
     ],
-    [
-        "IoT",
-        11
-    ],
-    [
-        "cloud services",
-        12
-    ],
-    [
-        "stakeholders",
-        12
-    ],
-    [
-        "logging",
-        12
-    ],
-    [
-        "dashboards",
-        12
-    ],
-    [
-        "startup",
-        12
-    ],
-    [
-        "stack",
-        12
-    ],
-    [
-        "version control",
-        12
-    ],
-    [
-        "passionate",
+    "IoT": 11,
+    "cloud services": 12,
+    "stakeholders": 12,
+    "logging": 12,
+    "dashboards": 12,
+    "startup": 12,
+    "stack": 12,
+    "version control": 12,
+    "passionate": [
         12,
         "Personality Trait"
     ],
-    [
-        "specifications",
-        12
-    ],
-    [
-        "sdlc",
-        12
-    ],
-    [
-        "software architecture",
-        12
-    ],
-    [
-        "web apis",
-        12
-    ],
-    [
-        "positive attitude",
+    "specifications": 12,
+    "sdlc": 12,
+    "software architecture": 12,
+    "web apis": 12,
+    "positive attitude": [
         12,
         "Personality Trait"
     ],
-    [
-        "compliance",
-        12
-    ],
-    [
-        "computer information systems",
-        12
-    ],
-    [
-        "management",
+    "compliance": 12,
+    "computer information systems": 12,
+    "management": [
         12,
         "General Skill"
     ],
-    [
-        "web",
-        12
-    ],
-    [
-        "SOA",
+    "web": 12,
+    "SOA": [
         12,
         "Architecture"
     ],
-    [
-        "Grafana",
+    "Grafana": [
         12,
         "Tool"
     ],
-    [
-        "Cassandra",
+    "Cassandra": [
         12,
         "Database"
     ],
-    [
-        "SAML",
-        12
-    ],
-    [
-        "MVC",
+    "SAML": 12,
+    "MVC": [
         12,
         "Architecture"
     ],
-    [
-        "ES6",
-        12
-    ],
-    [
-        "S3 (AWS)",
+    "ES6": 12,
+    "S3 (AWS)": [
         12,
         "Cloud"
     ],
-    [
-        "rds",
-        13
-    ],
-    [
-        "procedures",
-        13
-    ],
-    [
-        "professional development",
-        13
-    ],
-    [
-        "autonomy",
-        13
-    ],
-    [
-        "network security",
+    "rds": 13,
+    "procedures": 13,
+    "professional development": 13,
+    "autonomy": 13,
+    "network security": [
         13,
         "Specialization"
     ],
-    [
-        "configuration",
-        13
-    ],
-    [
-        "startup environment",
-        13
-    ],
-    [
-        "performance tuning",
-        13
-    ],
-    [
-        "efficiency",
-        13
-    ],
-    [
-        "systems",
-        13
-    ],
-    [
-        "splunk",
-        13
-    ],
-    [
-        "data analytics",
-        13
-    ],
-    [
-        "authorization",
-        13
-    ],
-    [
-        "high performance",
-        13
-    ],
-    [
-        "reliable",
-        13
-    ],
-    [
-        "rdbms",
-        13
-    ],
-    [
-        "architect",
-        13
-    ],
-    [
-        "Figma",
+    "configuration": 13,
+    "startup environment": 13,
+    "performance tuning": 13,
+    "efficiency": 13,
+    "systems": 13,
+    "splunk": 13,
+    "data analytics": 13,
+    "authorization": 13,
+    "high performance": 13,
+    "reliable": 13,
+    "rdbms": 13,
+    "architect": 13,
+    "Figma": [
         13,
         "Tool"
     ],
-    [
-        "technical documentation",
-        14
-    ],
-    [
-        "electrical engineering",
+    "technical documentation": 14,
+    "electrical engineering": [
         14,
         "Specialization"
     ],
-    [
-        "creativity",
+    "creativity": [
         14,
         "Personality Trait"
     ],
-    [
-        "availability",
-        14
-    ],
-    [
-        "data modeling",
-        14
-    ],
-    [
-        "integrations",
-        14
-    ],
-    [
-        "reporting",
-        14
-    ],
-    [
-        "processes",
-        14
-    ],
-    [
-        "software solutions",
-        14
-    ],
-    [
-        "verbal communication",
-        14
-    ],
-    [
-        "cloud computing",
-        14
-    ],
-    [
-        "time management",
+    "availability": 14,
+    "data modeling": 14,
+    "integrations": 14,
+    "reporting": 14,
+    "processes": 14,
+    "software solutions": 14,
+    "verbal communication": 14,
+    "cloud computing": 14,
+    "time management": [
         14,
         "General Skill"
     ],
-    [
-        "team",
-        14
-    ],
-    [
-        "business requirements",
-        14
-    ],
-    [
-        "startup experience",
-        14
-    ],
-    [
-        "flexibility",
+    "team": 14,
+    "business requirements": 14,
+    "startup experience": 14,
+    "flexibility": [
         14,
         "Personality Trait"
     ],
-    [
-        "Swift",
+    "Swift": [
         14,
         "Programming Language"
     ],
-    [
-        "Windows",
+    "Windows": [
         14,
         "Platform"
     ],
-    [
-        "EC2 (AWS)",
-        14
-    ],
-    [
-        "Flask",
+    "EC2 (AWS)": 14,
+    "Flask": [
         14,
         "Framework"
     ],
-    [
-        "GitLab",
+    "GitLab": [
         14,
         "Version Control"
     ],
-    [
-        "validation",
-        15
-    ],
-    [
-        "data science",
-        15
-    ],
-    [
-        "saas",
-        15
-    ],
-    [
-        "integrity",
-        15
-    ],
-    [
-        "authentication",
-        15
-    ],
-    [
-        "functionality",
+    "validation": 15,
+    "data science": 15,
+    "saas": 15,
+    "integrity": 15,
+    "authentication": 15,
+    "functionality": [
         15,
         "Engineering Principle"
     ],
-    [
-        "cloud infrastructure",
-        15
-    ],
-    [
-        "computer science fundamentals",
-        15
-    ],
-    [
-        "technical requirements",
-        15
-    ],
-    [
-        "Postman",
+    "cloud infrastructure": 15,
+    "computer science fundamentals": 15,
+    "technical requirements": 15,
+    "Postman": [
         15,
         "Tool"
     ],
-    [
-        "Salesforce",
+    "Salesforce": [
         15,
         "CRM"
     ],
-    [
-        "Kotlin",
+    "Kotlin": [
         15,
         "Programming Language"
     ],
-    [
-        "SVN",
+    "SVN": [
         15,
         "Version Control"
     ],
-    [
-        "J2EE",
+    "J2EE": [
         15,
         "Specification"
     ],
-    [
-        "Visual Studio",
+    "Visual Studio": [
         15,
         "IDE"
     ],
-    [
-        "computer vision",
+    "computer vision": [
         16,
         "Computer Science Topic"
     ],
-    [
-        "interfaces",
-        16
-    ],
-    [
-        "planning",
+    "interfaces": 16,
+    "planning": [
         16,
         "General Skill"
     ],
-    [
-        "automated tests",
-        16
-    ],
-    [
-        "marketing",
+    "automated tests": 16,
+    "marketing": [
         16,
         "Engineering Process"
     ],
-    [
-        "integration testing",
+    "integration testing": [
         16,
         "Engineering Process"
     ],
-    [
-        "test plans",
-        16
-    ],
-    [
-        "engineering teams",
-        16
-    ],
-    [
-        "standards",
-        16
-    ],
-    [
-        "users",
-        16
-    ],
-    [
-        "cross-browser compatibility",
-        16
-    ],
-    [
-        "Ansible",
+    "test plans": 16,
+    "engineering teams": 16,
+    "standards": 16,
+    "users": 16,
+    "cross-browser compatibility": 16,
+    "Ansible": [
         16,
         "DevOps"
     ],
-    [
-        "ECS (AWS)",
+    "ECS (AWS)": [
         16,
         "Cloud"
     ],
-    [
-        "wireframes",
+    "wireframes": [
         17,
         "Engineering Process"
     ],
-    [
-        "cloud platforms",
-        17
-    ],
-    [
-        "programming",
-        17
-    ],
-    [
-        "customer experience",
-        17
-    ],
-    [
-        "scale",
-        17
-    ],
-    [
-        "Photoshop",
+    "cloud platforms": 17,
+    "programming": 17,
+    "customer experience": 17,
+    "scale": 17,
+    "Photoshop": [
         17,
         "Tool"
     ],
-    [
-        "Selenium",
+    "Selenium": [
         17,
         "Framework"
     ],
-    [
-        "Maven",
+    "Maven": [
         17,
         "Tool"
     ],
-    [
-        "HTTP",
+    "HTTP": [
         17,
         "Architecture"
     ],
-    [
-        "developing",
-        18
-    ],
-    [
-        "software applications",
-        18
-    ],
-    [
-        "networking",
+    "developing": 18,
+    "software applications": 18,
+    "networking": [
         18,
         "Specialization"
     ],
-    [
-        "software design",
-        18
-    ],
-    [
-        "technical specifications",
-        18
-    ],
-    [
-        "infrastructure as code",
-        18
-    ],
-    [
-        "hardware",
+    "software design": 18,
+    "technical specifications": 18,
+    "infrastructure as code": 18,
+    "hardware": [
         18,
         "Specialization"
     ],
-    [
-        "research",
-        18
-    ],
-    [
-        "Hibernate",
+    "research": 18,
+    "Hibernate": [
         18,
         "Framework"
     ],
-    [
-        "SOAP",
+    "SOAP": [
         18,
         "Architecture"
     ],
-    [
-        "Elasticsearch",
+    "Elasticsearch": [
         18,
         "Tool"
     ],
-    [
-        "cloud technologies",
-        19
-    ],
-    [
-        "scripting languages",
-        19
-    ],
-    [
-        "information technology",
-        19
-    ],
-    [
-        "technical leadership",
+    "cloud technologies": 19,
+    "scripting languages": 19,
+    "information technology": 19,
+    "technical leadership": [
         19,
         "General Skill"
     ],
-    [
-        "optimization",
-        19
-    ],
-    [
-        "self-starter",
+    "optimization": 19,
+    "self-starter": [
         19,
         "Personality Trait"
     ],
-    [
-        "continuous delivery",
-        19
-    ],
-    [
-        "SASS",
+    "continuous delivery": 19,
+    "SASS": [
         19,
         "Programming Language"
     ],
-    [
-        "database",
-        20
-    ],
-    [
-        "software development lifecycle",
-        20
-    ],
-    [
-        "product development",
-        20
-    ],
-    [
-        "gRPC",
+    "database": 20,
+    "software development lifecycle": 20,
+    "product development": 20,
+    "gRPC": [
         20,
         "Framework"
     ],
-    [
-        "data pipelines",
-        21
-    ],
-    [
-        "version control systems",
-        21
-    ],
-    [
-        "training",
-        21
-    ],
-    [
-        "BitBucket",
+    "data pipelines": 21,
+    "version control systems": 21,
+    "training": 21,
+    "BitBucket": [
         21,
         "Version Control"
     ],
-    [
-        "Kafka",
+    "Kafka": [
         21,
         "Tool"
     ],
-    [
-        "self-motivated",
+    "self-motivated": [
         22,
         "Personality Trait"
     ],
-    [
-        "analytics",
-        22
-    ],
-    [
-        "ownership",
-        22
-    ],
-    [
-        "Spring Boot",
+    "analytics": 22,
+    "ownership": 22,
+    "Spring Boot": [
         22,
         "Framework"
     ],
-    [
-        "support",
-        23
-    ],
-    [
-        "product management",
-        23
-    ],
-    [
-        "coding standards",
-        23
-    ],
-    [
-        "fullstack",
+    "support": 23,
+    "product management": 23,
+    "coding standards": 23,
+    "fullstack": [
         23,
         "Specialization"
     ],
-    [
-        "Ruby on Rails",
+    "Ruby on Rails": [
         23,
         "Framework"
     ],
-    [
-        "requirements",
-        24
-    ],
-    [
-        "prototyping",
+    "requirements": 24,
+    "prototyping": [
         24,
         "Engineering Process"
     ],
-    [
-        "visualization",
+    "visualization": [
         24,
         "General Skill"
     ],
-    [
-        "workflows",
-        24
-    ],
-    [
-        "products",
-        24
-    ],
-    [
-        "performance optimization",
+    "workflows": 24,
+    "products": 24,
+    "performance optimization": [
         24,
         "Engineering Principle"
     ],
-    [
-        "Ruby",
+    "Ruby": [
         24,
         "Programming Language"
     ],
-    [
-        "scripting",
-        25
-    ],
-    [
-        "learning",
-        25
-    ],
-    [
-        "usability",
+    "scripting": 25,
+    "learning": 25,
+    "usability": [
         25,
         "Engineering Principle"
     ],
-    [
-        "teamwork",
-        25
-    ],
-    [
-        "Next.js",
+    "teamwork": 25,
+    "Next.js": [
         25,
         "Framework"
     ],
-    [
-        "GitHub",
+    "GitHub": [
         25,
         "Version Control"
     ],
-    [
-        "education",
-        26
-    ],
-    [
-        "programming languages",
-        26
-    ],
-    [
-        "ASP.NET",
+    "education": 26,
+    "programming languages": 26,
+    "ASP.NET": [
         26,
         "Framework"
     ],
-    [
-        "cross-functional teams",
-        27
-    ],
-    [
-        "cloud",
-        27
-    ],
-    [
-        "organizational skills",
+    "cross-functional teams": 27,
+    "cloud": 27,
+    "organizational skills": [
         27,
         "General Skill"
     ],
-    [
-        "Scrum",
-        27
-    ],
-    [
-        "accessibility",
+    "Scrum": 27,
+    "accessibility": [
         28,
         "Engineering Principle"
     ],
-    [
-        "Redis",
+    "Redis": [
         28,
         "Database"
     ],
-    [
-        "Webpack",
+    "Webpack": [
         28,
         "Tool"
     ],
-    [
-        "new technologies",
-        29
-    ],
-    [
-        "integration",
-        29
-    ],
-    [
-        "code quality",
-        29
-    ],
-    [
-        "Django",
+    "new technologies": 29,
+    "integration": 29,
+    "code quality": 29,
+    "Django": [
         29,
         "Framework"
     ],
-    [
-        "innovation",
+    "innovation": [
         30,
         "Personality Trait"
     ],
-    [
-        "SQL Server",
+    "SQL Server": [
         30,
         "Database"
     ],
-    [
-        "C",
+    "C": [
         31,
         "Programming Language"
     ],
-    [
-        ".NET",
+    ".NET": [
         31,
         "Framework"
     ],
-    [
-        "restful apis",
-        33
-    ],
-    [
-        "automated testing",
+    "restful apis": 33,
+    "automated testing": [
         33,
         "Specialization"
     ],
-    [
-        "Oracle",
+    "Oracle": [
         33,
         "Cloud"
     ],
-    [
-        "design patterns",
+    "design patterns": [
         34,
         "Computer Science Topics"
     ],
-    [
-        "analytical skills",
+    "analytical skills": [
         34,
         "General Skill"
     ],
-    [
-        "product",
-        34
-    ],
-    [
-        "test-driven development",
+    "product": 34,
+    "test-driven development": [
         34,
         "Engineering Practice"
     ],
-    [
-        "user interfaces",
-        34
-    ],
-    [
-        "React Native",
+    "user interfaces": 34,
+    "React Native": [
         34,
         "Framework"
     ],
-    [
-        "designers",
-        35
-    ],
-    [
-        "project management",
+    "designers": 35,
+    "project management": [
         35,
         "Engineering Process"
     ],
-    [
-        "monitoring",
+    "monitoring": [
         35,
         "Engineering Process"
     ],
-    [
-        "Android",
+    "Android": [
         35,
         "Platform"
     ],
-    [
-        "iOS",
+    "iOS": [
         35,
         "Platform"
     ],
-    [
-        "Terraform",
+    "Terraform": [
         35,
         "DevOps"
     ],
-    [
-        "responsive design",
+    "responsive design": [
         36,
         "Engineering Principle"
     ],
-    [
-        "distributed systems",
+    "distributed systems": [
         37,
         "Computer Science Topics"
     ],
-    [
-        "maintainability",
+    "maintainability": [
         37,
         "Engineering Principle"
     ],
-    [
-        "Bootstrap",
+    "Bootstrap": [
         37,
         "UI"
     ],
-    [
-        "clean code",
+    "clean code": [
         38,
         "Engineering Principle"
     ],
-    [
-        "attention to detail",
+    "attention to detail": [
         38,
         "Personality Trait"
     ],
-    [
-        "relational databases",
+    "relational databases": [
         38,
         "Database"
     ],
-    [
-        "MongoDB",
+    "MongoDB": [
         38,
         "Database"
     ],
-    [
-        "reliability",
+    "reliability": [
         39,
         "Personality Trait"
     ],
-    [
-        "software",
-        40
-    ],
-    [
-        "Linux",
+    "software": 40,
+    "Linux": [
         40,
         "Platform"
     ],
-    [
-        "interpersonal skills",
+    "interpersonal skills": [
         41,
         "General Skill"
     ],
-    [
-        "Jira",
+    "Jira": [
         41,
         "Tool"
     ],
-    [
-        "computer engineering",
-        42
-    ],
-    [
-        "data structures",
+    "computer engineering": 42,
+    "data structures": [
         42,
         "Computer Science Topics"
     ],
-    [
-        "deployment",
-        43
-    ],
-    [
-        "DevOps",
+    "deployment": 43,
+    "DevOps": [
         43,
         "Specialization"
     ],
-    [
-        "jenkins",
-        44
-    ],
-    [
-        "AI",
+    "jenkins": 44,
+    "AI": [
         44,
         "Specialization"
     ],
-    [
-        "machine learning",
+    "machine learning": [
         45,
         "Specialization"
     ],
-    [
-        "Redux",
+    "Redux": [
         45,
         "Framework"
     ],
-    [
-        "XML",
+    "XML": [
         45,
         "Programming Language"
     ],
-    [
-        "json",
-        46
-    ],
-    [
-        "algorithms",
+    "json": 46,
+    "algorithms": [
         47,
         "Computer Science Topics"
     ],
-    [
-        "web services",
-        49
-    ],
-    [
-        "infrastructure",
+    "web services": 49,
+    "infrastructure": [
         49,
         "Specialization"
     ],
-    [
-        "fast-paced",
+    "fast-paced": [
         50,
         "Personality Trait"
     ],
-    [
-        "ajax",
-        50
-    ],
-    [
-        "QA",
+    "ajax": 50,
+    "QA": [
         51,
         "Specialization"
     ],
-    [
-        "automation",
-        52
-    ],
-    [
-        "mobile",
+    "automation": 52,
+    "mobile": [
         52,
         "Platform"
     ],
-    [
-        "NoSQL",
+    "NoSQL": [
         52,
         "Database"
     ],
-    [
-        "Vue.js",
+    "Vue.js": [
         52,
         "Framework"
     ],
-    [
-        "best practices",
-        53
-    ],
-    [
-        "microservices",
+    "best practices": 53,
+    "microservices": [
         53,
         "Architecture"
     ],
-    [
-        "Go",
+    "Go": [
         53,
         "Programming Language"
     ],
-    [
-        "GraphQL",
+    "GraphQL": [
         53,
         "Programming Language"
     ],
-    [
-        "maintenance",
+    "maintenance": [
         54,
         "Engineering Process"
     ],
-    [
-        "object-oriented programming",
-        54
-    ],
-    [
-        "data analysis",
+    "object-oriented programming": 54,
+    "data analysis": [
         55,
         "Engineering Process"
     ],
-    [
-        "Spring",
+    "Spring": [
         55,
         "Framework"
     ],
-    [
-        "problem-solving",
+    "problem-solving": [
         57,
         "General Skill"
     ],
-    [
-        "C++",
+    "C++": [
         59,
         "Programming Language"
     ],
-    [
-        "Azure",
+    "Azure": [
         59,
         "Cloud"
     ],
-    [
-        "databases",
-        60
-    ],
-    [
-        "PHP",
+    "databases": 60,
+    "PHP": [
         61,
         "Programming Language"
     ],
-    [
-        "web development",
-        62
-    ],
-    [
-        "C#",
+    "web development": 62,
+    "C#": [
         63,
         "Programming Language"
     ],
-    [
-        "software engineering",
-        64
-    ],
-    [
-        "engineering",
-        64
-    ],
-    [
-        "security",
-        66
-    ],
-    [
-        "performance",
+    "software engineering": 64,
+    "engineering": 64,
+    "security": 66,
+    "performance": [
         67,
         "Engineering Principle"
     ],
-    [
-        "architecture",
-        67
-    ],
-    [
-        "development",
-        68
-    ],
-    [
-        "PostgreSQL",
+    "architecture": 67,
+    "development": 68,
+    "PostgreSQL": [
         70,
         "Database"
     ],
-    [
-        "GCP",
+    "GCP": [
         70,
         "Cloud"
     ],
-    [
-        "documentation",
+    "documentation": [
         72,
         "Engineering Process"
     ],
-    [
-        "web application development",
-        78
-    ],
-    [
-        "Kubernetes",
+    "web application development": 78,
+    "Kubernetes": [
         79,
         "DevOps"
     ],
-    [
-        "api",
-        81
-    ],
-    [
-        "backend",
+    "api": 81,
+    "backend": [
         82,
         "Specialization"
     ],
-    [
-        "mentorship",
+    "mentorship": [
         83,
         "Personality Trait"
     ],
-    [
-        "unit testing",
+    "unit testing": [
         84,
         "Engineering Process"
     ],
-    [
-        "jQuery",
+    "jQuery": [
         84,
         "Framework"
     ],
-    [
-        "Docker",
+    "Docker": [
         84,
         "DevOps"
     ],
-    [
-        "scalability",
+    "scalability": [
         85,
         "Engineering Principle"
     ],
-    [
-        "software development",
-        88
-    ],
-    [
-        "REST",
+    "software development": 88,
+    "REST": [
         92,
         "Architecture"
     ],
-    [
-        "MySQL",
+    "MySQL": [
         95,
         "Database"
     ],
-    [
-        "Git",
+    "Git": [
         96,
         "Version Control"
     ],
-    [
-        "code review",
+    "code review": [
         98,
         "Engineering Process"
     ],
-    [
-        "agile",
+    "agile": [
         107,
         "Engineering Practice"
     ],
-    [
-        "CI/CD",
+    "CI/CD": [
         115,
         "Engineering Practice"
     ],
-    [
-        "SQL",
+    "SQL": [
         123,
         "Programming Language"
     ],
-    [
-        "Angular",
+    "Angular": [
         132,
         "Framework"
     ],
-    [
-        "AWS",
+    "AWS": [
         133,
         "Cloud"
     ],
-    [
-        "frontend",
+    "frontend": [
         140,
         "Specialization"
     ],
-    [
-        "testing",
+    "testing": [
         141,
         "General Skill"
     ],
-    [
-        "collaboration",
+    "collaboration": [
         146,
         "General Skill"
     ],
-    [
-        "UI/UX",
+    "UI/UX": [
         159,
         "Specialization"
     ],
-    [
-        "web applications",
-        160
-    ],
-    [
-        "Node.js",
+    "web applications": 160,
+    "Node.js": [
         175,
         "Framework"
     ],
-    [
-        "Java",
+    "Java": [
         180,
         "Programming Language"
     ],
-    [
-        "TypeScript",
+    "TypeScript": [
         181,
         "Programming Language"
     ],
-    [
-        "design",
+    "design": [
         197,
         "General Skill"
     ],
-    [
-        "Python",
+    "Python": [
         197,
         "Programming Language"
     ],
-    [
-        "troubleshooting",
+    "troubleshooting": [
         263,
         "General Skill"
     ],
-    [
-        "communication",
+    "communication": [
         287,
         "General Skill"
     ],
-    [
-        "HTML",
+    "HTML": [
         294,
         "Programming Language"
     ],
-    [
-        "CSS",
+    "CSS": [
         295,
         "Programming Language"
     ],
-    [
-        "React.js",
+    "React.js": [
         338,
         "Framework"
     ],
-    [
-        "JavaScript",
+    "JavaScript": [
         417,
         "Programming Language"
     ]
-]
+}
