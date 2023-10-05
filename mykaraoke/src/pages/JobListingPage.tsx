@@ -18,6 +18,7 @@ import axios from "axios";
 import { DataTable } from "./DataTable";
 import { API_URL } from "@/constants";
 import { jobListingColumns } from "./JobListingColumns";
+import Spinner from "@/components/Spinner";
 
 // const formSchema = z.object({
 //   title: z.string().min(2).max(50),
@@ -26,7 +27,7 @@ import { jobListingColumns } from "./JobListingColumns";
 // });
 
 export default function JobListingPage() {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["jobListings"],
     queryFn: () =>
       axios.get(`${API_URL}/jobListings`).then((res) => {
@@ -90,6 +91,9 @@ export default function JobListingPage() {
 
   return (
     <AnimatedPage>
+      {isLoading && (
+        <Spinner className={`w-full flex justify-center mt-[48px]`} />
+      )}
       {data && <DataTable columns={jobListingColumns} data={data} />}
     </AnimatedPage>
   );
