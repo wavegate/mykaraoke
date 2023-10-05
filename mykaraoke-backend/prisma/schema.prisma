@@ -32,6 +32,8 @@ model JobListing {
   source         String?
   sourceId       String?
   keywords       Keyword[]
+
+  @@unique([source, sourceId])
 }
 
 model Keyword {

@@ -4,12 +4,22 @@ import { Request, Response } from "express";
 const getKeywords = async (req: Request, res: Response) => {
   try {
     const keywords = await prisma.keyword.findMany({
-      orderBy: {
-        // count: "desc",
+      include: {
+        _count: {
+          select: {
+            jobListings: true,
+          },
+        },
       },
     });
     if (keywords) {
-      res.json(keywords);
+      const newKeywords = keywords.map((keyword) => {
+        return {
+          name: keyword.name,
+          count: keyword._count.jobListings,
+        };
+      });
+      res.json(newKeywords);
     } else {
       return res.status(404).json({ message: "Keywords not found." });
     }

@@ -7,6 +7,9 @@ const getJobListings = async (req: Request, res: Response) => {
       orderBy: {
         // count: "desc",
       },
+      include: {
+        keywords: true,
+      },
     });
     if (queryResult) {
       res.json(queryResult);

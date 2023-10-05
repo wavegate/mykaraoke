@@ -44,7 +44,15 @@ const columnDef = (key: string, label: string) => {
 export const jobListingColumns: ColumnDef<Job>[] = [
   columnDef("title", "Title"),
   columnDef("company", "Company"),
-  columnDef("description", "Description"),
+  {
+    accessorKey: "description",
+    header: "Description",
+    cell: ({ row }) => {
+      console.log(row);
+
+      return <div className="text-right font-medium"></div>;
+    },
+  },
   columnDef("specialization", "Specialization"),
   columnDef("level", "Level"),
   columnDef("postingDate", "Posted"),

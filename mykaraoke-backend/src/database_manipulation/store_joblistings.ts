@@ -19,29 +19,35 @@ fs.readFile(file, "utf8", async (err, data) => {
     const jsonData = JSON.parse(data);
 
     for (const jobListing of jsonData) {
-      const newJobListing = await prisma.jobListing.create({
-        data: {
-          title: jobListing.positionName,
-          company: jobListing.company,
-          description: jobListing.description,
-          applyLink: jobListing.externalApplyLink,
-          postingDate: jobListing.postingDateParsed,
-          crawlDate: jobListing.scrapedAt,
-          location: jobListing.location,
-          source: "Indeed",
-          salary: jobListing.salary,
-          sourceId: jobListing.id,
-          keywords: {
-            connectOrCreate: jobListing.keywords.map((keyword: string) => {
-              return {
-                where: { name: keyword },
-                create: { name: keyword },
-              };
-            }),
+      prisma.jobListing
+        .create({
+          data: {
+            title: jobListing.positionName,
+            company: jobListing.company,
+            description: jobListing.descriptionHTML,
+            applyLink: jobListing.externalApplyLink,
+            postingDate: jobListing.postingDateParsed,
+            crawlDate: jobListing.scrapedAt,
+            location: jobListing.location,
+            source: "Indeed",
+            salary: jobListing.salary,
+            sourceId: jobListing.id,
+            keywords: {
+              connectOrCreate: jobListing.keywords.map((keyword: string) => {
+                return {
+                  where: { name: keyword },
+                  create: { name: keyword },
+                };
+              }),
+            },
           },
-        },
-      });
-      console.log(newJobListing);
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   } catch (error) {
     console.error("JSON parsing error:", error);
