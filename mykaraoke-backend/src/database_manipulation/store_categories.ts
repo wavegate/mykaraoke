@@ -3,10 +3,8 @@ dotenv.config();
 import fs from "fs";
 import prisma from "../config/database.js";
 
-await prisma.jobListing.deleteMany({});
-
 const file =
-  "./src/database_manipulation/dataset_indeed-scraper_2023-09-16_01-10-37-409.json";
+  "./src/database_manipulation/dataset_indeed-scraper_2023-09-16_01-10-37-409categories.json";
 
 function chunkArray(arr: any[], chunkSize: number) {
   const chunkedArr = [];
@@ -30,29 +28,21 @@ fs.readFile(file, "utf8", async (err, data) => {
     for (const chunk of chunkedData) {
       await Promise.allSettled(
         chunk.map((chunk) => {
-          return prisma.jobListing.create({
-            data: {
-              title: chunk.positionName,
-              company: chunk.company,
-              description: chunk.descriptionHTML,
-              applyLink: chunk.externalApplyLink,
-              listingLink: chunk.url,
-              postingDate: chunk.postingDateParsed,
-              crawlDate: chunk.scrapedAt,
-              location: chunk.location,
-              source: "Indeed",
-              salary: chunk.salary,
-              sourceId: chunk.id,
-              keywords: {
-                connectOrCreate: chunk.keywords.map((keyword: string) => {
-                  return {
-                    where: { name: keyword },
-                    create: { name: keyword },
-                  };
-                }),
+          if (chunk.length === 3) {
+            return prisma.keyword.update({
+              where: { name: chunk[0] },
+              data: {
+                categories: {
+                  connectOrCreate: {
+                    where: { name: chunk[2] },
+                    create: { name: chunk[2] },
+                  },
+                },
               },
-            },
-          });
+            });
+          } else {
+            return Promise.resolve();
+          }
         })
       );
       console.log("finished chunk");

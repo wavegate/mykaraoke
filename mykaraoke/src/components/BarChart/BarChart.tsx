@@ -18,8 +18,8 @@ ChartJS.register(
   Legend
 );
 
-export default function BarChart({ data, category }: any) {
-  const filteredData = data.filter((obj) => obj.category === category);
+export default function BarChart({ data, category }) {
+  const filteredData = data.filter((obj) => obj.categories?.includes(category));
   const labels = filteredData.map((keywordObject) => {
     return keywordObject.name;
   });

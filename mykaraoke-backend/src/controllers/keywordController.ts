@@ -10,13 +10,22 @@ const getKeywords = async (req: Request, res: Response) => {
             jobListings: true,
           },
         },
+        categories: true,
       },
+      orderBy: [
+        {
+          jobListings: {
+            _count: "desc",
+          },
+        },
+      ],
     });
     if (keywords) {
       const newKeywords = keywords.map((keyword) => {
         return {
           name: keyword.name,
           count: keyword._count.jobListings,
+          categories: keyword.categories.map((category) => category.name),
         };
       });
       res.json(newKeywords);

@@ -2,19 +2,13 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-export type Job = {
-  id: string;
-  position_name: string;
-  salary: string;
-  company: string;
-  location: string;
-  url: string;
-  posting_date_parsed: string;
-  description: string;
-  external_apply_link: string;
+export type Keyword = {
+  name: string;
+  count: number;
+  categories: string[];
 };
 
-export const columns: ColumnDef<Job>[] = [
+export const columns: ColumnDef<Keyword>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -44,16 +38,25 @@ export const columns: ColumnDef<Job>[] = [
     },
   },
   {
-    accessorKey: "category",
+    accessorKey: "categories",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Category
+          Categories
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="text-right font-medium">
+          {row.original.categories.map((category) => {
+            return <div key={category}>{category}</div>;
+          })}
+        </div>
       );
     },
   },
