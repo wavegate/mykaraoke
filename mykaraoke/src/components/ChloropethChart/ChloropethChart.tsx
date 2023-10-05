@@ -1,18 +1,7 @@
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  Chart,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, Chart } from "chart.js";
 import * as ChartGeo from "chartjs-chart-geo";
 import { useEffect } from "react";
 
-// register controller in chart.js and ensure the defaults are set
 ChartJS.register(
   ChartGeo.ChoroplethController,
   ChartGeo.GeoFeature,
@@ -20,70 +9,20 @@ ChartJS.register(
   ChartGeo.ProjectionScale
 );
 
-export default function ChloropethChart({ data, category }: any) {
-  async function getData() {
-    const response = await fetch("https://unpkg.com/us-atlas/states-10m.json");
-    const us = await response.json();
-    const nation = ChartGeo.topojson.feature(us, us.objects.nation).features[0];
-    const states = ChartGeo.topojson.feature(us, us.objects.states).features;
-
-    const chart = new ChartJS(
-      document.getElementById("canvas").getContext("2d"),
-      {
-        type: "choropleth",
-        data: {
-          labels: states.map((d) => d.properties.name),
-          datasets: [
-            {
-              label: "States",
-              outline: nation,
-              data: states.map((d) => ({
-                feature: d,
-                value: Math.random() * 10,
-              })),
-            },
-          ],
-        },
-        options: {
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-          scales: {
-            projection: {
-              axis: "x",
-              projection: "albersUsa",
-            },
-            color: {
-              axis: "x",
-              quantize: 5,
-              legend: {
-                position: "bottom-right",
-                align: "bottom",
-              },
-            },
-          },
-        },
-      }
-    );
-  }
-
+export default function ChloropethChart() {
   useEffect(() => {
-    let canvas = document.getElementById("canvas");
+    const canvas = document.getElementById("canvas");
     if (!canvas) return;
 
     fetch("https://unpkg.com/us-atlas/states-10m.json")
       .then((r) => r.json())
       .then((us) => {
-        const nation = ChartGeo.topojson.feature(us, us.objects.nation)
+        const nation = (ChartGeo.topojson.feature(us, us.objects.nation) as any)
           .features[0];
-        const states = ChartGeo.topojson.feature(
-          us,
-          us.objects.states
-        ).features;
+        const states = (ChartGeo.topojson.feature(us, us.objects.states) as any)
+          .features;
 
-        const chart = new Chart(canvas.getContext("2d"), {
+        new Chart((canvas as any).getContext("2d"), {
           type: "choropleth",
           data: {
             labels: states.map((d) => d.properties.name),
@@ -115,7 +54,7 @@ export default function ChloropethChart({ data, category }: any) {
                 },
               },
             },
-          },
+          } as any,
         });
       });
   });

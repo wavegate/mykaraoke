@@ -104,7 +104,7 @@ export default function HomePage() {
         visualization.
       </div>
       {data && <DataTable columns={columns} data={data} />}
-      {data && <ChloropethChart data={data} category="Programming Language" />}
+      {data && <ChloropethChart />}
       <div className={`grid grid-cols-2`}>
         {data && <BarChart data={data} category="Programming Language" />}
         {data && <BarChart data={data} category="General Skill" />}
