@@ -36,6 +36,16 @@ export default function HomePage() {
       }),
     refetchOnWindowFocus: false,
   });
+  const { data: jobListings } = useQuery({
+    queryKey: ["jobListings"],
+    queryFn: () =>
+      axios.get(`${API_URL}/jobListings`).then((res) => {
+        return res?.data;
+      }),
+    refetchOnWindowFocus: false,
+  });
+
+  console.log(data);
 
   // const { toast } = useToast();
 
