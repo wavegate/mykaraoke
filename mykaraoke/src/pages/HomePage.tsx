@@ -36,16 +36,14 @@ export default function HomePage() {
       }),
     refetchOnWindowFocus: false,
   });
-  const { data: jobListings } = useQuery({
-    queryKey: ["jobListings"],
+  const { data: jobListingsByState } = useQuery({
+    queryKey: ["jobListingsByState"],
     queryFn: () =>
-      axios.get(`${API_URL}/jobListings`).then((res) => {
+      axios.get(`${API_URL}/jobListingsByState`).then((res) => {
         return res?.data;
       }),
     refetchOnWindowFocus: false,
   });
-
-  console.log(data);
 
   // const { toast } = useToast();
 
@@ -114,8 +112,8 @@ export default function HomePage() {
         visualization.
       </div>
       {data && <DataTable columns={columns} data={data} />}
-      {data && <ChloropethChart />}
-      <div className={`grid grid-cols-2`}>
+      <div className={`grid grid-cols-2 gap-[48px]`}>
+        {data && <ChloropethChart data={jobListingsByState} />}
         {data && <BarChart data={data} category="Programming Language" />}
         {data && <BarChart data={data} category="General Skill" />}
         {data && <BarChart data={data} category="Personality Trait" />}

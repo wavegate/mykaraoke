@@ -9,7 +9,7 @@ ChartJS.register(
   ChartGeo.ProjectionScale
 );
 
-export default function ChloropethChart() {
+export default function ChloropethChart({ data }: any) {
   useEffect(() => {
     const canvas = document.getElementById("canvas");
     if (!canvas) return;
@@ -22,6 +22,9 @@ export default function ChloropethChart() {
         const states = (ChartGeo.topojson.feature(us, us.objects.states) as any)
           .features;
 
+        const stateNames = states.map((state) => state.properties.name);
+        console.log(stateNames);
+
         new Chart((canvas as any).getContext("2d"), {
           type: "choropleth",
           data: {
@@ -32,7 +35,7 @@ export default function ChloropethChart() {
                 outline: nation,
                 data: states.map((d) => ({
                   feature: d,
-                  value: Math.random() * 10,
+                  value: data[d.properties.name] || 0,
                 })),
               },
             ],
@@ -40,6 +43,10 @@ export default function ChloropethChart() {
           options: {
             legend: {
               display: false,
+            },
+            title: {
+              display: true,
+              text: `Location of Jobs`,
             },
             scale: {
               projection: "albersUsa",
@@ -61,6 +68,7 @@ export default function ChloropethChart() {
 
   return (
     <div>
+      <div className={`font-bold`}>Jobs source frequency</div>
       <canvas id="canvas"></canvas>
     </div>
   );

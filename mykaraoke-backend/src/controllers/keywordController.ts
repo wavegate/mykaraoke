@@ -39,7 +39,7 @@ function extractAndAverage(s: string): number {
   const numbers = extractNumbers(s);
   let average = -1;
   if (numbers.length === 2) {
-    average = numbers.reduce((prev, curr) => prev + curr) / numbers.length;
+    average = numbers.reduce((prev, curr) => prev + curr, 0) / numbers.length;
   } else if (numbers.length === 1) {
     average = numbers[0];
   }
@@ -91,17 +91,17 @@ const getKeywords = async (req: Request, res: Response) => {
             return extractAndAverage(jobListing.salary!);
           });
         const average =
-          convertedSalaries.reduce((prev, curr) => prev + curr) /
+          convertedSalaries.reduce((prev, curr) => prev + curr, 0) /
           convertedSalaries.length;
         return average;
       });
 
-      const newKeywords = keywords.map((keyword) => {
+      const newKeywords = keywords.map((keyword, index) => {
         return {
           name: keyword.name,
           count: keyword._count.jobListings,
           categories: keyword.categories.map((category) => category.name),
-          averageSalary,
+          averageSalary: averageSalary[index],
         };
       });
       res.json(newKeywords);
