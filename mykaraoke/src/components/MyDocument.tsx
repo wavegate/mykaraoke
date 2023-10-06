@@ -6,16 +6,7 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-
-// Create styles
-// const styles = StyleSheet.create({
-//   page: {},
-//   section: {
-//     margin: 10,
-//     padding: 10,
-//     flexGrow: 1,
-//   },
-// });
+import { useMemo } from "react";
 
 Font.register({ family: "Times-Roman" } as any);
 Font.register({ family: "Times-Bold" } as any);
@@ -82,7 +73,7 @@ const Bullet = ({ children }) => {
     >
       <View
         style={{
-          width: "18px",
+          flexBasis: "18px",
           display: "flex",
           flexDirection: "row",
           justifyContent: "flex-end",
@@ -95,9 +86,7 @@ const Bullet = ({ children }) => {
   );
 };
 
-// Create Document Component
 const MyDocument = () => {
-  const email = "email";
   const summaryPoints = [
     "Highly-skilled web developer with a strong background in building scalable web applications.",
     "Expertise in JavaScript, React.js, and frontend development.",
@@ -105,14 +94,49 @@ const MyDocument = () => {
   ];
 
   const skills = {
-    Languages: ["JavaScript", "TypeScript", "Python", "Java", "HTML", "CSS"],
+    Languages: [
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Java",
+      "HTML",
+      "CSS",
+      "Testestest",
+      "Testestest",
+      "Testestest",
+      "Testestest",
+      "Testestest",
+    ],
     Frameworks: ["React.js, Angular, Node.js, jQuery"],
     Databases: ["MongoDB", "MySQL", "Redis"],
     "Build Tools": ["Docker, Kubernetes, Jenkins"],
     "Cloud Services": ["AWS"],
   };
 
+  const skillNameWidth = useMemo(() => {
+    let maxChar = 0;
+    Object.entries(skills).forEach(([key, value]) => {
+      const nameLength = key.length;
+      if (nameLength > maxChar) {
+        maxChar = nameLength;
+      }
+    });
+    return `${maxChar * 6}px`;
+  }, [skills]);
+
   const experiences = [
+    {
+      company: "ABC Tech Solutions",
+      location: "Plainsboro Township, NJ, USA",
+      title: "Web Dveloper",
+      date: "January 2023 - Present",
+      points: [
+        "Developed and maintained web applications using React.js, Node.js, and TypeScript resulting in a 50% increase in application performance.",
+        "Collaborated with UI/UX designers ensuring seamless implementation and optimized user experience.",
+        "Conducted code reviews to maintain coding standards and implemented CI/CD pipelines using AWS.",
+        "Utilized agile methodologies for iterative development and efficient delivery.",
+      ],
+    },
     {
       company: "ABC Tech Solutions",
       location: "Plainsboro Township, NJ, USA",
@@ -138,9 +162,26 @@ const MyDocument = () => {
         "Utilized agile methodologies for iterative development and efficient delivery.",
       ],
     },
+    {
+      name: "Project Name",
+      link: "github.com/bla/bla",
+      points: [
+        "Developed and maintained web applications using React.js, Node.js, and TypeScript resulting in a 50% increase in application performance.",
+        "Collaborated with UI/UX designers ensuring seamless implementation and optimized user experience.",
+        "Conducted code reviews to maintain coding standards and implemented CI/CD pipelines using AWS.",
+        "Utilized agile methodologies for iterative development and efficient delivery.",
+      ],
+    },
   ];
 
   const education = [
+    {
+      schoolName: "San Jose State University",
+      schoolLocation: "San Jose, CA",
+      degree: "Master of Science",
+      date: "August 2001 - May 2005",
+      relevantCoursework: ["HCI", "AI"],
+    },
     {
       schoolName: "San Jose State University",
       schoolLocation: "San Jose, CA",
@@ -157,6 +198,7 @@ const MyDocument = () => {
         style={{
           padding: "1in",
           fontSize: "11px",
+          lineHeight: "1.2",
         }}
       >
         <View
@@ -173,6 +215,7 @@ const MyDocument = () => {
               flexDirection: "column",
               alignItems: "center",
             }}
+            wrap={false}
           >
             <Text
               style={{
@@ -186,7 +229,7 @@ const MyDocument = () => {
             <Text>Email | Phone | GitHub | Portfolio</Text>
           </View>
 
-          <View style={{ width: "100%", marginBottom: "11px" }}>
+          <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
             <Title>SUMMARY</Title>
             {summaryPoints.map((point) => {
               return (
@@ -196,15 +239,18 @@ const MyDocument = () => {
               );
             })}
           </View>
-          <View style={{ width: "100%", marginBottom: "11px" }}>
+          <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
             <Title>SKILLS</Title>
             {Object.entries(skills).map(([category, keywords]) => {
               return (
                 <View style={{ display: "flex", flexDirection: "row" }}>
                   <Text
-                    style={{ fontFamily: "Times-Bold", flexBasis: "100px" }}
+                    style={{
+                      fontFamily: "Times-Bold",
+                      flexBasis: skillNameWidth,
+                    }}
                   >
-                    {category}:{" "}
+                    {category}:
                   </Text>
                   <Text style={{ flex: "1" }}>{keywords.join(", ")}</Text>
                 </View>
@@ -214,75 +260,99 @@ const MyDocument = () => {
 
           <View style={{ width: "100%", marginBottom: "11px" }}>
             <Title>EXPERIENCE</Title>
-            {experiences.map((experience) => {
-              return (
-                <View>
-                  <BoldLine>
-                    <Text>{experience.company}</Text>
-                    <Text>{experience.location}</Text>
-                  </BoldLine>
-                  <ItalicLine>
-                    <Text>{experience.title}</Text>
-                    <Text>{experience.date}</Text>
-                  </ItalicLine>
-                  {experience.points.map((point) => {
-                    return (
-                      <Bullet>
-                        <Text>{point}</Text>
-                      </Bullet>
-                    );
-                  })}
-                </View>
-              );
-            })}
+            <View
+              style={{ display: "flex", flexDirection: "column", gap: "11px" }}
+            >
+              {experiences.map((experience) => {
+                return (
+                  <View wrap={false}>
+                    <BoldLine>
+                      <Text>{experience.company}</Text>
+                      <Text>{experience.location}</Text>
+                    </BoldLine>
+                    <ItalicLine>
+                      <Text>{experience.title}</Text>
+                      <Text>{experience.date}</Text>
+                    </ItalicLine>
+                    {experience.points.map((point) => {
+                      return (
+                        <Bullet>
+                          <Text>{point}</Text>
+                        </Bullet>
+                      );
+                    })}
+                  </View>
+                );
+              })}
+            </View>
           </View>
           <View style={{ width: "100%", marginBottom: "11px" }}>
-            <Title>Projects</Title>
-            {projects.map((project) => {
-              return (
-                <View>
-                  <BoldLine>
-                    <Text>{project.name}</Text>
-                    <Text>{project.link}</Text>
-                  </BoldLine>
+            <Title>PROJECTS</Title>
+            <View
+              style={{ display: "flex", flexDirection: "column", gap: "11px" }}
+            >
+              {projects.map((project) => {
+                return (
+                  <View wrap={false}>
+                    <BoldLine>
+                      <Text>{project.name}</Text>
+                      <Text>{project.link}</Text>
+                    </BoldLine>
 
-                  {project.points.map((point) => {
-                    return (
-                      <Bullet>
-                        <Text>{point}</Text>
-                      </Bullet>
-                    );
-                  })}
-                </View>
-              );
-            })}
+                    {project.points.map((point) => {
+                      return (
+                        <Bullet>
+                          <Text>{point}</Text>
+                        </Bullet>
+                      );
+                    })}
+                  </View>
+                );
+              })}
+            </View>
           </View>
 
           <View style={{ width: "100%", marginBottom: "11px" }}>
-            <Title>Education</Title>
-            {education.map((edu) => {
-              return (
-                <View>
-                  <BoldLine>
-                    <Text>{edu.schoolName}</Text>
-                    <Text>{edu.date}</Text>
-                  </BoldLine>
+            <Title>EDUCATION</Title>
+            <View
+              style={{ display: "flex", flexDirection: "column", gap: "11px" }}
+            >
+              {education.map((edu) => {
+                return (
+                  <View wrap={false}>
+                    <BoldLine>
+                      <Text>{edu.schoolName}</Text>
+                      <Text>{edu.date}</Text>
+                    </BoldLine>
 
-                  <ItalicLine>
-                    <Text>{edu.degree}</Text>
-                  </ItalicLine>
-                </View>
-              );
-            })}
+                    <ItalicLine>
+                      <Text>{edu.degree}</Text>
+                    </ItalicLine>
+                    <View style={{ display: "flex", flexDirection: "row" }}>
+                      <Text
+                        style={{
+                          flexBasis: "100px",
+                        }}
+                      >
+                        Relevant coursework:
+                      </Text>
+                      <Text style={{ flex: "1" }}>
+                        {edu.relevantCoursework.join(", ")}
+                      </Text>
+                    </View>
+                  </View>
+                );
+              })}
+            </View>
           </View>
-          <View style={{ width: "100%", marginBottom: "11px" }}>
-            <Title>Certifications</Title>
+          {/* <View style={{ width: "100%", marginBottom: "11px" }}>
+            <Title>CERTIFICATIONS</Title>
             <Text>AWS Certified Developer Certified JavaScript Developer</Text>
-          </View>
-          <View style={{ width: "100%", marginBottom: "11px" }}>
-            <Title>Hobbies & Interests</Title>
+          </View> */}
+          {/* <View style={{ width: "100%", marginBottom: "11px" }}>
+            <Title>HOBBIES</Title>
             <Text>Example hobby</Text>
-          </View>
+          </View> */}
         </View>
       </Page>
     </Document>
