@@ -5,12 +5,13 @@ import re
 import os
 from dotenv import load_dotenv
 import openai
+import time
 
 load_dotenv()
 
 openai.api_key = os.environ.get("OPENAI_KEY")
 
-filename = "dataset_indeed-scraper_2023-09-16_01-10-37-409"
+filename = "dataset_indeed-scraper_2023-10-06_00-26-33-590"
 
 with open(
     f"input_data/{filename}.json",
@@ -20,7 +21,7 @@ with open(
     data = json.load(json_file)
 
 try:
-    with open(f"output_data/{filename}.json", "r", encoding="utf-8") as file:
+    with open(f"keywords_extracted/{filename}.json", "r", encoding="utf-8") as file:
         previous_data = json.load(file)
 except FileNotFoundError:
     previous_data = []
@@ -48,6 +49,7 @@ for index, description in enumerate(descriptions):
             json.dump(previous_data, file, indent=4)
         print(f"added {index}")
         print(completion)
+        time.sleep(2)
 
 # completion = openai.ChatCompletion.create(
 #     model="gpt-3.5-turbo",

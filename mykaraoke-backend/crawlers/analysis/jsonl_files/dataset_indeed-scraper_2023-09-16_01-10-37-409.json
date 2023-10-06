@@ -1,0 +1,13 @@
+{
+  "model": "gpt-3.5-turbo",
+  "messages": [
+    {
+      "role": "system",
+      "content": "The user will give you a job description. I want you to return to me a comma delimited list of technical keywords sought for in the job description."
+    },
+    {
+      "role": "user",
+      "content": "Job Title: PHP Developer \u2013 W2 / Full Time\nLocation: Sunnyvale, CA\nDuration: Long Term\n\u00b7 A technical lead who is hands on and can drive the projects technically (PHP/some python)\n\n Has willingness to explore new technologies\n They will work closely with India development teams to guide them on the technical implementation of the project and answer day to day technical queries\n They will work closely with data teams on a day to day basis\n Strong data understanding and comfortable with analyzing data models & large data sets on a day to day basis (comfortable with excels)\n Comfortable working with business stakeholders\n\nJob Type: Full-time\nSalary: $110,000.00 - $115,000.00 per year\nBenefits:\n\n 401(k)\n Dental insurance\n Health insurance\n\nCompensation package:\n\n Performance bonus\n Yearly pay\n\nExperience level:\n\n 6 years\n\nSchedule:\n\n 8 hour shift\n\nExperience:\n\n Total: 5 years (Required)\n PHP Development: 3 years (Required)\n\nWork Location: On the road"
+    }
+  ]
+}
