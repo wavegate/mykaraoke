@@ -89,5 +89,5 @@ for keyword_tuple in filtered_words:
 #     if fuzz.ratio(item[0], "next") > 30:
 #         print(item)
 
-with open(f"keywords_counted/{filename}.json", "w", encoding="utf-8") as file:
+with open(f"keywords_counted/{filename2}.json", "w", encoding="utf-8") as file:
     json.dump(category_map, file, indent=4)

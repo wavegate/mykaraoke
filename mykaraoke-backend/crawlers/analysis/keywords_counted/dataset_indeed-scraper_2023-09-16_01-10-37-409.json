@@ -431,7 +431,6 @@
     "full stack engineer": 15,
     "restful": 15,
     "business processes": 15,
-    "rabbitmq": 15,
     "mobile app development": 15,
     "technical field": 15,
     "search engine optimization": 15,
@@ -464,6 +463,10 @@
     "cover letter": 15,
     "subversion": 15,
     "accessibility standards": 15,
+    "RabbitMQ": [
+        15,
+        "Messaging System"
+    ],
     "Cassandra": [
         15,
         "Database"
@@ -584,7 +587,7 @@
     "va": 18,
     "Swift": [
         18,
-        "Programming Language"
+        "Language"
     ],
     "Grafana": [
         18,
@@ -710,7 +713,7 @@
     "collaborative environment": 24,
     "network security": [
         24,
-        "Specialization"
+        "Knowledge Domain"
     ],
     "multi-tasking": 24,
     "system design": [
@@ -729,27 +732,17 @@
     "software systems": 24,
     "Salesforce": [
         24,
-        "CRM"
+        "Customer Relationship Management"
     ],
-    "ECS (AWS)": [
+    "ECS": [
         24,
-        "Cloud"
+        "AWS Service"
     ],
     "dashboards": 25,
     "project managers": 25,
-    "lambda": 25,
-    "product development": 25,
-    "cloud computing": 25,
-    "related field": 25,
-    "scss": 25,
-    "customer experience": 25,
-    "sharepoint": 25,
-    "users": 25,
-    "prioritization": 25,
-    ".net developer": 25,
     "Kotlin": [
         25,
-        "Programming Language"
+        "Language"
     ],
     "gRPC": [
         25,
@@ -761,248 +754,231 @@
     ],
     "Jest": [
         25,
-        "Framework"
+        "Testing Framework"
     ],
-    "electrical engineering": [
+    "Sharepoint": [
+        25,
+        "Content Management System"
+    ],
+    "Lambda": [
+        25,
+        "AWS Service"
+    ],
+    "VB.NET": [
         26,
-        "Specialization"
+        "Language"
     ],
-    "junit": 26,
-    "mockups": 26,
-    "saas": 26,
-    "engineering teams": 26,
-    "agile development methodologies": 26,
-    "drupal": 26,
-    "industry standards": 26,
-    "technical skills": 26,
-    "vb.net": 26,
-    "it": 26,
-    "industry best practices": 26,
-    "pl/sql": 27,
-    "splunk": 27,
-    "api development": 27,
-    "monday to friday": 27,
-    "multitasking": 27,
-    "team": 27,
-    "cybersecurity": 27,
+    "Drupal": [
+        26,
+        "Content Management System"
+    ],
+    "JUnit": [
+        26,
+        "Testing Framework"
+    ],
+    "cybersecurity": [
+        27,
+        "Knowledge Domain"
+    ],
     "microsoft azure": 27,
     "reusability": [
         27,
-        "Engineering Principle"
+        "Principle"
     ],
-    "work location": 28,
-    "agile methodology": 28,
-    "developer": 28,
-    "technical requirements": 28,
-    "ssrs": 28,
-    "secret clearance": 28,
+    "Splunk": [
+        27,
+        "Log Management"
+    ],
+    "PL/SQL": [
+        27,
+        "Query Language"
+    ],
     "SVN": [
         28,
-        "Version Control"
+        "Version Control System"
     ],
-    "data modeling": 29,
-    "data pipelines": 29,
-    "infrastructure as code": 29,
-    "user interface": 29,
-    "source control": 29,
-    "hardware": [
+    "SSRS": [
+        28,
+        "Reporting Tool"
+    ],
+    "data modeling": [
         29,
-        "Specialization"
+        "Process"
     ],
+    "source control": 29,
+    "hardware": 29,
     "integrity": 29,
-    "wcf": 29,
-    "organization": 29,
-    "websites": 29,
-    "tfs": 29,
     "J2EE": [
         29,
         "Specification"
     ],
     "HTTP": [
         29,
-        "Architecture"
+        "Protocol"
     ],
-    "interfaces": 30,
-    "containerization": 30,
-    "authentication": 30,
+    "TFS": [
+        29,
+        "Version Control System"
+    ],
+    "WCF": [
+        29,
+        "Framework"
+    ],
     "linq": 30,
-    "bachelor\u2019s degree": 30,
-    "unix": 30,
-    "scale": 30,
-    "debug": 30,
-    "customer service": 30,
     "Perl": [
         30,
-        "Programming Language"
+        "Language"
     ],
-    "SASS": [
+    "Unix": [
         30,
-        "Programming Language"
+        "Operating System"
     ],
-    "requirements analysis": 31,
+    "requirements analysis": [
+        31,
+        "Process"
+    ],
     "powershell": 31,
-    "requirements gathering": 31,
-    "enhancements": 31,
+    "requirements gathering": [
+        31,
+        "Process"
+    ],
     "EC2 (AWS)": 31,
     "creativity": [
         32,
         "Personality Trait"
     ],
-    "contract": 32,
-    "reporting": 32,
-    "specifications": 32,
-    "restful web services": 32,
-    "efficiency": 32,
-    "full stack developer": 32,
-    "web-based applications": 32,
-    "leadership": 32,
-    "software development life cycle": 32,
+    "fast-paced": [
+        32,
+        "Personality Trait"
+    ],
+    "efficiency": [
+        32,
+        "Personality Trait"
+    ],
     "Elasticsearch": [
         32,
-        "Tool"
+        "Search Engine"
     ],
     "management": [
         33,
-        "General Skill"
+        "Soft Skill"
     ],
-    "web": 33,
     "Photoshop": [
         33,
-        "Tool"
+        "Design Tool"
     ],
     "Figma": [
         33,
-        "Tool"
+        "Design Tool"
     ],
-    "cloud services": 34,
-    "npm": 34,
-    "version control": 34,
-    "technical design": 34,
-    "reports": 34,
+    "npm": [
+        34,
+        "Package Manager"
+    ],
     "Ansible": [
         34,
-        "DevOps"
+        "Configuration Management"
     ],
     "Selenium": [
         34,
-        "Framework"
+        "Testing Framework"
     ],
-    "S3 (AWS)": [
+    "S3": [
         34,
-        "Cloud"
+        "AWS Service"
     ],
-    "operations": 35,
-    "integrations": 35,
     "integration testing": [
         35,
-        "Engineering Process"
+        "Process"
     ],
-    "web apis": 35,
-    "independent work": 35,
-    "security clearance": 35,
-    "team environment": 35,
-    "schedule": 35,
-    "cloud infrastructure": 35,
-    "operating systems": 35,
-    "procedures": 36,
-    "processes": 36,
-    "products": 36,
-    "compliance": 36,
+    "compliance": [
+        36,
+        "Principle"
+    ],
     "technical support": 36,
     "Windows": [
         36,
-        "Platform"
+        "Operating System"
     ],
     "scripting": 37,
     "professional development": 37,
     "technical specifications": 37,
     "planning": [
         37,
-        "General Skill"
+        "Soft Skill"
     ],
     "functionality": [
         37,
-        "Engineering Principle"
+        "Principle"
     ],
     "product management": 37,
-    "master's degree": 37,
     "stored procedures": 37,
     "BitBucket": [
         37,
-        "Version Control"
+        "Version Control System"
     ],
     "stakeholders": 38,
-    "availability": 38,
-    "performance tuning": 38,
-    "microsoft sql server": 38,
-    "ownership": 38,
-    "technical solutions": 38,
+    "availability": [
+        38,
+        "Principle"
+    ],
+    "performance tuning": [
+        38,
+        "Process"
+    ],
     "self-motivated": [
         39,
         "Personality Trait"
     ],
-    "configuration": 39,
-    "database design": 39,
-    "web api": 39,
-    "portfolio": 39,
-    "technical leadership": [
-        40,
-        "General Skill"
+    "configuration": [
+        39,
+        "Process"
     ],
-    "iis": 40,
-    "certifications": 40,
+    "database design": [
+        39,
+        "Process"
+    ],
+    "IIS": [
+        40,
+        "Server"
+    ],
     "visualization": [
         41,
-        "General Skill"
+        "Process"
     ],
-    "seo": 41,
     "Ruby on Rails": [
         41,
         "Framework"
     ],
+    "SEO": [
+        41,
+        "Process"
+    ],
     "test plans": 42,
     "Hibernate": [
         42,
-        "Framework"
-    ],
-    "scripting languages": 43,
-    "wireframes": [
-        43,
-        "Engineering Process"
+        "Object Relational Mapping"
     ],
     "self-starter": [
         43,
         "Personality Trait"
     ],
-    "cloud platforms": 43,
-    "software design": 44,
     "usability": [
         44,
-        "Engineering Principle"
+        "Principle"
     ],
     "time management": [
         44,
-        "General Skill"
+        "Soft Skill"
     ],
-    "standards": 44,
     "flexibility": [
         44,
         "Personality Trait"
-    ],
-    "fullstack": [
-        44,
-        "Specialization"
     ],
     "Next.js": [
         44,
         "Framework"
     ],
-    "technical documentation": 45,
-    "marketing": [
-        45,
-        "Engineering Process"
-    ],
-    "systems": 45,
     "cross-browser compatibility": 45,
     "Django": [
         45,
@@ -1012,120 +988,98 @@
         45,
         "Database"
     ],
-    "developing": 46,
     "React Native": [
         46,
         "Framework"
     ],
     "Kafka": [
         46,
-        "Tool"
+        "Messaging System"
     ],
-    "database": 47,
-    "software applications": 47,
-    "cloud": 47,
-    "business requirements": 47,
-    "cloud technologies": 48,
-    "sdlc": 48,
-    "continuous delivery": 48,
-    "web design": 48,
     "Entity Framework": [
         48,
         "Framework"
     ],
     "distributed systems": [
         50,
-        "Computer Science Topics"
+        "Knowledge Domain"
     ],
-    "optimization": 50,
-    "verbal communication": 50,
+    "optimization": [
+        50,
+        "Process"
+    ],
     "Maven": [
         50,
-        "Tool"
+        "Build Tool"
     ],
-    "emerging technologies": 51,
     "GitLab": [
         51,
-        "Version Control"
+        "Version Control System"
     ],
     "networking": [
         52,
-        "Specialization"
+        "Knowledge Domain"
     ],
-    "workflows": 52,
     "Android": [
         52,
-        "Platform"
+        "Operating System"
     ],
     "prototyping": [
         53,
-        "Engineering Process"
+        "Process"
     ],
     "accessibility": [
         53,
-        "Engineering Principle"
+        "Principle"
     ],
-    "code quality": 53,
-    ".net framework": 53,
-    "application development": 53,
     "Ruby": [
         53,
-        "Programming Language"
+        "Language"
     ],
-    "software development lifecycle": 54,
-    "software solutions": 54,
-    "analytics": 55,
-    "learning": 55,
-    "research": 55,
-    "product": 55,
     "Visual Studio": [
         55,
-        "IDE"
+        "Integrated Development Environment"
     ],
-    "information systems": 56,
+    "SASS": [
+        55,
+        "CSS Preprocessor"
+    ],
     "maintainability": [
         56,
-        "Engineering Principle"
+        "Principle"
     ],
-    "wordpress": 56,
     "iOS": [
         56,
-        "Platform"
+        "Operating System"
     ],
-    "azure devops": 57,
-    "performance optimization": [
-        57,
-        "Engineering Principle"
+    "Wordpress": [
+        56,
+        "Content Management System"
     ],
     "SOAP": [
         57,
-        "Architecture"
+        "Protocol"
     ],
-    "programming": 58,
-    "software developer": 58,
     "C": [
         58,
-        "Programming Language"
+        "Language"
     ],
+    "fast-paced environment": 59,
     "Terraform": [
         59,
-        "DevOps"
+        "Build Tool"
     ],
-    "designers": 60,
-    "education": 61,
-    "version control systems": 61,
-    "cross-functional teams": 62,
     "Webpack": [
         62,
-        "Tool"
+        "Build Tool"
     ],
     "MVC": [
         63,
-        "Architecture"
+        "Design Pattern"
     ],
     "machine learning": [
         64,
-        "Specialization"
+        "Knowledge Domain"
     ],
     "new technologies": 64,
     "coding standards": 65,
@@ -1133,58 +1087,61 @@
         66,
         "Framework"
     ],
-    "information technology": 67,
-    "requirements": 67,
     "monitoring": [
         67,
-        "Engineering Process"
+        "Process"
     ],
-    "restful apis": 68,
-    "user interfaces": 68,
-    "computer engineering": 70,
     "data structures": [
         70,
-        "Computer Science Topics"
+        "Knowledge Domain"
     ],
     "AI": [
         70,
-        "Specialization"
+        "Knowledge Domain"
     ],
     "organizational skills": [
         72,
-        "General Skill"
+        "Soft Skill"
     ],
     "algorithms": [
         72,
-        "Computer Science Topics"
+        "Knowledge Domain"
+    ],
+    "leadership": [
+        72,
+        "Soft Skill"
     ],
     "Redux": [
         72,
-        "Framework"
+        "Global State Management"
     ],
-    "training": 73,
+    "training": [
+        73,
+        "Soft Skill"
+    ],
     "MongoDB": [
         73,
         "Database"
     ],
     "automated testing": [
         74,
+        "Process"
+    ],
+    "teamwork": [
+        76,
+        "Personality Trait"
+    ],
+    "fullstack": [
+        76,
         "Specialization"
     ],
-    "teamwork": 76,
-    "programming languages": 76,
-    "support": 78,
     "test-driven development": [
         78,
-        "Engineering Practice"
+        "Methodology"
     ],
     "innovation": [
         80,
         "Personality Trait"
-    ],
-    "infrastructure": [
-        80,
-        "Specialization"
     ],
     "reliability": [
         81,
@@ -1192,75 +1149,80 @@
     ],
     "Go": [
         81,
-        "Programming Language"
+        "Language"
     ],
     "NoSQL": [
         82,
         "Database"
     ],
-    ".net core": 84,
     "GraphQL": [
         84,
-        "Programming Language"
+        "Query Language"
     ],
-    "ajax": 85,
-    "Scrum": 85,
+    "Scrum": [
+        85,
+        "Methodology"
+    ],
+    "Ajax": [
+        85,
+        "Technique"
+    ],
     "GitHub": [
         88,
-        "Version Control"
+        "Version Control System"
     ],
     "clean code": [
         90,
-        "Engineering Principle"
+        "Principle"
     ],
     "project management": [
         90,
-        "Engineering Process"
-    ],
-    "software": 91,
-    "fast-paced": [
-        91,
-        "Personality Trait"
+        "Process"
     ],
     "Jira": [
         92,
-        "Tool"
+        "Project Management"
     ],
     "design patterns": [
         95,
-        "Computer Science Topics"
+        "Knowledge Domain"
     ],
     "interpersonal skills": [
         95,
-        "General Skill"
+        "Soft Skill"
     ],
     "Linux": [
         96,
-        "Platform"
+        "Operating System"
     ],
     "Oracle": [
         97,
-        "Cloud"
+        "Cloud Service Provider"
     ],
-    "responsive design": [
-        100,
-        "Engineering Principle"
+    "responsive web design": [
+        99,
+        "Practice"
     ],
     "Bootstrap": [
         101,
-        "UI"
+        "Framework"
     ],
-    "integration": 102,
     "mobile": [
         104,
         "Platform"
     ],
     "analytical skills": [
         106,
-        "General Skill"
+        "Soft Skill"
     ],
-    "jenkins": 110,
-    "deployment": 111,
+    "Jenkins": [
+        110,
+        "Automation"
+    ],
+    "deployment": [
+        111,
+        "Process"
+    ],
     "QA": [
         111,
         "Specialization"
@@ -1275,11 +1237,11 @@
     ],
     "GCP": [
         114,
-        "Cloud"
+        "Cloud Service Provider"
     ],
     "C++": [
         116,
-        "Programming Language"
+        "Language"
     ],
     "relational databases": [
         119,
@@ -1289,19 +1251,15 @@
         123,
         "Database"
     ],
-    "json": 124,
-    "automation": 128,
-    "SQL Server": [
-        128,
-        "Database"
+    "JSON": [
+        124,
+        "Data Format"
     ],
-    "architecture": 129,
-    "performance": [
-        131,
-        "Engineering Principle"
+    "automation": [
+        128,
+        "Process"
     ],
     "object-oriented programming": 132,
-    "databases": 135,
     "attention to detail": [
         136,
         "Personality Trait"
@@ -1310,25 +1268,18 @@
         138,
         "Framework"
     ],
-    ".NET": [
-        141,
-        "Framework"
-    ],
-    "software engineering": 142,
     "XML": [
         142,
-        "Programming Language"
+        "Data Format"
     ],
     "scalability": [
         145,
-        "Engineering Principle"
+        "Principle"
     ],
-    "best practices": 145,
     "backend": [
         147,
         "Specialization"
     ],
-    "engineering": 150,
     "Vue.js": [
         150,
         "Framework"
@@ -1339,131 +1290,139 @@
     ],
     "data analysis": [
         158,
-        "Engineering Process"
+        "Process"
     ],
-    "Azure": [
-        158,
-        "Cloud"
+    "security": [
+        166,
+        "Knowledge Domain"
     ],
-    "security": 166,
-    "web services": 167,
+    "SQL Server": [
+        166,
+        "Database"
+    ],
     "problem-solving": [
         170,
-        "General Skill"
+        "Soft Skill"
     ],
     "maintenance": [
         171,
-        "Engineering Process"
+        "Process"
     ],
     "Kubernetes": [
         172,
-        "DevOps"
+        "Containerization"
     ],
     "PHP": [
         176,
-        "Programming Language"
+        "Language"
     ],
-    "web application development": 180,
-    "web development": 188,
+    "performance": [
+        188,
+        "Principle"
+    ],
     "MySQL": [
         189,
         "Database"
     ],
-    "api": 193,
     "Docker": [
         194,
-        "DevOps"
+        "Containerization"
     ],
     "mentorship": [
         205,
-        "Personality Trait"
+        "Soft Skill"
     ],
-    "development": 207,
-    "REST": [
-        209,
-        "Architecture"
-    ],
-    "documentation": [
-        213,
-        "Engineering Process"
+    "Azure": [
+        215,
+        "Cloud Service Provider"
     ],
     "unit testing": [
         219,
-        "Engineering Process"
+        "Process"
     ],
-    "software development": 222,
     "jQuery": [
         222,
-        "Framework"
+        "Library"
     ],
     "code review": [
         232,
-        "Engineering Process"
+        "Process"
+    ],
+    "documentation": [
+        258,
+        "Process"
     ],
     "frontend": [
         260,
         "Specialization"
     ],
-    "UI/UX": [
-        285,
-        "Specialization"
-    ],
     "AWS": [
         304,
-        "Cloud"
+        "Cloud Service Provider"
     ],
     "Git": [
         308,
-        "Version Control"
+        "Version Control System"
     ],
     "TypeScript": [
         309,
-        "Programming Language"
+        "Language"
     ],
-    "CI/CD": [
-        310,
-        "Engineering Practice"
+    "REST": [
+        309,
+        "Architecture"
     ],
     "Node.js": [
         316,
-        "Framework"
-    ],
-    "agile": [
-        321,
-        "Engineering Practice"
+        "Runtime"
     ],
     "C#": [
         328,
-        "Programming Language"
+        "Language"
     ],
     "collaboration": [
         333,
-        "General Skill"
+        "Soft Skill"
     ],
     "SQL": [
         334,
-        "Programming Language"
+        "Language"
     ],
-    "web applications": 351,
+    "CI/CD": [
+        358,
+        "Practice"
+    ],
     "Angular": [
         366,
         "Framework"
     ],
     "testing": [
         370,
-        "General Skill"
+        "Soft Skill"
+    ],
+    "agile": [
+        375,
+        "Methodology"
     ],
     "Python": [
         377,
-        "Programming Language"
+        "Language"
+    ],
+    "UI/UX": [
+        401,
+        "Specialization"
     ],
     "Java": [
         415,
-        "Programming Language"
+        "Language"
     ],
     "design": [
         430,
-        "General Skill"
+        "Soft Skill"
+    ],
+    ".NET": [
+        455,
+        "Framework"
     ],
     "React.js": [
         607,
@@ -1471,22 +1430,22 @@
     ],
     "CSS": [
         695,
-        "Programming Language"
+        "Language"
     ],
     "troubleshooting": [
-        702,
-        "General Skill"
-    ],
-    "communication": [
-        710,
-        "General Skill"
+        732,
+        "Soft Skill"
     ],
     "HTML": [
         732,
-        "Programming Language"
+        "Language"
+    ],
+    "communication": [
+        760,
+        "Soft Skill"
     ],
     "JavaScript": [
         962,
-        "Programming Language"
+        "Language"
     ]
 }

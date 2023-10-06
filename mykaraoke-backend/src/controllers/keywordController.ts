@@ -29,11 +29,16 @@ function yearlyToHourly(
   return yearlySalary / (weeksPerYear * daysPerWeek * hoursPerDay);
 }
 
+function dailyToHourly(dailySalary: number, hoursPerDay: number = 8): number {
+  return dailySalary / hoursPerDay;
+}
+
 function extractAndAverage(s: string): number {
   // Check if the string contains "hour" or "year"
   const isHourly = s.includes("hour");
   const isYearly = s.includes("year");
   const isMonthly = s.includes("month");
+  const isDaily = s.includes("day");
 
   // Use regex to extract numbers. For yearly rates, we have to consider commas.
   const numbers = extractNumbers(s);
@@ -51,6 +56,9 @@ function extractAndAverage(s: string): number {
   }
   if (isYearly) {
     return yearlyToHourly(average);
+  }
+  if (isDaily) {
+    return dailyToHourly(average);
   }
 
   return NaN;
@@ -80,6 +88,7 @@ const getKeywords = async (req: Request, res: Response) => {
         },
       ],
     });
+
     if (keywords) {
       const averageSalary = keywords.map((keyword) => {
         const jobListings = keyword.jobListings;
@@ -90,9 +99,13 @@ const getKeywords = async (req: Request, res: Response) => {
           .map((jobListing) => {
             return extractAndAverage(jobListing.salary!);
           });
+
         const average =
-          convertedSalaries.reduce((prev, curr) => prev + curr, 0) /
-          convertedSalaries.length;
+          convertedSalaries.length > 0
+            ? convertedSalaries.reduce((prev, curr) => prev + curr, 0) /
+              convertedSalaries.length
+            : 0;
+
         return average;
       });
 

@@ -46,7 +46,7 @@ export default function BarChart({ data, category }) {
       },
       title: {
         display: true,
-        text: `Top ${category}`,
+        text: `${category}`,
       },
     },
   };

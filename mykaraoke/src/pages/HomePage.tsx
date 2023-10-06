@@ -102,32 +102,21 @@ export default function HomePage() {
 
   return (
     <AnimatedPage>
-      <div>
-        How is data obtained? First, web development job listings were crawled
-        from Indeed. The search query was "Web Developer" in "Cupertino, CA".{" "}
-        Next, ChatGPT is used to extract a list of technical keywords from each
-        job description. Variations in strings are manually mapped onto
-        predefined keywords, and unnecessary terms are filtered out. For
-        example, "Reactjs" is mapped onto "React.js", and the term "medical
-        insurance" is filtered out. Each job listing is stored in the database
-        alongside its list of keywords. These listings are then queried for
-        visualization.
-      </div>
       {(isLoading || jobListingsIsLoading) && (
         <Spinner className={`w-full flex justify-center mt-[48px]`} />
       )}
       {data && <DataTable columns={columns} data={data} />}
       <div className={`grid grid-cols-2 gap-[48px]`}>
         {data && <ChloropethChart data={jobListingsByState} />}
-        {data && <BarChart data={data} category="Programming Language" />}
-        {data && <BarChart data={data} category="General Skill" />}
-        {data && <BarChart data={data} category="Personality Trait" />}
+        {data && <BarChart data={data} category="Language" />}
         {data && <BarChart data={data} category="Framework" />}
-        {data && <BarChart data={data} category="Engineering Process" />}
-        {data && <BarChart data={data} category="Engineering Practice" />}
-        {data && <BarChart data={data} category="Cloud" />}
-        {data && <BarChart data={data} category="DevOps" />}
-        {data && <BarChart data={data} category="Tool" />}
+        {data && <BarChart data={data} category="Soft Skill" />}
+        {data && <BarChart data={data} category="Personality Trait" />}
+        {data && <BarChart data={data} category="Process" />}
+        {data && <BarChart data={data} category="Practice" />}
+        {data && <BarChart data={data} category="Cloud Service Provider" />}
+        {data && <BarChart data={data} category="Specialization" />}
+        {data && <BarChart data={data} category="Knowledge Domain" />}
       </div>
 
       {/* <Form {...form}>
