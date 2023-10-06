@@ -17,9 +17,9 @@ import {
 //   },
 // });
 
-Font.register({ family: "Times-Roman" });
-Font.register({ family: "Times-Bold" });
-Font.register({ family: "Times-Italic" });
+Font.register({ family: "Times-Roman" } as any);
+Font.register({ family: "Times-Bold" } as any);
+Font.register({ family: "Times-Italic" } as any);
 
 const Title = ({ children }) => {
   return (
