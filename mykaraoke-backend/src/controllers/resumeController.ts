@@ -3,13 +3,33 @@ import { Request, Response } from "express";
 
 const getResume = async (req: Request, res: Response) => {
   try {
-    const queryResult = await prisma.resume.findFirst({
-      //   select: {
-      //     id: req.body.id,
-      //   },
+    const queryResult = await prisma.resume.findMany({
+      include: {
+        experiences: true,
+        skills: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 1,
     });
     if (queryResult) {
-      res.json(queryResult);
+      const returnResult = { ...queryResult[0] };
+      returnResult.skills = returnResult.skills.map((skill) => {
+        return { value: skill.name };
+      });
+      returnResult.summary = returnResult.summary
+        .split("#@!")
+        .map((sum) => ({ value: sum }));
+      returnResult.experiences = returnResult.experiences.map((experience) => {
+        const newExperience = { ...experience };
+        newExperience.summary = experience.summary
+          .split("#@!")
+          .map((sum) => ({ value: sum }));
+        return newExperience;
+      });
+
+      res.json(returnResult);
     } else {
       return res.status(404).json({ message: "Resume not found." });
     }

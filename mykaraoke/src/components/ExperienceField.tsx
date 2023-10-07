@@ -47,16 +47,14 @@ export default function ExperienceField({
                 }
               )}
             />
-            <button type="button" onClick={() => remove(summaryIndex)}>
-              <Button className={`gap-[12px]`}>
-                <div>Remove Bullet point</div>
-                <Minus />
-              </Button>
-            </button>
+            <Button type="button" onClick={() => remove(summaryIndex)}>
+              <div>Remove Bullet point</div>
+              <Minus />
+            </Button>
           </div>
         );
       })}
-      <button
+      <Button
         type="button"
         onClick={() => {
           append({
@@ -64,18 +62,14 @@ export default function ExperienceField({
           });
         }}
       >
-        <Button className={`gap-[12px]`}>
-          <div>Add Bullet Point</div>
-          <Plus />
-        </Button>
-      </button>
+        <div>Add Bullet Point</div>
+        <Plus />
+      </Button>
 
-      <button type="button" onClick={() => removeExperiences(index)}>
-        <Button className={`gap-[12px]`}>
-          <div>Remove Experience</div>
-          <Minus />
-        </Button>
-      </button>
+      <Button type="button" onClick={() => removeExperiences(index)}>
+        <div>Remove Experience</div>
+        <Minus />
+      </Button>
     </li>
   );
 }

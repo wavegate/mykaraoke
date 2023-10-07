@@ -16,7 +16,7 @@ import { toast } from "@/components/ui/use-toast";
 import { API_URL } from "@/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -61,14 +61,23 @@ const formSchema = z.object({
 });
 
 export default function ResumePage() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["resume"],
+    queryFn: () =>
+      axios.get(`${API_URL}/resume`).then((res) => {
+        return res?.data;
+      }),
+    refetchOnWindowFocus: false,
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "Frank Lee",
-      email: "blabla@gmail.com",
-      phone: "9291919222",
-      githubLink: "github.com/wavegate",
-      portfolioLink: "portfolio.com/wavegate",
+      name: "",
+      email: "",
+      phone: "",
+      githubLink: "",
+      portfolioLink: "",
       summary: [
         {
           value:
@@ -117,6 +126,12 @@ export default function ResumePage() {
       ],
     },
   });
+
+  useEffect(() => {
+    if (data) {
+      form.reset(data);
+    }
+  }, [form, data]);
 
   const watchAllFields = form.watch();
 
@@ -242,20 +257,20 @@ export default function ResumePage() {
                   })}
                 />
 
-                <button type="button" onClick={() => remove(index)}>
+                <Button type="button" onClick={() => remove(index)}>
                   <Minus />
-                </button>
+                </Button>
               </li>
             );
           })}
-          <button
+          <Button
             type="button"
             onClick={() => {
               append({ value: "" });
             }}
           >
             <Plus />
-          </button>
+          </Button>
           {fieldsExperiences.map((item, index) => {
             return (
               <ExperienceField
@@ -267,7 +282,7 @@ export default function ResumePage() {
               />
             );
           })}
-          <button
+          <Button
             type="button"
             onClick={() => {
               appendExperiences({
@@ -278,11 +293,9 @@ export default function ResumePage() {
               });
             }}
           >
-            <Button className={`gap-[12px]`}>
-              <div>Add Experience</div>
-              <Plus />
-            </Button>
-          </button>
+            <div>Add Experience</div>
+            <Plus />
+          </Button>
           <Button type="submit">Submit</Button>
         </form>
       </Form>
