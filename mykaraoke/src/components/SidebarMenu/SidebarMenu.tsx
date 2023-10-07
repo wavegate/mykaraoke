@@ -40,7 +40,7 @@ export default function SidebarMenu({ setSideBarMenuMeasure }: ISidebarMenu) {
       <SidebarMenuItem link="/" label={"Dashboard"} icon={faHouse} />
       <SidebarMenuItem
         link="/resume"
-        label={"Sample Resume"}
+        label={"Resume Generator"}
         icon={faClipboardQuestion}
       />
       <SidebarMenuItem

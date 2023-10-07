@@ -34,6 +34,7 @@
     "chartjs-chart-geo": "^4.2.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "downshift": "^8.2.2",
     "framer-motion": "^10.16.2",
     "localforage": "^1.10.0",
     "lucide-react": "^0.274.0",

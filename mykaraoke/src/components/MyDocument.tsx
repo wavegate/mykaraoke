@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-import { useMemo } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 
 Font.register({ family: "Times-Roman" } as any);
 Font.register({ family: "Times-Bold" } as any);
@@ -86,32 +86,16 @@ const Bullet = ({ children }) => {
   );
 };
 
-const MyDocument = () => {
-  const summaryPoints = [
-    "Highly-skilled web developer with a strong background in building scalable web applications.",
-    "Expertise in JavaScript, React.js, and frontend development.",
-    "Seeking to leverage my technical and communication skills to create and optimize impactful web solutions.",
-  ];
-
-  const skills = {
-    Languages: [
-      "JavaScript",
-      "TypeScript",
-      "Python",
-      "Java",
-      "HTML",
-      "CSS",
-      "Testestest",
-      "Testestest",
-      "Testestest",
-      "Testestest",
-      "Testestest",
-    ],
-    Frameworks: ["React.js, Angular, Node.js, jQuery"],
-    Databases: ["MongoDB", "MySQL", "Redis"],
-    "Build Tools": ["Docker, Kubernetes, Jenkins"],
-    "Cloud Services": ["AWS"],
-  };
+const MyDocument = memo(({ data }: any) => {
+  const skills = useMemo(() => {
+    return {
+      Languages: data.skills.map((skill) => skill.value),
+      Frameworks: ["React.js, Angular, Node.js, jQuery"],
+      Databases: ["MongoDB", "MySQL", "Redis"],
+      "Build Tools": ["Docker, Kubernetes, Jenkins"],
+      "Cloud Services": ["AWS"],
+    };
+  }, [data]);
 
   const skillNameWidth = useMemo(() => {
     let maxChar = 0;
@@ -224,26 +208,32 @@ const MyDocument = () => {
                 marginBottom: "2px",
               }}
             >
-              JANE DOE
+              {data?.name}
             </Text>
-            <Text>Email | Phone | GitHub | Portfolio</Text>
+            <Text>
+              {data.email} | {data.phone} | {data.githubLink} |{" "}
+              {data.portfolioLink}
+            </Text>
           </View>
 
           <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
             <Title>SUMMARY</Title>
-            {summaryPoints.map((point) => {
+            {data?.summary?.map((point, index) => {
               return (
-                <Bullet>
-                  <Text>{point}</Text>
+                <Bullet key={index}>
+                  <Text>{point.value}</Text>
                 </Bullet>
               );
             })}
           </View>
           <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
             <Title>SKILLS</Title>
-            {Object.entries(skills).map(([category, keywords]) => {
+            {Object.entries(skills).map(([category, keywords], index) => {
               return (
-                <View style={{ display: "flex", flexDirection: "row" }}>
+                <View
+                  key={index}
+                  style={{ display: "flex", flexDirection: "row" }}
+                >
                   <Text
                     style={{
                       fontFamily: "Times-Bold",
@@ -263,21 +253,21 @@ const MyDocument = () => {
             <View
               style={{ display: "flex", flexDirection: "column", gap: "11px" }}
             >
-              {experiences.map((experience) => {
+              {data.experiences.map((experience, index) => {
                 return (
-                  <View wrap={false}>
+                  <View wrap={false} key={index}>
                     <BoldLine>
-                      <Text>{experience.company}</Text>
+                      <Text>{experience.companyName}</Text>
                       <Text>{experience.location}</Text>
                     </BoldLine>
                     <ItalicLine>
                       <Text>{experience.title}</Text>
                       <Text>{experience.date}</Text>
                     </ItalicLine>
-                    {experience.points.map((point) => {
+                    {experience.summary.map((point, innerIndex) => {
                       return (
-                        <Bullet>
-                          <Text>{point}</Text>
+                        <Bullet key={innerIndex}>
+                          <Text>{point.value}</Text>
                         </Bullet>
                       );
                     })}
@@ -291,17 +281,17 @@ const MyDocument = () => {
             <View
               style={{ display: "flex", flexDirection: "column", gap: "11px" }}
             >
-              {projects.map((project) => {
+              {projects.map((project, index) => {
                 return (
-                  <View wrap={false}>
+                  <View wrap={false} key={index}>
                     <BoldLine>
                       <Text>{project.name}</Text>
                       <Text>{project.link}</Text>
                     </BoldLine>
 
-                    {project.points.map((point) => {
+                    {project.points.map((point, pointIndex) => {
                       return (
-                        <Bullet>
+                        <Bullet key={pointIndex}>
                           <Text>{point}</Text>
                         </Bullet>
                       );
@@ -317,9 +307,9 @@ const MyDocument = () => {
             <View
               style={{ display: "flex", flexDirection: "column", gap: "11px" }}
             >
-              {education.map((edu) => {
+              {education.map((edu, index) => {
                 return (
-                  <View wrap={false}>
+                  <View wrap={false} key={index}>
                     <BoldLine>
                       <Text>{edu.schoolName}</Text>
                       <Text>{edu.date}</Text>
@@ -357,6 +347,6 @@ const MyDocument = () => {
       </Page>
     </Document>
   );
-};
+});
 
 export default MyDocument;
