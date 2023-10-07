@@ -13,6 +13,7 @@ import { Upload } from "@aws-sdk/lib-storage";
 import authRouter from "./routes/authRouter.js";
 import keywordRouter from "./routes/keywordRouter.js";
 import jobListingRouter from "./routes/jobListingRouter.js";
+import resumeRouter from "./routes/resumeRouter.js";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use(express.json());
 app.use(authRouter);
 app.use(keywordRouter);
 app.use(jobListingRouter);
+app.use(resumeRouter);
 
 // app.post("/job", verifyToken, async (req: Request, res: Response) => {
 //   const requestBody = req.body;

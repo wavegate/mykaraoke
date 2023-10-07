@@ -16,7 +16,7 @@ model User {
   hashedPassword String
 }
 
-model Profile {
+model Resume {
   id            Int             @id @default(autoincrement())
   name          String
   email         String
@@ -29,51 +29,47 @@ model Profile {
   projects      Project[]
   education     Education[]
   certification Certification[]
+  JobListing    JobListing?     @relation(fields: [jobListingId], references: [id])
+  jobListingId  Int?
 }
 
 model Experience {
-  id          Int      @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   companyName String
   location    String
   title       String
   date        String
   summary     String
-  Profile     Profile? @relation(fields: [profileId], references: [id])
-  profileId   Int?
+  Resume      Resume? @relation(fields: [resumeId], references: [id])
+  resumeId    Int?
 }
 
 model Project {
-  id        Int      @id @default(autoincrement())
-  link      String
-  summary   String
-  Profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId Int?
+  id       Int     @id @default(autoincrement())
+  link     String
+  summary  String
+  Resume   Resume? @relation(fields: [resumeId], references: [id])
+  resumeId Int?
 }
 
 model Education {
-  id             Int      @id @default(autoincrement())
+  id             Int     @id @default(autoincrement())
   schoolName     String
   schoolLocation String
   date           String
   coursework     String
   degree         String
-  Profile        Profile? @relation(fields: [profileId], references: [id])
-  profileId      Int?
+  Resume         Resume? @relation(fields: [resumeId], references: [id])
+  resumeId       Int?
 }
 
 model Certification {
-  id           Int      @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   name         String
   organization String
   date         String
-  Profile      Profile? @relation(fields: [profileId], references: [id])
-  profileId    Int?
-}
-
-model Resume {
-  id           Int        @id @default(autoincrement())
-  jobListing   JobListing @relation(fields: [jobListingId], references: [id])
-  jobListingId Int
+  Resume       Resume? @relation(fields: [resumeId], references: [id])
+  resumeId     Int?
 }
 
 model JobListing {
@@ -101,7 +97,7 @@ model Keyword {
   name        String       @id
   jobListings JobListing[]
   categories  Category[]
-  profiles    Profile[]
+  resumes     Resume[]
 }
 
 model Category {

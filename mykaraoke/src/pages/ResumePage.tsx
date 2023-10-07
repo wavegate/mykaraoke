@@ -56,8 +56,8 @@ const formSchema = z.object({
   summary: z.array(summarySchema),
   skills: z.array(summarySchema),
   experiences: z.array(experienceSchema),
-  education: z.array(educationSchema),
-  projects: z.array(projectSchema),
+  // education: z.array(educationSchema),
+  // projects: z.array(projectSchema),
 });
 
 export default function ResumePage() {
@@ -125,7 +125,6 @@ export default function ResumePage() {
   const [timerIdState, setTimerIdState] = useState<any>(0);
 
   useEffect(() => {
-    console.log(watchAllFields);
     clearTimeout(timerIdState);
 
     const timerId = setTimeout(() => {
@@ -134,42 +133,8 @@ export default function ResumePage() {
     setTimerIdState(timerId);
   }, [JSON.stringify(watchAllFields)]);
 
-  const queryClient = useQueryClient();
-
   const mutation = useMutation({
-    mutationFn: (newJob) => axios.post(`${API_URL}job`, newJob),
-    // When mutate is called:
-    onMutate: async (newJob) => {
-      // Cancel any outgoing refetches
-      // (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries({ queryKey: ["jobs"] });
-
-      // Snapshot the previous value
-      const previousJobs = queryClient.getQueryData(["jobs"]);
-
-      // Optimistically update to the new value
-      queryClient.setQueryData(["jobs"], (old: any) => [...old, newJob]);
-
-      // Return a context object with the snapshotted value
-      return { previousJobs };
-    },
-    // If the mutation fails,
-    // use the context returned from onMutate to roll back
-    onError: (err: any, _, context) => {
-      queryClient.setQueryData(["jobs"], context?.previousJobs);
-      toast({
-        variant: "destructive",
-        title: "Failed to create job!",
-        description: err.response?.data.message,
-      });
-    },
-    // Always refetch after error or success:
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["jobs"] });
-      toast({
-        title: "Job created successfully!",
-      });
-    },
+    mutationFn: (updateResume) => axios.post(`${API_URL}/resume`, updateResume),
   });
 
   const { fields, append, prepend, remove, swap, move, insert, replace } =
