@@ -22,6 +22,7 @@ import { Minus, Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
+import { useToast } from "@/components/ui/use-toast";
 
 const summarySchema = z.object({ value: z.string().min(1).max(1000) });
 
@@ -61,6 +62,7 @@ const formSchema = z.object({
 });
 
 export default function ResumePage() {
+  const { toast } = useToast();
   const { data, isLoading } = useQuery({
     queryKey: ["resume"],
     queryFn: () =>
@@ -150,6 +152,11 @@ export default function ResumePage() {
 
   const mutation = useMutation({
     mutationFn: (updateResume) => axios.post(`${API_URL}/resume`, updateResume),
+    onSettled: () => {
+      toast({
+        title: "Resume saved!",
+      });
+    },
   });
 
   const { fields, append, prepend, remove, swap, move, insert, replace } =
