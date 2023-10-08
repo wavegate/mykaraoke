@@ -103,16 +103,11 @@ export default function EducationField({ item, index, form, removeEducation }) {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "pl-3 text-left font-normal",
-                          !field.value.from && "text-muted-foreground"
+                          "w-[300px] justify-start text-left font-normal",
+                          !field.value && "text-muted-foreground"
                         )}
                       >
-                        {field.value.from ? (
-                          format(field.value.from, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        <CalendarIcon className="mr-2 h-4 w-4" />
                         {field.value?.from ? (
                           field.value.to ? (
                             <>
