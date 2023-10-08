@@ -1,12 +1,9 @@
 import { cx } from "class-variance-authority";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { useState, useMemo } from "react";
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { API_URL } from "@/constants";
 import { Input } from "./ui/input";
 
-export default function MultipleComboBoxExample({ form, keywords }) {
+export default function EducationComboBox({ form, keywords }) {
   const choices = keywords.map((keyword) => keyword.name);
   const initialSelectedItems = [
     ...form.getValues().skills.map((skill) => skill.value),

@@ -47,8 +47,9 @@ model Experience {
 
 model Project {
   id       Int     @id @default(autoincrement())
-  link     String
-  summary  String
+  name     String
+  link     String?
+  summary  String?
   Resume   Resume? @relation(fields: [resumeId], references: [id])
   resumeId Int?
 }
@@ -59,6 +60,7 @@ model Education {
   schoolLocation String
   date           String
   coursework     String
+  gpa            Float
   degree         String
   Resume         Resume? @relation(fields: [resumeId], references: [id])
   resumeId       Int?

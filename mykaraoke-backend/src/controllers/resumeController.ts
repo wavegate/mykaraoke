@@ -7,6 +7,7 @@ const getResume = async (req: Request, res: Response) => {
       include: {
         experiences: true,
         skills: true,
+        projects: true,
       },
       orderBy: {
         createdAt: "desc",
@@ -15,18 +16,25 @@ const getResume = async (req: Request, res: Response) => {
     });
     if (queryResult) {
       const returnResult = { ...queryResult[0] };
-      returnResult.skills = returnResult.skills.map((skill) => {
+      returnResult.skills = returnResult.skills?.map((skill) => {
         return { value: skill.name };
       });
       returnResult.summary = returnResult.summary
         .split("#@!")
         .map((sum) => ({ value: sum }));
-      returnResult.experiences = returnResult.experiences.map((experience) => {
+      returnResult.experiences = returnResult.experiences?.map((experience) => {
         const newExperience = { ...experience };
         newExperience.summary = experience.summary
           .split("#@!")
           .map((sum) => ({ value: sum }));
         return newExperience;
+      });
+      returnResult.projects = returnResult.projects?.map((project) => {
+        const newProject = { ...project };
+        newProject.summary = project.summary
+          .split("#@!")
+          .map((sum) => ({ value: sum }));
+        return newProject;
       });
 
       res.json(returnResult);
@@ -46,19 +54,28 @@ const updateResume = async (req: Request, res: Response) => {
       .map((point) => point.value)
       .join("#@!");
     transformBody.skills = {
-      connectOrCreate: transformBody.skills.map((point) => ({
+      connectOrCreate: transformBody.skills?.map((point) => ({
         where: { name: point.value },
         create: { name: point.value },
       })),
     };
 
     transformBody.experiences = {
-      create: transformBody.experiences.map((experience) => {
+      create: transformBody.experiences?.map((experience) => {
         const newExperience = { ...experience };
         newExperience.summary = newExperience.summary
           .map((sum) => sum.value)
           .join("#@!");
         return newExperience;
+      }),
+    };
+    transformBody.projects = {
+      create: transformBody.projects?.map((project) => {
+        const newProject = { ...project };
+        newProject.summary = newProject.summary
+          .map((sum) => sum.value)
+          .join("#@!");
+        return newProject;
       }),
     };
     if (req.body.id) {

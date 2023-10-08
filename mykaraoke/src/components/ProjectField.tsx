@@ -1,56 +1,106 @@
-import { Minus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { useFieldArray } from "react-hook-form";
+import { Button } from "./ui/button";
+import { FormControl, FormItem, FormLabel, FormMessage } from "./ui/form";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
 
-export default function ProjectField({ item, index, form, removeExperiences }) {
+export default function ProjectField({ item, index, form, removeProjects }) {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: `experiences.${index}.summary`,
+    name: `projects.${index}.summary`,
     rules: {},
   });
   return (
-    <li key={item.id}>
-      <input
-        {...form.register(`experiences.${index}.companyName`, {
-          required: true,
-        })}
-      />
-      <input
-        {...form.register(`experiences.${index}.location`, {
-          required: true,
-        })}
-      />
-      <input
-        {...form.register(`experiences.${index}.title`, {
-          required: true,
-        })}
-      />
-      <input
-        {...form.register(`experiences.${index}.date`, {
-          required: true,
-        })}
-      />
-
-      {fields.map((summaryItem, summaryIndex) => {
-        return (
-          <div key={summaryItem.id}>
-            <input
-              {...form.register(
-                `experiences.${index}.summary.${summaryIndex}.value`,
-                {
-                  required: true,
-                }
-              )}
-            />
-            <button type="button" onClick={() => remove(summaryIndex)}>
-              <Minus />
-            </button>
+    <div
+      key={item.id}
+      className={`shadow-sm rounded-md p-4 border border-solid`}
+    >
+      <div className={`flex flex-col gap-[24px]`}>
+        <div className={`flex gap-[12px] items-center justify-between`}>
+          <div className={`text-[18px] font-semibold`}>Project {index + 1}</div>
+          <div className={`gap-[12px] flex items-center`}>
+            <Button
+              variant="secondary"
+              size="sm"
+              type="button"
+              className={`gap-[6px]`}
+              onClick={() => {
+                append({ value: "" });
+              }}
+            >
+              <Plus size={18} />
+              <div>Add Summary Bullet Point</div>
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              type="button"
+              className={`gap-[6px]`}
+              onClick={() => {
+                removeProjects(index);
+              }}
+            >
+              <Minus size={18} />
+              <div>Remove Experience</div>
+            </Button>
           </div>
-        );
-      })}
-
-      <button type="button" onClick={() => removeExperiences(index)}>
-        <Minus />
-      </button>
-    </li>
+        </div>
+        <div className={`grid grid-cols-2 gap-[12px]`}>
+          <FormItem>
+            <FormLabel>Name</FormLabel>
+            <FormControl>
+              <Input
+                placeholder="eg. Todo List"
+                {...form.register(`projects.${index}.name`, {
+                  required: true,
+                })}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+          <FormItem>
+            <FormLabel>Link to Project</FormLabel>
+            <FormControl>
+              <Input
+                placeholder="eg. github.com/user/project"
+                {...form.register(`projects.${index}.link`, {
+                  required: true,
+                })}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </div>
+        {fields.map((item, innerIndex) => {
+          return (
+            <div className={`flex gap-[12px]`} key={item.id}>
+              <div className={`flex-1`}>
+                <Textarea
+                  {...form.register(
+                    `projects.${index}.summary.${innerIndex}.value`,
+                    {
+                      required: true,
+                    }
+                  )}
+                />
+              </div>
+              <Button
+                variant="secondary"
+                size="sm"
+                type="button"
+                className={`gap-[6px]`}
+                onClick={() => {
+                  remove(innerIndex);
+                }}
+              >
+                <Minus size={18} />
+                <div>Remove</div>
+              </Button>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
