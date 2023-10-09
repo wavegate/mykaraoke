@@ -4,6 +4,7 @@ import { PythonShell } from "python-shell";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import process from "process";
+import fs from "fs";
 
 const getResume = async (req: Request, res: Response) => {
   try {
@@ -162,9 +163,18 @@ const convertResume = async (req: Request, res: Response) => {
         res.send(error);
         return;
       }
+      const oldFilePath = req.file!.path;
       const docxFilePath = req.file!.path.replace(".pdf", ".docx");
 
-      return res.download(docxFilePath, "converted.docx", (err) => {});
+      return res.download(docxFilePath, "converted.docx", (err) => {
+        fs.unlinkSync(req.file!.path);
+        fs.unlinkSync(docxFilePath);
+      });
+      // console.log("hi");
+      // console.log("hi2");
+
+      // console.log("hi3");
+      // return res.status(200);
     });
   } catch (error) {
     console.error(error);

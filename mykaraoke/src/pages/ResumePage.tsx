@@ -211,8 +211,17 @@ export default function ResumePage() {
 
   const docxMutation = useMutation({
     mutationFn: (convertResume) =>
-      axios.post(`${API_URL}/convert`, convertResume),
-    onSettled: () => {
+      axios
+        .post(`${API_URL}/convert`, convertResume, { responseType: "blob" })
+        .then((res) => {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "resume.docx");
+          document.body.appendChild(link);
+          link.click();
+        }),
+    onSuccess: () => {
       toast({
         title: "Resume converted!",
       });
