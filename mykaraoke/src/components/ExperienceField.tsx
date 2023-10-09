@@ -1,9 +1,20 @@
-import { Minus, Plus } from "lucide-react";
+import { CalendarIcon, Minus, Plus } from "lucide-react";
 import { useFieldArray } from "react-hook-form";
 import { Button } from "./ui/button";
-import { FormControl, FormItem, FormLabel, FormMessage } from "./ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { cn } from "@/lib/utils";
+import { format, parseISO } from "date-fns";
+import { Calendar } from "./ui/calendar";
 
 export default function ExperienceField({
   item,
@@ -90,18 +101,61 @@ export default function ExperienceField({
             </FormControl>
             <FormMessage />
           </FormItem>
-          <FormItem>
-            <FormLabel>Date</FormLabel>
-            <FormControl>
-              <Input
-                placeholder="eg. August 2022 - Present"
-                {...form.register(`experiences.${index}.date`, {
-                  required: true,
-                })}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
+          <FormField
+            control={form.control}
+            name={`experiences.${index}.date`}
+            render={({ field }) => {
+              return (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Date</FormLabel>
+                  <FormControl>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full justify-start text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {field.value?.from ? (
+                              field.value.to ? (
+                                <>
+                                  {format(field.value.from, "LLL dd, y")} -{" "}
+                                  {format(field.value.to, "LLL dd, y")}
+                                </>
+                              ) : (
+                                format(field.value.from, "LLL dd, y")
+                              )
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                          mode="range"
+                          defaultMonth={field?.value.from}
+                          numberOfMonths={2}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
         </div>
         {fields.map((item, innerIndex) => {
           return (

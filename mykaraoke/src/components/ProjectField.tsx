@@ -42,7 +42,7 @@ export default function ProjectField({ item, index, form, removeProjects }) {
               }}
             >
               <Minus size={18} />
-              <div>Remove Experience</div>
+              <div>Remove Project</div>
             </Button>
           </div>
         </div>

@@ -35,14 +35,15 @@ model Resume {
 }
 
 model Experience {
-  id          Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   companyName String
   location    String
   title       String
-  date        String
+  date        DateRange @relation(fields: [dateRangeId], references: [id])
   summary     String
-  Resume      Resume? @relation(fields: [resumeId], references: [id])
+  Resume      Resume?   @relation(fields: [resumeId], references: [id])
   resumeId    Int?
+  dateRangeId Int
 }
 
 model Project {
@@ -54,25 +55,36 @@ model Project {
   resumeId Int?
 }
 
+model DateRange {
+  id            Int             @id @default(autoincrement())
+  from          DateTime
+  to            DateTime
+  Education     Education[]
+  Certification Certification[]
+  Experience    Experience[]
+}
+
 model Education {
-  id             Int     @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   schoolName     String
   schoolLocation String
-  date           String
+  date           DateRange @relation(fields: [dateRangeId], references: [id])
   coursework     String
   gpa            Float
   degree         String
-  Resume         Resume? @relation(fields: [resumeId], references: [id])
+  Resume         Resume?   @relation(fields: [resumeId], references: [id])
   resumeId       Int?
+  dateRangeId    Int
 }
 
 model Certification {
-  id           Int     @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   name         String
   organization String
-  date         String
-  Resume       Resume? @relation(fields: [resumeId], references: [id])
+  date         DateRange @relation(fields: [dateRangeId], references: [id])
+  Resume       Resume?   @relation(fields: [resumeId], references: [id])
   resumeId     Int?
+  dateRangeId  Int
 }
 
 model JobListing {

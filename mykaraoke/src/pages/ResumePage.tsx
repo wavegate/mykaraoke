@@ -11,6 +11,7 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
@@ -27,28 +28,48 @@ import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import ProjectField from "@/components/ProjectField";
 import EducationField from "@/components/EducationField";
+import { Tag, TagInput } from "@/components/TagInput";
+import { parseISO } from "date-fns";
+
+function convertDatesToObject(obj) {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (typeof obj[key] === "string") {
+        // Check if the string matches the ISO 8601 format
+        const datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+        if (datePattern.test(obj[key])) {
+          obj[key] = parseISO(obj[key]);
+        }
+      } else if (typeof obj[key] === "object") {
+        // Recursively traverse nested objects
+        convertDatesToObject(obj[key]);
+      }
+    }
+  }
+}
 
 const summarySchema = z.object({ value: z.string().min(1).max(1000) });
-
-const experienceSchema = z.object({
-  companyName: z.string().min(1).max(100),
-  location: z.string().min(1).max(100),
-  title: z.string().min(1).max(100),
-  date: z.string().min(1).max(100),
-  summary: z.array(summarySchema),
-});
 
 const dateSchema = z.object({
   from: z.date(),
   to: z.date(),
 });
 
+const experienceSchema = z.object({
+  companyName: z.string().min(1).max(100),
+  location: z.string().min(1).max(100),
+  title: z.string().min(1).max(100),
+  date: dateSchema,
+  summary: z.array(summarySchema),
+});
+
 const educationSchema = z.object({
   schoolName: z.string().min(1).max(100),
-  schoolLocation: z.string().min(1).max(100),
-  degree: z.string().min(1).max(100),
+  schoolLocation: z.string().min(1).max(100).optional(),
+  degree: z.string().min(1).max(100).optional(),
   date: dateSchema,
-  relevantCoursework: z.array(summarySchema),
+  gpa: z.string().min(1).max(5).optional(),
+  relevantCoursework: z.array(summarySchema).optional(),
 });
 
 const projectSchema = z.object({
@@ -63,23 +84,16 @@ const formSchema = z.object({
   phone: z.string().min(1).max(20),
   githubLink: z.string().min(1).max(100).optional(),
   portfolioLink: z.string().min(1).max(100).optional(),
-  summary: z.array(summarySchema),
-  skills: z.array(summarySchema),
-  experiences: z.array(experienceSchema),
-  education: z.array(educationSchema),
-  projects: z.array(projectSchema),
+  summary: z.array(summarySchema).optional(),
+  skills: z.array(summarySchema).optional(),
+  experiences: z.array(experienceSchema).optional(),
+  education: z.array(educationSchema).optional(),
+  projects: z.array(projectSchema).optional(),
 });
 
 export default function ResumePage() {
+  const [tags, setTags] = useState<Tag[]>([]);
   const { toast } = useToast();
-  const { data, isLoading } = useQuery({
-    queryKey: ["resume"],
-    queryFn: () =>
-      axios.get(`${API_URL}/resume`).then((res) => {
-        return res?.data;
-      }),
-    refetchOnWindowFocus: false,
-  });
 
   const { data: dataKeywords, isLoading: isLoadingKeywords } = useQuery({
     queryKey: ["keywords"],
@@ -98,60 +112,30 @@ export default function ResumePage() {
       phone: "",
       githubLink: "",
       portfolioLink: "",
-      summary: [
-        {
-          value:
-            "Highly-skilled web developer with a strong background in building scalable web applications.",
-        },
-        {
-          value: "Expertise in JavaScript, React.js, and frontend development.",
-        },
-        {
-          value:
-            "Seeking to leverage my technical and communication skills to create and optimize impactful web solutions.",
-        },
-      ],
-      skills: [
-        { value: "JavaScript" },
-        { value: "TypeScript" },
-        { value: "Docker" },
-        { value: "Python" },
-        { value: "AWS" },
-      ],
-      experiences: [
-        {
-          companyName: "ABC Tech Solutions",
-          location: "Plainsboro Township, NJ, USA",
-          title: "Web Developer",
-          date: "January 2023 - Present",
-          summary: [
-            {
-              value:
-                "Developed and maintained web applications using React.js, Node.js, and TypeScript resulting in a 50% increase in application performance.",
-            },
-            {
-              value:
-                "Collaborated with UI/UX designers ensuring seamless implementation and optimized user experience.",
-            },
-            {
-              value:
-                "Conducted code reviews to maintain coding standards and implemented CI/CD pipelines using AWS.",
-            },
-            {
-              value:
-                "Utilized agile methodologies for iterative development and efficient delivery.",
-            },
-          ],
-        },
-      ],
+      summary: [],
+      skills: [],
+      experiences: [],
     },
   });
 
-  useEffect(() => {
-    if (data) {
-      form.reset(data);
-    }
-  }, [form, data]);
+  const { data, isLoading } = useQuery({
+    queryKey: ["resume"],
+    queryFn: () =>
+      axios.get(`${API_URL}/resume`).then((res) => {
+        convertDatesToObject(res.data);
+        form.reset(res.data);
+        setTags(
+          res.data.skills?.map((skill, index) => {
+            return {
+              id: index,
+              text: skill.value,
+            };
+          })
+        );
+        return res?.data;
+      }),
+    refetchOnWindowFocus: false,
+  });
 
   const watchAllFields = form.watch();
 
@@ -222,6 +206,7 @@ export default function ResumePage() {
     console.log("hi");
     mutation.mutate(values as any);
   }
+
   return (
     <AnimatedPage>
       <div className={`grid grid-cols-2 gap-[24px]`}>
@@ -307,10 +292,32 @@ export default function ResumePage() {
                   Skills
                 </CardHeader>
                 <CardContent>
-                  <MultipleComboBoxExample
+                  {/* <MultipleComboBoxExample
                     form={form}
                     keywords={dataKeywords}
-                  />
+                  /> */}
+                  <FormItem>
+                    <FormControl>
+                      <TagInput
+                        autoComplete="true"
+                        autocompleteOptions={dataKeywords}
+                        placeholder="eg. React.js"
+                        tags={tags}
+                        setTags={(newTags) => {
+                          setTags(newTags);
+                          form.setValue(
+                            `skills`,
+                            newTags.map((tag) => ({ value: tag.text })) as [
+                              Tag,
+                              ...Tag[],
+                            ]
+                          );
+                        }}
+                      />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
                 </CardContent>
               </Card>
             )}
@@ -374,7 +381,10 @@ export default function ResumePage() {
                         companyName: "",
                         location: "",
                         title: "",
-                        date: "",
+                        date: {
+                          from: new Date(),
+                          to: new Date(),
+                        },
                       });
                     }}
                   >
@@ -450,6 +460,7 @@ export default function ResumePage() {
                           to: new Date(),
                         },
                         degree: "",
+                        gpa: "",
                       });
                     }}
                   >

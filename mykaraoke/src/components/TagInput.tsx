@@ -70,7 +70,7 @@ const tagVariants = cva(
       size: "md",
       shape: "default",
       borderStyle: "default",
-      textCase: "capitalize",
+      // textCase: "capitalize",
       interaction: "nonClickable",
       animation: "fadeIn",
       textStyle: "normal",

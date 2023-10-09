@@ -262,7 +262,7 @@ const MyDocument = memo(({ data }: any) => {
                     </BoldLine>
                     <ItalicLine>
                       <Text>{experience.title}</Text>
-                      <Text>{experience.date}</Text>
+                      {/* <Text>{experience.date}</Text> */}
                     </ItalicLine>
                     {experience.summary.map((point, innerIndex) => {
                       return (
@@ -312,7 +312,7 @@ const MyDocument = memo(({ data }: any) => {
                   <View wrap={false} key={index}>
                     <BoldLine>
                       <Text>{edu.schoolName}</Text>
-                      <Text>{edu.date}</Text>
+                      {/* <Text>{edu.date}</Text> */}
                     </BoldLine>
 
                     <ItalicLine>

@@ -5,7 +5,11 @@ const getResume = async (req: Request, res: Response) => {
   try {
     const queryResult = await prisma.resume.findMany({
       include: {
-        experiences: true,
+        experiences: {
+          include: {
+            date: true,
+          },
+        },
         skills: true,
         projects: true,
       },
@@ -20,19 +24,22 @@ const getResume = async (req: Request, res: Response) => {
         return { value: skill.name };
       });
       returnResult.summary = returnResult.summary
-        .split("#@!")
+        ?.split("#@!")
+        .filter((point) => point)
         .map((sum) => ({ value: sum }));
       returnResult.experiences = returnResult.experiences?.map((experience) => {
         const newExperience = { ...experience };
         newExperience.summary = experience.summary
-          .split("#@!")
+          ?.split("#@!")
+          .filter((point) => point)
           .map((sum) => ({ value: sum }));
         return newExperience;
       });
       returnResult.projects = returnResult.projects?.map((project) => {
         const newProject = { ...project };
         newProject.summary = project.summary
-          .split("#@!")
+          ?.split("#@!")
+          .filter((point) => point)
           .map((sum) => ({ value: sum }));
         return newProject;
       });
@@ -66,6 +73,12 @@ const updateResume = async (req: Request, res: Response) => {
         newExperience.summary = newExperience.summary
           .map((sum) => sum.value)
           .join("#@!");
+        newExperience.date = {
+          create: {
+            from: new Date(newExperience.date.from),
+            to: new Date(newExperience.date.to),
+          },
+        };
         return newExperience;
       }),
     };

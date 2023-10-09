@@ -96,7 +96,7 @@ export default function EducationField({ item, index, form, removeEducation }) {
             name={`education.${index}.date`}
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Date of birth</FormLabel>
+                <FormLabel>Date</FormLabel>
                 <FormControl>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -104,7 +104,7 @@ export default function EducationField({ item, index, form, removeEducation }) {
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-[300px] justify-start text-left font-normal",
+                            "w-full justify-start text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -139,25 +139,11 @@ export default function EducationField({ item, index, form, removeEducation }) {
                     </PopoverContent>
                   </Popover>
                 </FormControl>
-                <FormDescription>
-                  Your date of birth is used to calculate your age.
-                </FormDescription>
+                <FormDescription></FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormItem>
-            <FormLabel>Date</FormLabel>
-            <FormControl>
-              <Input
-                placeholder="eg. August 2012 - December 2015"
-                {...form.register(`education.${index}.date`, {
-                  required: true,
-                })}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
           <FormItem>
             <FormLabel>GPA</FormLabel>
             <FormControl>
