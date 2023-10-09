@@ -1,5 +1,9 @@
 import prisma from "../config/database.js";
 import { Request, Response } from "express";
+import { PythonShell } from "python-shell";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import process from "process";
 
 const getResume = async (req: Request, res: Response) => {
   try {
@@ -131,4 +135,40 @@ const updateResume = async (req: Request, res: Response) => {
   }
 };
 
-export { getResume, updateResume };
+const convertResume = async (req: Request, res: Response) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("No file received");
+    }
+
+    const pyShell = new PythonShell("convert_pdf_to_docx.py", {
+      mode: "text",
+      pythonPath: "python",
+      scriptPath: process.cwd(),
+      args: [req.file.path],
+    });
+
+    pyShell.on("message", (message) => {
+      console.log(message);
+    });
+
+    pyShell.on("error", (error) => {
+      console.error(error);
+      return res.status(500).send("An error occurred.");
+    });
+
+    pyShell.end((error) => {
+      if (error) {
+        res.send(error);
+        return;
+      }
+      const docxFilePath = req.file!.path.replace(".pdf", ".docx");
+
+      return res.download(docxFilePath, "converted.docx", (err) => {});
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { getResume, updateResume, convertResume };

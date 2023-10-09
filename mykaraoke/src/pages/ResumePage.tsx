@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { API_URL } from "@/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { BlobProvider, PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Minus, Plus } from "lucide-react";
@@ -208,6 +208,22 @@ export default function ResumePage() {
     console.log("hi");
     mutation.mutate(values as any);
   }
+
+  const docxMutation = useMutation({
+    mutationFn: (convertResume) =>
+      axios.post(`${API_URL}/convert`, convertResume),
+    onSettled: () => {
+      toast({
+        title: "Resume converted!",
+      });
+    },
+  });
+
+  const handleDownloadDocx = (blob) => {
+    const formData = new FormData();
+    formData.append("blob", blob, "resume.pdf");
+    docxMutation.mutate(formData as any);
+  };
 
   return (
     <AnimatedPage>
@@ -566,6 +582,21 @@ export default function ResumePage() {
                   loading ? "Loading document..." : "Download now!"
                 }
               </PDFDownloadLink>
+              {data && (
+                <BlobProvider document={<MyDocument data={debouncedData} />}>
+                  {({ blob, url, loading, error }) => {
+                    // Do whatever you need with blob here
+
+                    //                   var converted = htmlDocx.asBlob(content, {orientation: 'landscape', margins: {top: 720}});
+                    // saveAs(converted, 'test.docx');
+                    return (
+                      <div onClick={() => handleDownloadDocx(blob)}>
+                        Download Docx
+                      </div>
+                    );
+                  }}
+                </BlobProvider>
+              )}
             </>
           )}
         </div>
