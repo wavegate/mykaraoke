@@ -82,7 +82,7 @@ const projectSchema = z.object({
 const formSchema = z.object({
   name: z.string().min(1).max(100),
   email: z.string().min(1).max(100),
-  location: z.string().min(1).max(100).optional(),
+  location: z.string().min(0).max(100).optional(),
   phone: z.string().min(1).max(20).optional(),
   githubLink: z.string().min(1).max(100).optional(),
   portfolioLink: z.string().min(1).max(100).optional(),
@@ -163,9 +163,9 @@ export default function ResumePage() {
     },
   });
 
-  useEffect(() => {
-    console.log(debouncedData);
-  }, [debouncedData]);
+  // useEffect(() => {
+  //   console.log(debouncedData);
+  // }, [debouncedData]);
 
   const { fields, append, prepend, remove, swap, move, insert, replace } =
     useFieldArray({

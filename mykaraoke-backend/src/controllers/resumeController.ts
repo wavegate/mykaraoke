@@ -163,7 +163,6 @@ const convertResume = async (req: Request, res: Response) => {
         res.send(error);
         return;
       }
-      const oldFilePath = req.file!.path;
       const docxFilePath = req.file!.path.replace(".pdf", ".docx");
 
       return res.download(docxFilePath, "converted.docx", (err) => {

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
+import { format } from "date-fns";
 import { memo, useEffect, useMemo, useState } from "react";
 
 Font.register({ family: "Times-Roman" } as any);
@@ -86,6 +87,24 @@ const Bullet = ({ children }) => {
   );
 };
 
+const isDateWithinPast3Years = (inputDate) => {
+  const currentDate = new Date();
+
+  const threeYearsAgo = new Date();
+  threeYearsAgo.setFullYear(currentDate.getFullYear() - 3);
+
+  return inputDate >= threeYearsAgo;
+};
+
+const isDateWithinPastWeek = (inputDate) => {
+  const currentDate = new Date();
+
+  const aWeekAgo = new Date();
+  aWeekAgo.setDate(currentDate.getDate() - 7);
+
+  return inputDate >= aWeekAgo;
+};
+
 const MyDocument = memo(({ data }: any) => {
   const skills = useMemo(() => {
     return {
@@ -97,7 +116,20 @@ const MyDocument = memo(({ data }: any) => {
     };
   }, [data]);
 
-  console.log(data.education?.[0]?.date?.to);
+  const hasEducationDate = data.education?.[0]?.date;
+
+  let order = null;
+  if (hasEducationDate) {
+    const latestEducationIsWithin3Years = isDateWithinPast3Years(
+      hasEducationDate.to
+    );
+    if (latestEducationIsWithin3Years) {
+      order = ["education", "experience", "projects", "skills"];
+    }
+  } else {
+    order = ["skills", "experience", "projects", "education"];
+  }
+
   // "summary", "skills", "experience", "projects", "education"
 
   const skillNameWidth = useMemo(() => {
@@ -229,115 +261,155 @@ const MyDocument = memo(({ data }: any) => {
               );
             })}
           </View>
-          <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
-            <Title>Skills</Title>
-            {Object.entries(skills).map(([category, keywords], index) => {
+          {order.map((section) => {
+            if (section === "skills") {
               return (
                 <View
-                  key={index}
-                  style={{ display: "flex", flexDirection: "row" }}
+                  style={{ width: "100%", marginBottom: "11px" }}
+                  wrap={false}
                 >
-                  <Text
-                    style={{
-                      fontFamily: "Times-Bold",
-                      flexBasis: skillNameWidth,
-                    }}
-                  >
-                    {category}:
-                  </Text>
-                  <Text style={{ flex: "1" }}>{keywords.join(", ")}</Text>
+                  <Title>Skills</Title>
+                  {Object.entries(skills).map(([category, keywords], index) => {
+                    return (
+                      <View
+                        key={index}
+                        style={{ display: "flex", flexDirection: "row" }}
+                      >
+                        <Text
+                          style={{
+                            fontFamily: "Times-Bold",
+                            flexBasis: skillNameWidth,
+                          }}
+                        >
+                          {category}:
+                        </Text>
+                        <Text style={{ flex: "1" }}>{keywords.join(", ")}</Text>
+                      </View>
+                    );
+                  })}
                 </View>
               );
-            })}
-          </View>
-
-          <View style={{ width: "100%", marginBottom: "11px" }}>
-            <Title>Experience</Title>
-            <View
-              style={{ display: "flex", flexDirection: "column", gap: "11px" }}
-            >
-              {data.experiences.map((experience, index) => {
-                return (
-                  <View wrap={false} key={index}>
-                    <BoldLine>
-                      <Text>{experience.companyName}</Text>
-                      <Text>{experience.location}</Text>
-                    </BoldLine>
-                    <ItalicLine>
-                      <Text>{experience.title}</Text>
-                      {/* <Text>{experience.date}</Text> */}
-                    </ItalicLine>
-                    {experience.summary.map((point, innerIndex) => {
+            }
+            if (section === "experience") {
+              return (
+                <View style={{ width: "100%", marginBottom: "11px" }}>
+                  <Title>Experience</Title>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "11px",
+                    }}
+                  >
+                    {data.experiences.map((experience, index) => {
                       return (
-                        <Bullet key={innerIndex}>
-                          <Text>{point.value}</Text>
-                        </Bullet>
+                        <View wrap={false} key={index}>
+                          <BoldLine>
+                            <Text>{experience.companyName}</Text>
+                            <Text>{experience.location}</Text>
+                          </BoldLine>
+                          <ItalicLine>
+                            <Text>{experience.title}</Text>
+                            {/* <Text>{experience.date}</Text> */}
+                          </ItalicLine>
+                          {experience.summary.map((point, innerIndex) => {
+                            return (
+                              <Bullet key={innerIndex}>
+                                <Text>{point.value}</Text>
+                              </Bullet>
+                            );
+                          })}
+                        </View>
                       );
                     })}
                   </View>
-                );
-              })}
-            </View>
-          </View>
-          <View style={{ width: "100%", marginBottom: "11px" }}>
-            <Title>Projects</Title>
-            <View
-              style={{ display: "flex", flexDirection: "column", gap: "11px" }}
-            >
-              {projects.map((project, index) => {
-                return (
-                  <View wrap={false} key={index}>
-                    <BoldLine>
-                      <Text>{project.name}</Text>
-                      <Text>{project.link}</Text>
-                    </BoldLine>
-
-                    {project.points.map((point, pointIndex) => {
+                </View>
+              );
+            }
+            if (section === "projects") {
+              return (
+                <View style={{ width: "100%", marginBottom: "11px" }}>
+                  <Title>Projects</Title>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "11px",
+                    }}
+                  >
+                    {projects.map((project, index) => {
                       return (
-                        <Bullet key={pointIndex}>
-                          <Text>{point}</Text>
-                        </Bullet>
+                        <View wrap={false} key={index}>
+                          <BoldLine>
+                            <Text>{project.name}</Text>
+                            <Text>{project.link}</Text>
+                          </BoldLine>
+
+                          {project.points.map((point, pointIndex) => {
+                            return (
+                              <Bullet key={pointIndex}>
+                                <Text>{point}</Text>
+                              </Bullet>
+                            );
+                          })}
+                        </View>
                       );
                     })}
                   </View>
-                );
-              })}
-            </View>
-          </View>
+                </View>
+              );
+            }
+            if (section === "education") {
+              return (
+                <View style={{ width: "100%", marginBottom: "11px" }}>
+                  <Title>Education</Title>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "11px",
+                    }}
+                  >
+                    {data.education?.map((edu, index) => {
+                      return (
+                        <View wrap={false} key={index}>
+                          <BoldLine>
+                            <Text>{edu.schoolName}</Text>
+                            <Text>
+                              {format(edu.date.from, "LLLL, y")} —{" "}
+                              {isDateWithinPastWeek(edu.date.to)
+                                ? "Present"
+                                : format(edu.date.to, "LLLL, y")}
+                            </Text>
+                          </BoldLine>
 
-          <View style={{ width: "100%", marginBottom: "11px" }}>
-            <Title>Education</Title>
-            <View
-              style={{ display: "flex", flexDirection: "column", gap: "11px" }}
-            >
-              {education.map((edu, index) => {
-                return (
-                  <View wrap={false} key={index}>
-                    <BoldLine>
-                      <Text>{edu.schoolName}</Text>
-                      {/* <Text>{edu.date}</Text> */}
-                    </BoldLine>
-
-                    <ItalicLine>
-                      <Text>{edu.degree}</Text>
-                    </ItalicLine>
-                    <View style={{ display: "flex", flexDirection: "row" }}>
-                      <Text
-                        style={{
-                          flexBasis: "100px",
-                        }}
-                      >
-                        Relevant coursework:
-                      </Text>
-                      <Text style={{ flex: "1" }}>
-                        {edu.relevantCoursework.join(", ")}
-                      </Text>
-                    </View>
+                          <ItalicLine>
+                            <Text>{edu.degree}</Text>
+                          </ItalicLine>
+                          <View
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <Text
+                              style={{
+                                flexBasis: "100px",
+                              }}
+                            >
+                              Relevant coursework:
+                            </Text>
+                            {edu.relevantCoursework && (
+                              <Text style={{ flex: "1" }}>
+                                {edu.relevantCoursework.join(", ")}
+                              </Text>
+                            )}
+                          </View>
+                        </View>
+                      );
+                    })}
                   </View>
-                );
-              })}
-            </View>
-          </View>
+                </View>
+              );
+            }
+          })}
           {/* <View style={{ width: "100%", marginBottom: "11px" }}>
             <Title>CERTIFICATIONS</Title>
             <Text>AWS Certified Developer Certified JavaScript Developer</Text>
