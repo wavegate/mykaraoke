@@ -49,21 +49,23 @@ export default function RolesPage() {
 						options={options.location}
 					/>
 				</div>
-			</div>
-			<div>
-				{mockJobRoles.map((role) => (
-					<Card>
-						<CardHeader>
-							<CardTitle>{role.title}</CardTitle>
-							<CardDescription>{role.summary}</CardDescription>
-						</CardHeader>
-						{/* <CardContent>
+				<div className="flex justify-center">
+					<div className="grid grid-cols-3 gap-4 justify-center, max-w-[73rem]">
+						{mockJobRoles.map((role) => (
+							<Card className="max-w-[380px]">
+								<CardHeader>
+									<CardTitle>{role.title}</CardTitle>
+									<CardDescription>{role.summary}</CardDescription>
+								</CardHeader>
+								{/* <CardContent>
 						</CardContent> */}
-						<CardFooter>
-							<p>{role.appearanceCount} found</p>
-						</CardFooter>
-					</Card>
-				))}
+								<CardFooter>
+									<p>{role.appearanceCount} found</p>
+								</CardFooter>
+							</Card>
+						))}
+					</div>
+				</div>
 			</div>
 		</AnimatedPage>
 	);
