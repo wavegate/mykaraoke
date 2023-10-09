@@ -49,6 +49,7 @@
     "react-day-picker": "^8.8.2",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.0",
+    "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.15.0",
     "sort-by": "^1.2.0",
     "tailwind-merge": "^1.14.0",

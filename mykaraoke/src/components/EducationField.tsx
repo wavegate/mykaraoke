@@ -78,7 +78,7 @@ export default function EducationField({ item, index, form, removeEducation }) {
             <FormLabel>Degree</FormLabel>
             <FormControl>
               <Input
-                placeholder="eg. Bachelor of Science"
+                placeholder="eg. Bachelor in Computer Science"
                 {...form.register(`education.${index}.degree`, {
                   required: true,
                 })}
@@ -95,7 +95,7 @@ export default function EducationField({ item, index, form, removeEducation }) {
             control={form.control}
             name={`education.${index}.date`}
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem>
                 <FormLabel>Date</FormLabel>
                 <FormControl>
                   <Popover>

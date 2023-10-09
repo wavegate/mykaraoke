@@ -106,7 +106,7 @@ export default function ExperienceField({
             name={`experiences.${index}.date`}
             render={({ field }) => {
               return (
-                <FormItem className="flex flex-col">
+                <FormItem>
                   <FormLabel>Date</FormLabel>
                   <FormControl>
                     <Popover>

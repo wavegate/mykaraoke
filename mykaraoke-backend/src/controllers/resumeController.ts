@@ -12,6 +12,9 @@ const getResume = async (req: Request, res: Response) => {
         },
         skills: true,
         projects: true,
+        education: {
+          include: { date: true },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -19,28 +22,30 @@ const getResume = async (req: Request, res: Response) => {
       take: 1,
     });
     if (queryResult) {
-      const returnResult = { ...queryResult[0] };
-      returnResult.skills = returnResult.skills?.map((skill) => {
+      const returnResult: any = { ...queryResult[0] };
+      returnResult.skills = returnResult.skills?.map((skill: any) => {
         return { value: skill.name };
       });
       returnResult.summary = returnResult.summary
         ?.split("#@!")
-        .filter((point) => point)
-        .map((sum) => ({ value: sum }));
-      returnResult.experiences = returnResult.experiences?.map((experience) => {
-        const newExperience = { ...experience };
-        newExperience.summary = experience.summary
-          ?.split("#@!")
-          .filter((point) => point)
-          .map((sum) => ({ value: sum }));
-        return newExperience;
-      });
-      returnResult.projects = returnResult.projects?.map((project) => {
+        .filter((point: any) => point)
+        .map((sum: any) => ({ value: sum }));
+      returnResult.experiences = returnResult.experiences?.map(
+        (experience: any) => {
+          const newExperience = { ...experience };
+          newExperience.summary = experience.summary
+            ?.split("#@!")
+            .filter((point: any) => point)
+            .map((sum: any) => ({ value: sum }));
+          return newExperience;
+        }
+      );
+      returnResult.projects = returnResult.projects?.map((project: any) => {
         const newProject = { ...project };
         newProject.summary = project.summary
           ?.split("#@!")
-          .filter((point) => point)
-          .map((sum) => ({ value: sum }));
+          .filter((point: any) => point)
+          .map((sum: any) => ({ value: sum }));
         return newProject;
       });
 
@@ -58,20 +63,20 @@ const updateResume = async (req: Request, res: Response) => {
     let queryResult;
     const transformBody = { ...req.body };
     transformBody.summary = transformBody.summary
-      .map((point) => point.value)
+      .map((point: any) => point.value)
       .join("#@!");
     transformBody.skills = {
-      connectOrCreate: transformBody.skills?.map((point) => ({
+      connectOrCreate: transformBody.skills?.map((point: any) => ({
         where: { name: point.value },
         create: { name: point.value },
       })),
     };
 
     transformBody.experiences = {
-      create: transformBody.experiences?.map((experience) => {
+      create: transformBody.experiences?.map((experience: any) => {
         const newExperience = { ...experience };
         newExperience.summary = newExperience.summary
-          .map((sum) => sum.value)
+          .map((sum: any) => sum.value)
           .join("#@!");
         newExperience.date = {
           create: {
@@ -83,12 +88,25 @@ const updateResume = async (req: Request, res: Response) => {
       }),
     };
     transformBody.projects = {
-      create: transformBody.projects?.map((project) => {
+      create: transformBody.projects?.map((project: any) => {
         const newProject = { ...project };
         newProject.summary = newProject.summary
-          .map((sum) => sum.value)
+          .map((sum: any) => sum.value)
           .join("#@!");
         return newProject;
+      }),
+    };
+    transformBody.education = {
+      create: transformBody.education?.map((education: any) => {
+        const newEducation = { ...education };
+        newEducation.gpa = Number(newEducation.gpa);
+        newEducation.date = {
+          create: {
+            from: new Date(newEducation.date.from),
+            to: new Date(newEducation.date.to),
+          },
+        };
+        return newEducation;
       }),
     };
     if (req.body.id) {

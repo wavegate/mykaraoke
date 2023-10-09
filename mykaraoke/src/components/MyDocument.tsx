@@ -53,7 +53,7 @@ const ItalicLine = ({ children }) => {
       style={{
         display: "flex",
         flexDirection: "row",
-        fontFamily: "Times-Italic",
+        // fontFamily: "Times-Italic",
         justifyContent: "space-between",
       }}
     >
@@ -96,6 +96,9 @@ const MyDocument = memo(({ data }: any) => {
       "Cloud Services": ["AWS"],
     };
   }, [data]);
+
+  console.log(data.education?.[0]?.date?.to);
+  // "summary", "skills", "experience", "projects", "education"
 
   const skillNameWidth = useMemo(() => {
     let maxChar = 0;
@@ -217,7 +220,7 @@ const MyDocument = memo(({ data }: any) => {
           </View>
 
           <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
-            <Title>SUMMARY</Title>
+            <Title>Summary</Title>
             {data?.summary?.map((point, index) => {
               return (
                 <Bullet key={index}>
@@ -227,7 +230,7 @@ const MyDocument = memo(({ data }: any) => {
             })}
           </View>
           <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
-            <Title>SKILLS</Title>
+            <Title>Skills</Title>
             {Object.entries(skills).map(([category, keywords], index) => {
               return (
                 <View
@@ -249,7 +252,7 @@ const MyDocument = memo(({ data }: any) => {
           </View>
 
           <View style={{ width: "100%", marginBottom: "11px" }}>
-            <Title>EXPERIENCE</Title>
+            <Title>Experience</Title>
             <View
               style={{ display: "flex", flexDirection: "column", gap: "11px" }}
             >
@@ -277,7 +280,7 @@ const MyDocument = memo(({ data }: any) => {
             </View>
           </View>
           <View style={{ width: "100%", marginBottom: "11px" }}>
-            <Title>PROJECTS</Title>
+            <Title>Projects</Title>
             <View
               style={{ display: "flex", flexDirection: "column", gap: "11px" }}
             >
@@ -303,7 +306,7 @@ const MyDocument = memo(({ data }: any) => {
           </View>
 
           <View style={{ width: "100%", marginBottom: "11px" }}>
-            <Title>EDUCATION</Title>
+            <Title>Education</Title>
             <View
               style={{ display: "flex", flexDirection: "column", gap: "11px" }}
             >

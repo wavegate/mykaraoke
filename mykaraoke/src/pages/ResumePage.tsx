@@ -30,6 +30,7 @@ import ProjectField from "@/components/ProjectField";
 import EducationField from "@/components/EducationField";
 import { Tag, TagInput } from "@/components/TagInput";
 import { parseISO } from "date-fns";
+import InputMask from "react-input-mask";
 
 function convertDatesToObject(obj) {
   for (const key in obj) {
@@ -81,7 +82,8 @@ const projectSchema = z.object({
 const formSchema = z.object({
   name: z.string().min(1).max(100),
   email: z.string().min(1).max(100),
-  phone: z.string().min(1).max(20),
+  location: z.string().min(1).max(100).optional(),
+  phone: z.string().min(1).max(20).optional(),
   githubLink: z.string().min(1).max(100).optional(),
   portfolioLink: z.string().min(1).max(100).optional(),
   summary: z.array(summarySchema).optional(),
@@ -225,7 +227,7 @@ export default function ResumePage() {
                       <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="name" {...field} />
+                          <Input placeholder="eg. John Doe" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -238,9 +240,16 @@ export default function ResumePage() {
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="email" {...field} />
+                          <Input
+                            placeholder="eg. johndoe@example.com"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
+                        <FormDescription>
+                          Use a modern email client such as Gmail/Outlook, NOT
+                          hotmail.
+                        </FormDescription>
                       </FormItem>
                     )}
                   />
@@ -251,9 +260,46 @@ export default function ResumePage() {
                       <FormItem>
                         <FormLabel>Phone</FormLabel>
                         <FormControl>
-                          <Input placeholder="phone" {...field} />
+                          <InputMask
+                            mask="(999) 999-9999"
+                            value={field.value}
+                            onChange={field.onChange}
+                            onBlur={field.onBlur}
+                          >
+                            {(inputProps) => (
+                              <Input
+                                {...inputProps}
+                                type="tel"
+                                placeholder="eg. (255) 857-2255"
+                              />
+                            )}
+                          </InputMask>
+                          {/* <Input
+                            type="tel"
+                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                            placeholder="eg. (255) 857-2255"
+                            {...field}
+                          /> */}
                         </FormControl>
                         <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="location"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Location</FormLabel>
+                        <FormControl>
+                          <Input placeholder="eg. Cincinnati, OH" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        <FormDescription>
+                          Don't include your location (city/state) unless the
+                          specific job you're applying for is in that specific
+                          city.
+                        </FormDescription>
                       </FormItem>
                     )}
                   />
@@ -264,9 +310,15 @@ export default function ResumePage() {
                       <FormItem>
                         <FormLabel>GitHub Link</FormLabel>
                         <FormControl>
-                          <Input placeholder="githubLink" {...field} />
+                          <Input placeholder="eg. github.com/bob" {...field} />
                         </FormControl>
                         <FormMessage />
+                        <FormDescription>
+                          {" "}
+                          Don't include full URLs for links.{" "}
+                          <span className={`line-through`}>https://www.</span>
+                          github.com/bob
+                        </FormDescription>
                       </FormItem>
                     )}
                   />
@@ -277,9 +329,14 @@ export default function ResumePage() {
                       <FormItem>
                         <FormLabel>Portfolio Link</FormLabel>
                         <FormControl>
-                          <Input placeholder="portfolioLink" {...field} />
+                          <Input placeholder="eg. portfolio.com" {...field} />
                         </FormControl>
                         <FormMessage />
+                        <FormDescription>
+                          Don't include full URLs for links.{" "}
+                          <span className={`line-through`}>https://www.</span>
+                          portfolio.com
+                        </FormDescription>
                       </FormItem>
                     )}
                   />
@@ -365,6 +422,10 @@ export default function ResumePage() {
                     </div>
                   );
                 })}
+                <FormDescription>
+                  Don't include a summary or profile section unless you're a
+                  senior/staff engineer or above, or are making a career change.
+                </FormDescription>
               </CardContent>
             </Card>
             <Card>
@@ -481,6 +542,9 @@ export default function ResumePage() {
                     />
                   );
                 })}
+                <FormDescription>
+                  Don't include your high school.
+                </FormDescription>
               </CardContent>
             </Card>
 

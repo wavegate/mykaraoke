@@ -18,12 +18,13 @@ model User {
 
 model Resume {
   id            Int             @id @default(autoincrement())
-  name          String
-  email         String
-  phone         String
-  githubLink    String
-  portfolioLink String
-  summary       String
+  name          String?
+  email         String?
+  phone         String?
+  location      String?
+  githubLink    String?
+  portfolioLink String?
+  summary       String?
   skills        Keyword[]
   experiences   Experience[]
   projects      Project[]
@@ -59,9 +60,9 @@ model DateRange {
   id            Int             @id @default(autoincrement())
   from          DateTime
   to            DateTime
-  Education     Education[]
   Certification Certification[]
   Experience    Experience[]
+  Education     Education[]
 }
 
 model Education {
@@ -69,9 +70,11 @@ model Education {
   schoolName     String
   schoolLocation String
   date           DateRange @relation(fields: [dateRangeId], references: [id])
-  coursework     String
-  gpa            Float
-  degree         String
+  coursework     String?
+  gpa            Float?
+  degree         String?
+  awards         String?
+  sports         String?
   Resume         Resume?   @relation(fields: [resumeId], references: [id])
   resumeId       Int?
   dateRangeId    Int
