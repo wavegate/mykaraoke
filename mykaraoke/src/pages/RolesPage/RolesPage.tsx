@@ -11,7 +11,16 @@ import {
 	faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 
+import { mockJobRoles, options } from "./constants.ts";
 export default function RolesPage() {
 	return (
 		<AnimatedPage positionAbsolute={false}>
@@ -27,27 +36,34 @@ export default function RolesPage() {
 					<DropdownMenuCheckbox
 						title="Category"
 						icon={<FontAwesomeIcon icon={faCubesStacked} />}
-						options={["Software Engineering", "Product Design", "Product Management"]}
+						options={options.category}
 					/>
 					<DropdownMenuCheckbox
 						title="Education"
 						icon={<FontAwesomeIcon icon={faGraduationCap} />}
-						options={[
-							"Bootcamp",
-							"Associate's",
-							"Bachelor's",
-							"Master's",
-							"PhD",
-							"MBA",
-							"PharmD",
-						]}
+						options={options.education}
 					/>
 					<DropdownMenuCheckbox
 						title="Location"
 						icon={<FontAwesomeIcon icon={faLocationDot} />}
-						options={["Remote", "Remote in USA", "Hybrid"]}
+						options={options.location}
 					/>
 				</div>
+			</div>
+			<div>
+				{mockJobRoles.map((role) => (
+					<Card>
+						<CardHeader>
+							<CardTitle>{role.title}</CardTitle>
+							<CardDescription>{role.summary}</CardDescription>
+						</CardHeader>
+						{/* <CardContent>
+						</CardContent> */}
+						<CardFooter>
+							<p>{role.appearanceCount} found</p>
+						</CardFooter>
+					</Card>
+				))}
 			</div>
 		</AnimatedPage>
 	);

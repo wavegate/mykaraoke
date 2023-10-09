@@ -4,7 +4,7 @@ import LoginPage from "@/pages/LoginPage";
 import MockPage from "@/pages/MockPage/MockPage";
 import RegisterPage from "@/pages/RegisterPage";
 import ResumePage from "@/pages/ResumePage";
-import RolesPage from "@/pages/RolesPage";
+import RolesPage from "@/pages/RolesPage/RolesPage";
 import { AnimatePresence } from "framer-motion";
 import { Route, Routes, useLocation } from "react-router-dom";
 
