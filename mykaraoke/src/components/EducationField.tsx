@@ -97,46 +97,48 @@ export default function EducationField({ item, index, form, removeEducation }) {
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Date of birth</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[300px] justify-start text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {field.value?.from ? (
-                          field.value.to ? (
-                            <>
-                              {format(field.value.from, "LLL dd, y")} -{" "}
-                              {format(field.value.to, "LLL dd, y")}
-                            </>
+                <FormControl>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[300px] justify-start text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {field.value?.from ? (
+                            field.value.to ? (
+                              <>
+                                {format(field.value.from, "LLL dd, y")} -{" "}
+                                {format(field.value.to, "LLL dd, y")}
+                              </>
+                            ) : (
+                              format(field.value.from, "LLL dd, y")
+                            )
                           ) : (
-                            format(field.value.from, "LLL dd, y")
-                          )
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                      mode="range"
-                      defaultMonth={field?.value.from}
-                      numberOfMonths={2}
-                    />
-                  </PopoverContent>
-                </Popover>
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                        mode="range"
+                        defaultMonth={field?.value.from}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </FormControl>
                 <FormDescription>
                   Your date of birth is used to calculate your age.
                 </FormDescription>
