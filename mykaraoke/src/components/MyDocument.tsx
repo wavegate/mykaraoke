@@ -383,10 +383,10 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
                 <View style={{ display: "flex", flexDirection: "row" }}>
                   <Text
                     style={{
-                      flexBasis: "100px",
+                      flexBasis: "45px",
                     }}
                   >
-                    Relevant coursework:
+                    Courses:
                   </Text>
 
                   <Text style={{ flex: "1" }}>

@@ -31,6 +31,7 @@ import EducationField from "@/components/EducationField";
 import { Tag, TagInput } from "@/components/TagInput";
 import { parseISO } from "date-fns";
 import InputMask from "react-input-mask";
+import Spinner from "@/components/Spinner";
 
 function convertDatesToObject(obj) {
   for (const key in obj) {
@@ -87,7 +88,7 @@ const formSchema = z.object({
   name: z.string().min(1).max(100),
   email: z.string().min(1).max(100),
   location: optionalString(z.string().max(100)),
-  phone: z.string().min(1).max(20).optional(),
+  phone: optionalString(z.string().max(20)),
   githubLink: z.string().min(1).max(100).optional(),
   portfolioLink: z.string().min(1).max(100).optional(),
   summary: z.array(summarySchema).optional(),
@@ -250,143 +251,150 @@ export default function ResumePage() {
 
   return (
     <AnimatedPage>
-      <div className={`grid grid-cols-2 gap-[24px]`}>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <Card>
-              <CardHeader className={`pb-3 text-[18px] font-semibold`}>
-                Contact Information
-              </CardHeader>
-              <CardContent>
-                <div className={`grid grid-cols-2 gap-[12px]`}>
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="eg. John Doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="eg. johndoe@example.com"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                        <FormDescription>
-                          Use a modern email client such as Gmail/Outlook, NOT
-                          hotmail.
-                        </FormDescription>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone</FormLabel>
-                        <FormControl>
-                          <InputMask
-                            mask="(999) 999-9999"
-                            value={field.value}
-                            onChange={field.onChange}
-                            onBlur={field.onBlur}
-                          >
-                            {(inputProps) => (
-                              <Input
-                                {...inputProps}
-                                type="tel"
-                                placeholder="eg. (255) 857-2255"
-                              />
-                            )}
-                          </InputMask>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="location"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Location</FormLabel>
-                        <FormControl>
-                          <Input placeholder="eg. Cincinnati, OH" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        <FormDescription>
-                          Don't include your location (city/state) unless the
-                          specific job you're applying for is in that specific
-                          city.
-                        </FormDescription>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="githubLink"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>GitHub Link</FormLabel>
-                        <FormControl>
-                          <Input placeholder="eg. github.com/bob" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        <FormDescription>
-                          {" "}
-                          Don't include full URLs for links.{" "}
-                          <span className={`line-through`}>https://www.</span>
-                          github.com/bob
-                        </FormDescription>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="portfolioLink"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Portfolio Link</FormLabel>
-                        <FormControl>
-                          <Input placeholder="eg. portfolio.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        <FormDescription>
-                          Don't include full URLs for links.{" "}
-                          <span className={`line-through`}>https://www.</span>
-                          portfolio.com
-                        </FormDescription>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-            {tagOptions && (
+      {data && dataKeywords ? (
+        <div className={`grid grid-cols-2 gap-[24px]`}>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <Card>
                 <CardHeader className={`pb-3 text-[18px] font-semibold`}>
-                  Skills
+                  Contact Information
                 </CardHeader>
                 <CardContent>
-                  <MultipleComboBoxExample
-                    form={form}
-                    keywords={dataKeywords}
-                  />
-                  {/* <FormItem>
+                  <div className={`grid grid-cols-2 gap-[12px]`}>
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="eg. John Doe" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="eg. johndoe@example.com"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                          <FormDescription>
+                            Use a modern email client such as Gmail/Outlook, NOT
+                            hotmail.
+                          </FormDescription>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Phone</FormLabel>
+                          <FormControl>
+                            <InputMask
+                              mask="(999) 999-9999"
+                              value={field.value}
+                              onChange={field.onChange}
+                              onBlur={field.onBlur}
+                            >
+                              {(inputProps) => (
+                                <Input
+                                  {...inputProps}
+                                  type="tel"
+                                  placeholder="eg. (255) 857-2255"
+                                />
+                              )}
+                            </InputMask>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="location"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Location</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="eg. Cincinnati, OH"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                          <FormDescription>
+                            Don't include your location (city/state) unless the
+                            specific job you're applying for is in that specific
+                            city.
+                          </FormDescription>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="githubLink"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>GitHub Link</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="eg. github.com/bob"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                          <FormDescription>
+                            {" "}
+                            Don't include full URLs for links.{" "}
+                            <span className={`line-through`}>https://www.</span>
+                            github.com/bob
+                          </FormDescription>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="portfolioLink"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Portfolio Link</FormLabel>
+                          <FormControl>
+                            <Input placeholder="eg. portfolio.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                          <FormDescription>
+                            Don't include full URLs for links.{" "}
+                            <span className={`line-through`}>https://www.</span>
+                            portfolio.com
+                          </FormDescription>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+              {tagOptions && (
+                <Card>
+                  <CardHeader className={`pb-3 text-[18px] font-semibold`}>
+                    Skills
+                  </CardHeader>
+                  <CardContent>
+                    <MultipleComboBoxExample
+                      form={form}
+                      keywords={dataKeywords}
+                    />
+                    {/* <FormItem>
                     <FormControl>
                       <TagInput
                         // enableAutocomplete
@@ -408,212 +416,229 @@ export default function ResumePage() {
                     <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem> */}
-                </CardContent>
-              </Card>
-            )}
-            <Card>
-              <CardHeader>
-                <div className={`flex gap-[12px] items-center justify-between`}>
-                  <div className={`text-[18px] font-semibold`}>Summary</div>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    type="button"
-                    className={`gap-[6px]`}
-                    onClick={() => {
-                      append({ value: "" });
-                    }}
+                  </CardContent>
+                </Card>
+              )}
+              <Card>
+                <CardHeader>
+                  <div
+                    className={`flex gap-[12px] items-center justify-between`}
                   >
-                    <Plus size={18} />
-                    <div>Add Summary Bullet Point</div>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className={`flex flex-col gap-[12px]`}>
-                {fields.map((item, index) => {
-                  return (
-                    <div className={`flex gap-[12px]`} key={item.id}>
-                      <div className={`flex-1`}>
-                        <Textarea
-                          {...form.register(`summary.${index}.value`, {
-                            required: true,
-                          })}
-                        />
-                      </div>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        type="button"
-                        className={`gap-[6px]`}
-                        onClick={() => {
-                          remove(index);
-                        }}
-                      >
-                        <Minus size={18} />
-                        <div>Remove</div>
-                      </Button>
-                    </div>
-                  );
-                })}
-                <FormDescription>
-                  Don't include a summary or profile section unless you're a
-                  senior/staff engineer or above, or are making a career change.
-                </FormDescription>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <div className={`flex gap-[12px] items-center justify-between`}>
-                  <div className={`text-[18px] font-semibold`}>Experience</div>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    type="button"
-                    className={`gap-[6px]`}
-                    onClick={() => {
-                      appendExperiences({
-                        companyName: "",
-                        location: "",
-                        title: "",
-                        date: {
-                          from: new Date(),
-                          to: new Date(),
-                        },
-                      });
-                    }}
-                  >
-                    <Plus size={18} />
-                    <div>Add Experience</div>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className={`flex flex-col gap-[24px]`}>
-                {fieldsExperiences.map((item, index) => {
-                  return (
-                    <ExperienceField
-                      form={form}
-                      item={item}
-                      index={index}
-                      key={index}
-                      removeExperiences={removeExperiences}
-                    />
-                  );
-                })}
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <div className={`flex gap-[12px] items-center justify-between`}>
-                  <div className={`text-[18px] font-semibold`}>Projects</div>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    type="button"
-                    className={`gap-[6px]`}
-                    onClick={() => {
-                      appendProjects({
-                        name: "",
-                        link: "",
-                      });
-                    }}
-                  >
-                    <Plus size={18} />
-                    <div>Add Project</div>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className={`flex flex-col gap-[24px]`}>
-                {fieldsProjects.map((item, index) => {
-                  return (
-                    <ProjectField
-                      form={form}
-                      item={item}
-                      index={index}
-                      key={index}
-                      removeProjects={removeProjects}
-                    />
-                  );
-                })}
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <div className={`flex gap-[12px] items-center justify-between`}>
-                  <div className={`text-[18px] font-semibold`}>Education</div>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    type="button"
-                    className={`gap-[6px]`}
-                    onClick={() => {
-                      appendEducation({
-                        schoolName: "",
-                        date: {
-                          from: new Date(),
-                          to: new Date(),
-                        },
-                      });
-                    }}
-                  >
-                    <Plus size={18} />
-                    <div>Add Education</div>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className={`flex flex-col gap-[24px]`}>
-                {fieldsEducation.map((item, index) => {
-                  return (
-                    <EducationField
-                      form={form}
-                      item={item}
-                      index={index}
-                      key={index}
-                      removeEducation={removeEducation}
-                    />
-                  );
-                })}
-                <FormDescription>
-                  Don't include your high school.
-                </FormDescription>
-              </CardContent>
-            </Card>
-            <Button type="submit">Submit</Button>
-          </form>
-        </Form>
-        <div className={`w-full`}>
-          {debouncedData && (
-            <>
-              <PDFViewer className={`w-full h-[100dvh]`}>
-                <MyDocument data={debouncedData} dataKeywords={dataKeywords} />
-              </PDFViewer>
-
-              <PDFDownloadLink
-                document={<MyDocument data={debouncedData} />}
-                fileName="somename.pdf"
-              >
-                {({ blob, url, loading, error }) =>
-                  loading ? "Loading document..." : "Download now!"
-                }
-              </PDFDownloadLink>
-              {data && (
-                <BlobProvider document={<MyDocument data={debouncedData} />}>
-                  {({ blob, url, loading, error }) => {
-                    // Do whatever you need with blob here
-
-                    //                   var converted = htmlDocx.asBlob(content, {orientation: 'landscape', margins: {top: 720}});
-                    // saveAs(converted, 'test.docx');
+                    <div className={`text-[18px] font-semibold`}>Summary</div>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      type="button"
+                      className={`gap-[6px]`}
+                      onClick={() => {
+                        append({ value: "" });
+                      }}
+                    >
+                      <Plus size={18} />
+                      <div>Add Summary Bullet Point</div>
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className={`flex flex-col gap-[12px]`}>
+                  {fields.map((item, index) => {
                     return (
-                      <div onClick={() => handleDownloadDocx(blob)}>
-                        Download Docx
+                      <div className={`flex gap-[12px]`} key={item.id}>
+                        <div className={`flex-1`}>
+                          <Textarea
+                            {...form.register(`summary.${index}.value`, {
+                              required: true,
+                            })}
+                          />
+                        </div>
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          type="button"
+                          className={`gap-[6px]`}
+                          onClick={() => {
+                            remove(index);
+                          }}
+                        >
+                          <Minus size={18} />
+                          <div>Remove</div>
+                        </Button>
                       </div>
                     );
-                  }}
-                </BlobProvider>
-              )}
-            </>
-          )}
+                  })}
+                  <FormDescription>
+                    Don't include a summary or profile section unless you're a
+                    senior/staff engineer or above, or are making a career
+                    change.
+                  </FormDescription>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <div
+                    className={`flex gap-[12px] items-center justify-between`}
+                  >
+                    <div className={`text-[18px] font-semibold`}>
+                      Experience
+                    </div>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      type="button"
+                      className={`gap-[6px]`}
+                      onClick={() => {
+                        appendExperiences({
+                          companyName: "",
+                          location: "",
+                          title: "",
+                          date: {
+                            from: new Date(),
+                            to: new Date(),
+                          },
+                        });
+                      }}
+                    >
+                      <Plus size={18} />
+                      <div>Add Experience</div>
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className={`flex flex-col gap-[24px]`}>
+                  {fieldsExperiences.map((item, index) => {
+                    return (
+                      <ExperienceField
+                        form={form}
+                        item={item}
+                        index={index}
+                        key={index}
+                        removeExperiences={removeExperiences}
+                      />
+                    );
+                  })}
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <div
+                    className={`flex gap-[12px] items-center justify-between`}
+                  >
+                    <div className={`text-[18px] font-semibold`}>Projects</div>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      type="button"
+                      className={`gap-[6px]`}
+                      onClick={() => {
+                        appendProjects({
+                          name: "",
+                          link: "",
+                        });
+                      }}
+                    >
+                      <Plus size={18} />
+                      <div>Add Project</div>
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className={`flex flex-col gap-[24px]`}>
+                  {fieldsProjects.map((item, index) => {
+                    return (
+                      <ProjectField
+                        form={form}
+                        item={item}
+                        index={index}
+                        key={index}
+                        removeProjects={removeProjects}
+                      />
+                    );
+                  })}
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <div
+                    className={`flex gap-[12px] items-center justify-between`}
+                  >
+                    <div className={`text-[18px] font-semibold`}>Education</div>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      type="button"
+                      className={`gap-[6px]`}
+                      onClick={() => {
+                        appendEducation({
+                          schoolName: "",
+                          date: {
+                            from: new Date(),
+                            to: new Date(),
+                          },
+                        });
+                      }}
+                    >
+                      <Plus size={18} />
+                      <div>Add Education</div>
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className={`flex flex-col gap-[24px]`}>
+                  {fieldsEducation.map((item, index) => {
+                    return (
+                      <EducationField
+                        form={form}
+                        item={item}
+                        index={index}
+                        key={index}
+                        removeEducation={removeEducation}
+                      />
+                    );
+                  })}
+                  <FormDescription>
+                    Don't include your high school.
+                  </FormDescription>
+                </CardContent>
+              </Card>
+              <Button type="submit">Submit</Button>
+            </form>
+          </Form>
+          <div className={`w-full`}>
+            {debouncedData && (
+              <>
+                <PDFViewer className={`w-full h-[100dvh]`}>
+                  <MyDocument
+                    data={debouncedData}
+                    dataKeywords={dataKeywords}
+                  />
+                </PDFViewer>
+
+                <PDFDownloadLink
+                  document={<MyDocument data={debouncedData} />}
+                  fileName="somename.pdf"
+                >
+                  {({ blob, url, loading, error }) =>
+                    loading ? "Loading document..." : "Download now!"
+                  }
+                </PDFDownloadLink>
+                {data && (
+                  <BlobProvider document={<MyDocument data={debouncedData} />}>
+                    {({ blob, url, loading, error }) => {
+                      // Do whatever you need with blob here
+
+                      //                   var converted = htmlDocx.asBlob(content, {orientation: 'landscape', margins: {top: 720}});
+                      // saveAs(converted, 'test.docx');
+                      return (
+                        <div onClick={() => handleDownloadDocx(blob)}>
+                          Download Docx
+                        </div>
+                      );
+                    }}
+                  </BlobProvider>
+                )}
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <Spinner className={`w-full flex justify-center mt-[48px]`} />
+      )}
     </AnimatedPage>
   );
 }
