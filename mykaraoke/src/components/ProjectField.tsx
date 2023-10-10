@@ -1,7 +1,13 @@
 import { Minus, Plus } from "lucide-react";
 import { useFieldArray } from "react-hook-form";
 import { Button } from "./ui/button";
-import { FormControl, FormItem, FormLabel, FormMessage } from "./ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 
@@ -58,6 +64,12 @@ export default function ProjectField({ item, index, form, removeProjects }) {
               />
             </FormControl>
             <FormMessage />
+            <FormDescription>
+              Do not use the word "project" in your project names: it's
+              redundant. There is no need to disclose "Personal Project",
+              "Academic Project", "Group Project" beside your project title.
+              There is no need to distinguish between project types.
+            </FormDescription>
           </FormItem>
           <FormItem>
             <FormLabel>Link to Project</FormLabel>
@@ -100,6 +112,10 @@ export default function ProjectField({ item, index, form, removeProjects }) {
             </div>
           );
         })}
+        <FormDescription>
+          Order your projects and bullet points by relevance to the job OR
+          impressiveness. Put your best stuff first!
+        </FormDescription>
       </div>
     </div>
   );

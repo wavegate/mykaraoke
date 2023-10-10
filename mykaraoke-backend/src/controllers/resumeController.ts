@@ -45,6 +45,14 @@ const getResume = async (req: Request, res: Response) => {
           return newExperience;
         }
       );
+      returnResult.education = returnResult.education?.map((education: any) => {
+        const newEducation = { ...education };
+        newEducation.coursework = education.coursework
+          ?.split("#@!")
+          .filter((point: any) => point)
+          .map((sum: any) => ({ value: sum }));
+        return newEducation;
+      });
       returnResult.projects = returnResult.projects?.map((project: any) => {
         const newProject = { ...project };
         newProject.summary = project.summary
@@ -110,6 +118,9 @@ const updateResume = async (req: Request, res: Response) => {
             to: new Date(newEducation.date.to),
           },
         };
+        newEducation.coursework = newEducation.coursework
+          .map((point: any) => point.value)
+          .join("#@!");
         return newEducation;
       }),
     };
@@ -168,11 +179,6 @@ const convertResume = async (req: Request, res: Response) => {
         fs.unlinkSync(req.file!.path);
         fs.unlinkSync(docxFilePath);
       });
-      // console.log("hi");
-      // console.log("hi2");
-
-      // console.log("hi3");
-      // return res.status(200);
     });
   } catch (error) {
     console.error(error);

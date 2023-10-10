@@ -21,7 +21,7 @@ import { BlobProvider, PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Minus, Plus } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
@@ -74,7 +74,7 @@ const educationSchema = z.object({
   degree: z.string().min(1).max(100).optional(),
   date: dateSchema,
   gpa: optionalString(z.string().max(5)),
-  relevantCoursework: z.array(summarySchema).optional(),
+  coursework: z.array(summarySchema).optional(),
 });
 
 const projectSchema = z.object({
@@ -154,7 +154,7 @@ export default function ResumePage() {
     clearTimeout(timerIdState);
 
     const timerId = setTimeout(() => {
-      setDebouncedData({ ...watchAllFields });
+      setDebouncedData(watchAllFields);
     }, 1000);
     setTimerIdState(timerId);
   }, [JSON.stringify(watchAllFields)]);
@@ -238,6 +238,15 @@ export default function ResumePage() {
     formData.append("blob", blob, "resume.pdf");
     docxMutation.mutate(formData as any);
   };
+
+  const tagOptions = useMemo(() => {
+    console.log("Trigger");
+    if (dataKeywords) {
+      return dataKeywords.map((keyword) => {
+        return { id: keyword.name, text: keyword.name };
+      });
+    }
+  }, [dataKeywords]);
 
   return (
     <AnimatedPage>
@@ -367,23 +376,21 @@ export default function ResumePage() {
                 </div>
               </CardContent>
             </Card>
-            {dataKeywords && (
+            {tagOptions && (
               <Card>
                 <CardHeader className={`pb-3 text-[18px] font-semibold`}>
                   Skills
                 </CardHeader>
                 <CardContent>
-                  {/* <MultipleComboBoxExample
+                  <MultipleComboBoxExample
                     form={form}
                     keywords={dataKeywords}
-                  /> */}
-                  <FormItem>
+                  />
+                  {/* <FormItem>
                     <FormControl>
                       <TagInput
-                        enableAutocomplete
-                        autocompleteOptions={dataKeywords.map((keyword) => {
-                          return { id: keyword.name, text: keyword.name };
-                        })}
+                        // enableAutocomplete
+                        // autocompleteOptions={tagOptions}
                         placeholder="eg. React.js"
                         tags={tags}
                         setTags={(newTags) => {
@@ -400,7 +407,7 @@ export default function ResumePage() {
                     </FormControl>
                     <FormDescription></FormDescription>
                     <FormMessage />
-                  </FormItem>
+                  </FormItem> */}
                 </CardContent>
               </Card>
             )}

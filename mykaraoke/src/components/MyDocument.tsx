@@ -97,13 +97,34 @@ const isDateWithinPast3Years = (inputDate) => {
 };
 
 const MyDocument = memo(({ data, dataKeywords }: any) => {
-  console.log(data.skills);
+  // const skills = useMemo(() => {
+  //   if (data?.skills && dataKeywords) {
+  //     const skillsMap: any = {};
+  //     for (const skill of data.skills) {
+  //       const skillCategory = dataKeywords.find(
+  //         (keyword) => keyword.name === skill.value
+  //       )?.categories[0];
+  //       if (skillCategory) {
+  //         if (skillsMap[skillCategory]) {
+  //           skillsMap[skillCategory].push(skill.value);
+  //         } else {
+  //           skillsMap[skillCategory] = [skill.value];
+  //         }
+  //       } else {
+  //         if (skillsMap.other) {
+  //           skillsMap.other.push(skill.value);
+  //         } else {
+  //           skillsMap.other = [skill.value];
+  //         }
+  //       }
+  //       return skillsMap;
+  //     }
+  //   }
+  // }, [data?.skills, dataKeywords]);
   let skills = null;
-
   if (data?.skills && dataKeywords) {
     const skillsMap: any = {};
     for (const skill of data.skills) {
-      console.log(skill);
       const skillCategory = dataKeywords.find(
         (keyword) => keyword.name === skill.value
       )?.categories[0];
@@ -124,21 +145,24 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
     }
   }
 
-  console.log(skills);
-
   const hasEducationDate = data.education?.[0]?.date;
 
-  let order = null;
-  if (hasEducationDate) {
-    const latestEducationIsWithin3Years = isDateWithinPast3Years(
-      hasEducationDate.to
-    );
-    if (latestEducationIsWithin3Years) {
-      order = ["education", "experience", "projects", "skills"];
-    }
-  } else {
-    order = ["skills", "experience", "projects", "education"];
-  }
+  const latestEducationisWithin3Years =
+    hasEducationDate && isDateWithinPast3Years(hasEducationDate.to);
+  // let order = null;
+  // if (hasEducationDate) {
+  //   const latestEducationIsWithin3Years = isDateWithinPast3Years(
+  //     hasEducationDate.to
+  //   );
+  //   if (latestEducationIsWithin3Years) {
+  //     order = ["education", "experience", "projects", "skills"];
+  //   } else {
+  //     order = ["skills", "experience", "projects", "education"];
+  //   }
+  // } else {
+  //   order = ["skills", "experience", "projects", "education"];
+  // }
+  // console.log(order);
 
   const skillNameWidth = useMemo(() => {
     let maxChar = 0;
@@ -237,6 +261,165 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
     subtitles.push(data.portfolioLink);
   }
 
+  const skillSection = skills && (
+    <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
+      <Title>Skills</Title>
+      {Object.entries(skills).map(([category, keywords], index) => {
+        return (
+          <View key={index} style={{ display: "flex", flexDirection: "row" }}>
+            <Text
+              style={{
+                fontFamily: "Times-Bold",
+                flexBasis: skillNameWidth,
+              }}
+            >
+              {category}:
+            </Text>
+            <Text style={{ flex: "1" }}>{keywords.join(", ")}</Text>
+          </View>
+        );
+      })}
+    </View>
+  );
+
+  const experienceSection = data.experiences && (
+    <View style={{ width: "100%", marginBottom: "11px" }}>
+      <Title>Experience</Title>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "11px",
+        }}
+      >
+        {data.experiences.map((experience, index) => {
+          return (
+            <View wrap={false} key={index}>
+              <BoldLine>
+                <Text>{experience.companyName}</Text>
+                <Text>{experience.location}</Text>
+              </BoldLine>
+              <ItalicLine>
+                <Text>{experience.title}</Text>
+                <Text>{`${format(experience.date.from, "LLL y")} — ${
+                  experience.date.to > new Date()
+                    ? "Present"
+                    : format(experience.date.to, "LLL y")
+                }`}</Text>
+              </ItalicLine>
+              {experience.summary.map((point, innerIndex) => {
+                return (
+                  <Bullet key={innerIndex}>
+                    <Text>{point.value}</Text>
+                  </Bullet>
+                );
+              })}
+            </View>
+          );
+        })}
+      </View>
+    </View>
+  );
+
+  const projectsSection = data.projects && (
+    <View style={{ width: "100%", marginBottom: "11px" }}>
+      <Title>Projects</Title>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "11px",
+        }}
+      >
+        {data.projects.map((project, index) => {
+          return (
+            <View wrap={false} key={index}>
+              <BoldLine>
+                <Text>{project.name}</Text>
+                <Text>{project.link}</Text>
+              </BoldLine>
+
+              {project.summary.map((point, pointIndex) => {
+                return (
+                  <Bullet key={pointIndex}>
+                    <Text>{point.value}</Text>
+                  </Bullet>
+                );
+              })}
+            </View>
+          );
+        })}
+      </View>
+    </View>
+  );
+
+  const educationSection = data.education && (
+    <View style={{ width: "100%", marginBottom: "11px" }}>
+      <Title>Education</Title>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "11px",
+        }}
+      >
+        {data.education?.map((edu, index) => {
+          return (
+            <View wrap={false} key={index}>
+              <BoldLine>
+                <Text>{edu.schoolName}</Text>
+                <Text>
+                  {`${edu.date.to > new Date() ? "Expected " : ""}${format(
+                    edu.date.to,
+                    "LLLL y"
+                  )}`}
+                </Text>
+              </BoldLine>
+
+              <ItalicLine>
+                <Text>{edu.degree}</Text>
+              </ItalicLine>
+              {edu.coursework && (
+                <View style={{ display: "flex", flexDirection: "row" }}>
+                  <Text
+                    style={{
+                      flexBasis: "100px",
+                    }}
+                  >
+                    Relevant coursework:
+                  </Text>
+
+                  <Text style={{ flex: "1" }}>
+                    {edu.coursework
+                      .map((coursework) => coursework.value)
+                      .join(", ")}
+                  </Text>
+                </View>
+              )}
+            </View>
+          );
+        })}
+      </View>
+    </View>
+  );
+
+  let orderDisplay = null;
+  if (latestEducationisWithin3Years) {
+    orderDisplay = [
+      educationSection,
+      experienceSection,
+      projectsSection,
+      skillSection,
+    ];
+  } else {
+    orderDisplay = [
+      skillSection,
+      experienceSection,
+      projectsSection,
+      educationSection,
+    ];
+  }
+
   return (
     <Document>
       <Page
@@ -287,45 +470,38 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
               })}
             </View>
           )}
-          {order.map((section) => {
-            if (section === "skills") {
+          {orderDisplay}
+          {/* {order.map((section) => {
+            if (section === "skills" && skills) {
               return (
-                <>
-                  {skills && (
-                    <View
-                      style={{ width: "100%", marginBottom: "11px" }}
-                      wrap={false}
-                      key={section}
-                    >
-                      <Title>Skills</Title>
-                      {Object.entries(skills).map(
-                        ([category, keywords], index) => {
-                          return (
-                            <View
-                              key={index}
-                              style={{ display: "flex", flexDirection: "row" }}
-                            >
-                              <Text
-                                style={{
-                                  fontFamily: "Times-Bold",
-                                  flexBasis: skillNameWidth,
-                                }}
-                              >
-                                {category}:
-                              </Text>
-                              <Text style={{ flex: "1" }}>
-                                {keywords.join(", ")}
-                              </Text>
-                            </View>
-                          );
-                        }
-                      )}
-                    </View>
-                  )}
-                </>
+                <View
+                  style={{ width: "100%", marginBottom: "11px" }}
+                  wrap={false}
+                  key={section}
+                >
+                  <Title>Skills</Title>
+                  {Object.entries(skills).map(([category, keywords], index) => {
+                    return (
+                      <View
+                        key={index}
+                        style={{ display: "flex", flexDirection: "row" }}
+                      >
+                        <Text
+                          style={{
+                            fontFamily: "Times-Bold",
+                            flexBasis: skillNameWidth,
+                          }}
+                        >
+                          {category}:
+                        </Text>
+                        <Text style={{ flex: "1" }}>{keywords.join(", ")}</Text>
+                      </View>
+                    );
+                  })}
+                </View>
               );
             }
-            if (section === "experience") {
+            if (section === "experience" && data.experiences?.length > 0) {
               return (
                 <View
                   style={{ width: "100%", marginBottom: "11px" }}
@@ -348,7 +524,6 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
                           </BoldLine>
                           <ItalicLine>
                             <Text>{experience.title}</Text>
-                            {/* <Text>{experience.date}</Text> */}
                           </ItalicLine>
                           {experience.summary.map((point, innerIndex) => {
                             return (
@@ -364,7 +539,7 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
                 </View>
               );
             }
-            if (section === "projects") {
+            if (section === "projects" && data.projects?.length > 0) {
               return (
                 <View
                   style={{ width: "100%", marginBottom: "11px" }}
@@ -378,7 +553,7 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
                       gap: "11px",
                     }}
                   >
-                    {projects.map((project, index) => {
+                    {data.projects.map((project, index) => {
                       return (
                         <View wrap={false} key={index}>
                           <BoldLine>
@@ -386,10 +561,10 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
                             <Text>{project.link}</Text>
                           </BoldLine>
 
-                          {project.points.map((point, pointIndex) => {
+                          {project.summary.map((point, pointIndex) => {
                             return (
                               <Bullet key={pointIndex}>
-                                <Text>{point}</Text>
+                                <Text>{point.value}</Text>
                               </Bullet>
                             );
                           })}
@@ -400,7 +575,7 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
                 </View>
               );
             }
-            if (section === "education") {
+            if (section === "education" && data.education?.length > 0) {
               return (
                 <View
                   style={{ width: "100%", marginBottom: "11px" }}
@@ -420,32 +595,34 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
                           <BoldLine>
                             <Text>{edu.schoolName}</Text>
                             <Text>
-                              {format(edu.date.from, "LLLL, y")} —{" "}
-                              {edu.date.to > new Date()
-                                ? "Present"
-                                : format(edu.date.to, "LLLL, y")}
+                              {`${
+                                edu.date.to > new Date() ? "Expected " : ""
+                              }${format(edu.date.to, "LLLL y")}`}
                             </Text>
                           </BoldLine>
 
                           <ItalicLine>
                             <Text>{edu.degree}</Text>
                           </ItalicLine>
-                          <View
-                            style={{ display: "flex", flexDirection: "row" }}
-                          >
-                            <Text
-                              style={{
-                                flexBasis: "100px",
-                              }}
+                          {edu.coursework && (
+                            <View
+                              style={{ display: "flex", flexDirection: "row" }}
                             >
-                              Relevant coursework:
-                            </Text>
-                            {edu.relevantCoursework && (
-                              <Text style={{ flex: "1" }}>
-                                {edu.relevantCoursework.join(", ")}
+                              <Text
+                                style={{
+                                  flexBasis: "100px",
+                                }}
+                              >
+                                Relevant coursework:
                               </Text>
-                            )}
-                          </View>
+
+                              <Text style={{ flex: "1" }}>
+                                {edu.coursework
+                                  .map((coursework) => coursework.value)
+                                  .join(", ")}
+                              </Text>
+                            </View>
+                          )}
                         </View>
                       );
                     })}
@@ -453,7 +630,7 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
                 </View>
               );
             }
-          })}
+          })} */}
           {/* <View style={{ width: "100%", marginBottom: "11px" }}>
             <Title>CERTIFICATIONS</Title>
             <Text>AWS Certified Developer Certified JavaScript Developer</Text>

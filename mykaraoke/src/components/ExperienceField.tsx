@@ -139,9 +139,6 @@ export default function ExperienceField({
                         <Calendar
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
                           initialFocus
                           mode="range"
                           defaultMonth={field?.value.from}
@@ -150,7 +147,9 @@ export default function ExperienceField({
                       </PopoverContent>
                     </Popover>
                   </FormControl>
-                  <FormDescription></FormDescription>
+                  <FormDescription>
+                    Any end date in the future will be considered current.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               );
