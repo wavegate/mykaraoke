@@ -275,7 +275,7 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
             >
               {category}:
             </Text>
-            <Text style={{ flex: "1" }}>{keywords.join(", ")}</Text>
+            <Text style={{ flex: "1" }}>{(keywords as any).join(", ")}</Text>
           </View>
         );
       })}

@@ -167,7 +167,7 @@ export default function EducationField({ item, index, form, removeEducation }) {
                   setTags(newTags);
                   form.setValue(
                     `education.${index}.coursework`,
-                    newTags.map((tag) => ({ value: tag.text })) as [
+                    (newTags as any).map((tag) => ({ value: tag.text })) as [
                       Tag,
                       ...Tag[],
                     ]
