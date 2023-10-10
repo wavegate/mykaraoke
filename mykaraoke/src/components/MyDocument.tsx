@@ -96,15 +96,6 @@ const isDateWithinPast3Years = (inputDate) => {
   return inputDate >= threeYearsAgo;
 };
 
-const isDateWithinPastWeek = (inputDate) => {
-  const currentDate = new Date();
-
-  const aWeekAgo = new Date();
-  aWeekAgo.setDate(currentDate.getDate() - 7);
-
-  return inputDate >= aWeekAgo;
-};
-
 const MyDocument = memo(({ data }: any) => {
   const skills = useMemo(() => {
     return {
@@ -129,8 +120,6 @@ const MyDocument = memo(({ data }: any) => {
   } else {
     order = ["skills", "experience", "projects", "education"];
   }
-
-  // "summary", "skills", "experience", "projects", "education"
 
   const skillNameWidth = useMemo(() => {
     let maxChar = 0;
@@ -210,6 +199,24 @@ const MyDocument = memo(({ data }: any) => {
     },
   ];
 
+  const subtitles = [];
+  if (data.phone) {
+    subtitles.push(data.phone);
+  }
+  if (data.email) {
+    subtitles.push(data.email);
+  }
+  if (data.location) {
+    subtitles.push(data.location);
+  }
+  if (data.githubLink) {
+    subtitles.push(data.githubLink);
+  }
+  if (data.portfolioLink) {
+    subtitles.push(data.portfolioLink);
+  }
+
+  console.log(data);
   return (
     <Document>
       <Page
@@ -245,54 +252,65 @@ const MyDocument = memo(({ data }: any) => {
             >
               {data?.name}
             </Text>
-            <Text>
-              {data.email} | {data.phone} | {data.githubLink} |{" "}
-              {data.portfolioLink}
-            </Text>
+            <Text>{subtitles.join(" | ")}</Text>
           </View>
 
-          <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
-            <Title>Summary</Title>
-            {data?.summary?.map((point, index) => {
-              return (
-                <Bullet key={index}>
-                  <Text>{point.value}</Text>
-                </Bullet>
-              );
-            })}
-          </View>
+          {data?.summary && data.summary.length > 0 && (
+            <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
+              <Title>Summary</Title>
+              {data?.summary?.map((point, index) => {
+                return (
+                  <Bullet key={index}>
+                    <Text>{point.value}</Text>
+                  </Bullet>
+                );
+              })}
+            </View>
+          )}
           {order.map((section) => {
             if (section === "skills") {
               return (
-                <View
-                  style={{ width: "100%", marginBottom: "11px" }}
-                  wrap={false}
-                >
-                  <Title>Skills</Title>
-                  {Object.entries(skills).map(([category, keywords], index) => {
-                    return (
-                      <View
-                        key={index}
-                        style={{ display: "flex", flexDirection: "row" }}
-                      >
-                        <Text
-                          style={{
-                            fontFamily: "Times-Bold",
-                            flexBasis: skillNameWidth,
-                          }}
-                        >
-                          {category}:
-                        </Text>
-                        <Text style={{ flex: "1" }}>{keywords.join(", ")}</Text>
-                      </View>
-                    );
-                  })}
-                </View>
+                <>
+                  {data.skills.length > 0 && (
+                    <View
+                      style={{ width: "100%", marginBottom: "11px" }}
+                      wrap={false}
+                      key={section}
+                    >
+                      <Title>Skills</Title>
+                      {Object.entries(skills).map(
+                        ([category, keywords], index) => {
+                          return (
+                            <View
+                              key={index}
+                              style={{ display: "flex", flexDirection: "row" }}
+                            >
+                              <Text
+                                style={{
+                                  fontFamily: "Times-Bold",
+                                  flexBasis: skillNameWidth,
+                                }}
+                              >
+                                {category}:
+                              </Text>
+                              <Text style={{ flex: "1" }}>
+                                {keywords.join(", ")}
+                              </Text>
+                            </View>
+                          );
+                        }
+                      )}
+                    </View>
+                  )}
+                </>
               );
             }
             if (section === "experience") {
               return (
-                <View style={{ width: "100%", marginBottom: "11px" }}>
+                <View
+                  style={{ width: "100%", marginBottom: "11px" }}
+                  key={section}
+                >
                   <Title>Experience</Title>
                   <View
                     style={{
@@ -328,7 +346,10 @@ const MyDocument = memo(({ data }: any) => {
             }
             if (section === "projects") {
               return (
-                <View style={{ width: "100%", marginBottom: "11px" }}>
+                <View
+                  style={{ width: "100%", marginBottom: "11px" }}
+                  key={section}
+                >
                   <Title>Projects</Title>
                   <View
                     style={{
@@ -361,7 +382,10 @@ const MyDocument = memo(({ data }: any) => {
             }
             if (section === "education") {
               return (
-                <View style={{ width: "100%", marginBottom: "11px" }}>
+                <View
+                  style={{ width: "100%", marginBottom: "11px" }}
+                  key={section}
+                >
                   <Title>Education</Title>
                   <View
                     style={{
@@ -377,7 +401,7 @@ const MyDocument = memo(({ data }: any) => {
                             <Text>{edu.schoolName}</Text>
                             <Text>
                               {format(edu.date.from, "LLLL, y")} —{" "}
-                              {isDateWithinPastWeek(edu.date.to)
+                              {edu.date.to > new Date()
                                 ? "Present"
                                 : format(edu.date.to, "LLLL, y")}
                             </Text>

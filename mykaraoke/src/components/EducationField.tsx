@@ -139,7 +139,9 @@ export default function EducationField({ item, index, form, removeEducation }) {
                     </PopoverContent>
                   </Popover>
                 </FormControl>
-                <FormDescription></FormDescription>
+                <FormDescription>
+                  Any date that is in the future will be considered current.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -149,9 +151,7 @@ export default function EducationField({ item, index, form, removeEducation }) {
             <FormControl>
               <Input
                 placeholder="eg. 3.75"
-                {...form.register(`education.${index}.gpa`, {
-                  required: false,
-                })}
+                {...form.register(`education.${index}.gpa`)}
               />
             </FormControl>
             <FormMessage />

@@ -66,18 +66,18 @@ model DateRange {
 }
 
 model Education {
-  id             Int       @id @default(autoincrement())
+  id             Int        @id @default(autoincrement())
   schoolName     String
-  schoolLocation String
-  date           DateRange @relation(fields: [dateRangeId], references: [id])
+  schoolLocation String?
+  date           DateRange? @relation(fields: [dateRangeId], references: [id])
   coursework     String?
-  gpa            Float?
+  gpa            String?
   degree         String?
   awards         String?
   sports         String?
-  Resume         Resume?   @relation(fields: [resumeId], references: [id])
+  Resume         Resume?    @relation(fields: [resumeId], references: [id])
   resumeId       Int?
-  dateRangeId    Int
+  dateRangeId    Int?
 }
 
 model Certification {

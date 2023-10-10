@@ -34,7 +34,7 @@ import InputMask from "react-input-mask";
 
 function convertDatesToObject(obj) {
   for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (obj[key]) {
       if (typeof obj[key] === "string") {
         // Check if the string matches the ISO 8601 format
         const datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
@@ -64,12 +64,16 @@ const experienceSchema = z.object({
   summary: z.array(summarySchema),
 });
 
+const optionalString = (x) => {
+  return x.nullish().transform((e) => (e === "" ? undefined : e));
+};
+
 const educationSchema = z.object({
   schoolName: z.string().min(1).max(100),
-  schoolLocation: z.string().min(1).max(100).optional(),
+  schoolLocation: z.string().max(100).optional(),
   degree: z.string().min(1).max(100).optional(),
   date: dateSchema,
-  gpa: z.string().min(1).max(5).optional(),
+  gpa: optionalString(z.string().max(5)),
   relevantCoursework: z.array(summarySchema).optional(),
 });
 
@@ -82,7 +86,7 @@ const projectSchema = z.object({
 const formSchema = z.object({
   name: z.string().min(1).max(100),
   email: z.string().min(1).max(100),
-  location: z.string().min(0).max(100).optional(),
+  location: optionalString(z.string().max(100)),
   phone: z.string().min(1).max(20).optional(),
   githubLink: z.string().min(1).max(100).optional(),
   portfolioLink: z.string().min(1).max(100).optional(),
@@ -111,6 +115,7 @@ export default function ResumePage() {
     defaultValues: {
       name: "",
       email: "",
+      location: "",
       phone: "",
       githubLink: "",
       portfolioLink: "",
@@ -299,12 +304,6 @@ export default function ResumePage() {
                               />
                             )}
                           </InputMask>
-                          {/* <Input
-                            type="tel"
-                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                            placeholder="eg. (255) 857-2255"
-                            {...field}
-                          /> */}
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -381,8 +380,10 @@ export default function ResumePage() {
                   <FormItem>
                     <FormControl>
                       <TagInput
-                        autoComplete="true"
-                        autocompleteOptions={dataKeywords}
+                        enableAutocomplete
+                        autocompleteOptions={dataKeywords.map((keyword) => {
+                          return { id: keyword.name, text: keyword.name };
+                        })}
                         placeholder="eg. React.js"
                         tags={tags}
                         setTags={(newTags) => {
@@ -540,13 +541,10 @@ export default function ResumePage() {
                     onClick={() => {
                       appendEducation({
                         schoolName: "",
-                        schoolLocation: "",
                         date: {
                           from: new Date(),
                           to: new Date(),
                         },
-                        degree: "",
-                        gpa: "",
                       });
                     }}
                   >
@@ -572,7 +570,7 @@ export default function ResumePage() {
                 </FormDescription>
               </CardContent>
             </Card>
-
+            {console.log(form.formState?.errors)}
             <Button type="submit">Submit</Button>
           </form>
         </Form>

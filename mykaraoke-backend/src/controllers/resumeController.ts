@@ -104,7 +104,6 @@ const updateResume = async (req: Request, res: Response) => {
     transformBody.education = {
       create: transformBody.education?.map((education: any) => {
         const newEducation = { ...education };
-        newEducation.gpa = Number(newEducation.gpa);
         newEducation.date = {
           create: {
             from: new Date(newEducation.date.from),
