@@ -96,16 +96,35 @@ const isDateWithinPast3Years = (inputDate) => {
   return inputDate >= threeYearsAgo;
 };
 
-const MyDocument = memo(({ data }: any) => {
-  const skills = useMemo(() => {
-    return {
-      Languages: data.skills.map((skill) => skill.value),
-      Frameworks: ["React.js, Angular, Node.js, jQuery"],
-      Databases: ["MongoDB", "MySQL", "Redis"],
-      "Build Tools": ["Docker, Kubernetes, Jenkins"],
-      "Cloud Services": ["AWS"],
-    };
-  }, [data]);
+const MyDocument = memo(({ data, dataKeywords }: any) => {
+  console.log(data.skills);
+  let skills = null;
+
+  if (data?.skills && dataKeywords) {
+    const skillsMap: any = {};
+    for (const skill of data.skills) {
+      console.log(skill);
+      const skillCategory = dataKeywords.find(
+        (keyword) => keyword.name === skill.value
+      )?.categories[0];
+      if (skillCategory) {
+        if (skillsMap[skillCategory]) {
+          skillsMap[skillCategory].push(skill.value);
+        } else {
+          skillsMap[skillCategory] = [skill.value];
+        }
+      } else {
+        if (skillsMap.other) {
+          skillsMap.other.push(skill.value);
+        } else {
+          skillsMap.other = [skill.value];
+        }
+      }
+      skills = skillsMap;
+    }
+  }
+
+  console.log(skills);
 
   const hasEducationDate = data.education?.[0]?.date;
 
@@ -123,13 +142,15 @@ const MyDocument = memo(({ data }: any) => {
 
   const skillNameWidth = useMemo(() => {
     let maxChar = 0;
-    Object.entries(skills).forEach(([key, value]) => {
-      const nameLength = key.length;
-      if (nameLength > maxChar) {
-        maxChar = nameLength;
-      }
-    });
-    return `${maxChar * 6}px`;
+    if (skills) {
+      Object.entries(skills).forEach(([key, value]) => {
+        const nameLength = key.length;
+        if (nameLength > maxChar) {
+          maxChar = nameLength;
+        }
+      });
+    }
+    return `${maxChar * 10}px`;
   }, [skills]);
 
   const experiences = [
@@ -216,7 +237,6 @@ const MyDocument = memo(({ data }: any) => {
     subtitles.push(data.portfolioLink);
   }
 
-  console.log(data);
   return (
     <Document>
       <Page
@@ -271,7 +291,7 @@ const MyDocument = memo(({ data }: any) => {
             if (section === "skills") {
               return (
                 <>
-                  {data.skills.length > 0 && (
+                  {skills && (
                     <View
                       style={{ width: "100%", marginBottom: "11px" }}
                       wrap={false}

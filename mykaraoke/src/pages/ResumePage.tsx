@@ -154,7 +154,7 @@ export default function ResumePage() {
     clearTimeout(timerIdState);
 
     const timerId = setTimeout(() => {
-      setDebouncedData(watchAllFields);
+      setDebouncedData({ ...watchAllFields });
     }, 1000);
     setTimerIdState(timerId);
   }, [JSON.stringify(watchAllFields)]);
@@ -168,9 +168,9 @@ export default function ResumePage() {
     },
   });
 
-  // useEffect(() => {
-  //   console.log(debouncedData);
-  // }, [debouncedData]);
+  useEffect(() => {
+    console.log(debouncedData);
+  }, [debouncedData]);
 
   const { fields, append, prepend, remove, swap, move, insert, replace } =
     useFieldArray({
@@ -570,7 +570,6 @@ export default function ResumePage() {
                 </FormDescription>
               </CardContent>
             </Card>
-            {console.log(form.formState?.errors)}
             <Button type="submit">Submit</Button>
           </form>
         </Form>
@@ -578,7 +577,7 @@ export default function ResumePage() {
           {debouncedData && (
             <>
               <PDFViewer className={`w-full h-[100dvh]`}>
-                <MyDocument data={debouncedData} />
+                <MyDocument data={debouncedData} dataKeywords={dataKeywords} />
               </PDFViewer>
 
               <PDFDownloadLink
