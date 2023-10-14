@@ -148,8 +148,6 @@ export default function ResumePage() {
 
   const watchAllFields = form.watch();
 
-  console.log(tags);
-  console.log(watchAllFields);
   const [debouncedData, setDebouncedData] = useState(watchAllFields);
 
   const [timerIdState, setTimerIdState] = useState<any>(0);
@@ -349,7 +347,11 @@ export default function ResumePage() {
                     )
                   }
                 </PDFDownloadLink>
-                <Button type="button" variant="secondary">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  loading={docxMutation.isLoading}
+                >
                   <BlobProvider document={<MyDocument data={debouncedData} />}>
                     {({ blob, url, loading, error }) => {
                       // Do whatever you need with blob here
