@@ -5,6 +5,7 @@ import {
   Document,
   StyleSheet,
   Font,
+  Link,
 } from "@react-pdf/renderer";
 import { format } from "date-fns";
 import { memo, useEffect, useMemo, useState } from "react";
@@ -17,7 +18,7 @@ const Title = ({ children }) => {
   return (
     <View
       style={{
-        borderBottom: "2px solid black",
+        borderBottom: "1px solid black",
         width: "100%",
         marginBottom: "4px",
       }}
@@ -25,6 +26,7 @@ const Title = ({ children }) => {
       <Text
         style={{
           fontFamily: "Times-Bold",
+          fontSize: "12px",
         }}
       >
         {children}
@@ -97,30 +99,6 @@ const isDateWithinPast3Years = (inputDate) => {
 };
 
 const MyDocument = memo(({ data, dataKeywords }: any) => {
-  // const skills = useMemo(() => {
-  //   if (data?.skills && dataKeywords) {
-  //     const skillsMap: any = {};
-  //     for (const skill of data.skills) {
-  //       const skillCategory = dataKeywords.find(
-  //         (keyword) => keyword.name === skill.value
-  //       )?.categories[0];
-  //       if (skillCategory) {
-  //         if (skillsMap[skillCategory]) {
-  //           skillsMap[skillCategory].push(skill.value);
-  //         } else {
-  //           skillsMap[skillCategory] = [skill.value];
-  //         }
-  //       } else {
-  //         if (skillsMap.other) {
-  //           skillsMap.other.push(skill.value);
-  //         } else {
-  //           skillsMap.other = [skill.value];
-  //         }
-  //       }
-  //       return skillsMap;
-  //     }
-  //   }
-  // }, [data?.skills, dataKeywords]);
   let skills = null;
   if (data?.skills && dataKeywords) {
     const skillsMap: any = {};
@@ -135,10 +113,10 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
           skillsMap[skillCategory] = [skill.value];
         }
       } else {
-        if (skillsMap.other) {
-          skillsMap.other.push(skill.value);
+        if (skillsMap.Other) {
+          skillsMap.Other.push(skill.value);
         } else {
-          skillsMap.other = [skill.value];
+          skillsMap.Other = [skill.value];
         }
       }
       skills = skillsMap;
@@ -174,7 +152,7 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
         }
       });
     }
-    return `${maxChar * 10}px`;
+    return `${maxChar * 7}px`;
   }, [skills]);
 
   const experiences = [
@@ -246,20 +224,46 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
 
   const subtitles = [];
   if (data.phone) {
-    subtitles.push(data.phone);
+    subtitles.push(<Text>{data.phone}</Text>);
   }
   if (data.email) {
-    subtitles.push(data.email);
+    subtitles.push(<Text>{data.email}</Text>);
   }
   if (data.location) {
-    subtitles.push(data.location);
+    subtitles.push(<Text>{data.location}</Text>);
   }
   if (data.githubLink) {
-    subtitles.push(data.githubLink);
+    subtitles.push(
+      <Link
+        src={data.githubLink}
+        style={{ color: "black", textDecoration: "none" }}
+      >
+        {data.githubLink}
+      </Link>
+    );
   }
   if (data.portfolioLink) {
-    subtitles.push(data.portfolioLink);
+    subtitles.push(
+      <Link
+        src={data.portfolioLink}
+        style={{ color: "black", textDecoration: "none" }}
+      >
+        {data.portfolioLink}
+      </Link>
+    );
   }
+
+  const separator = <Text>|</Text>;
+
+  // Use reduce to join the elements with the separator
+  const joinedSubtitles = subtitles.reduce((acc, element, index) => {
+    // Don't add the separator after the last element
+    if (index === subtitles.length - 1) {
+      return [...acc, element];
+    } else {
+      return [...acc, element, separator];
+    }
+  }, []);
 
   const skillSection = skills && (
     <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
@@ -269,20 +273,19 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
           <View key={index} style={{ display: "flex", flexDirection: "row" }}>
             <Text
               style={{
-                fontFamily: "Times-Bold",
                 flexBasis: skillNameWidth,
               }}
             >
               {category}:
             </Text>
-            <Text style={{ flex: "1" }}>{(keywords as any).join(", ")}</Text>
+            <Text style={{ flex: "1" }}>{keywords.join(", ")}</Text>
           </View>
         );
       })}
     </View>
   );
 
-  const experienceSection = data.experiences && (
+  const experienceSection = data.experiences && data.experiences.length > 0 && (
     <View style={{ width: "100%", marginBottom: "11px" }}>
       <Title>Experience</Title>
       <View
@@ -321,7 +324,7 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
     </View>
   );
 
-  const projectsSection = data.projects && (
+  const projectsSection = data.projects && data.projects.length > 0 && (
     <View style={{ width: "100%", marginBottom: "11px" }}>
       <Title>Projects</Title>
       <View
@@ -336,7 +339,12 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
             <View wrap={false} key={index}>
               <BoldLine>
                 <Text>{project.name}</Text>
-                <Text>{project.link}</Text>
+                <Link
+                  src={project.link}
+                  style={{ color: "black", textDecoration: "none" }}
+                >
+                  {project.link}
+                </Link>
               </BoldLine>
 
               {project.summary.map((point, pointIndex) => {
@@ -353,7 +361,7 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
     </View>
   );
 
-  const educationSection = data.education && (
+  const educationSection = data.education && data.education.length > 0 && (
     <View style={{ width: "100%", marginBottom: "11px" }}>
       <Title>Education</Title>
       <View
@@ -446,19 +454,33 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
             }}
             wrap={false}
           >
-            <Text
-              style={{
-                fontSize: "16px",
-                fontFamily: "Times-Bold",
-                marginBottom: "2px",
-              }}
-            >
-              {data?.name}
-            </Text>
-            <Text>{subtitles.join(" | ")}</Text>
+            {data.name && (
+              <Text
+                style={{
+                  fontSize: "16px",
+                  fontFamily: "Times-Bold",
+                }}
+              >
+                {data.name}
+              </Text>
+            )}
+            {subtitles.length > 0 && (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  rowGap: "2px",
+                  columnGap: "3px",
+                }}
+              >
+                {joinedSubtitles}
+              </View>
+            )}
           </View>
 
-          {data?.summary && data.summary.length > 0 && (
+          {data.summary && data.summary.length > 0 && (
             <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
               <Title>Summary</Title>
               {data?.summary?.map((point, index) => {
@@ -471,166 +493,6 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
             </View>
           )}
           {orderDisplay}
-          {/* {order.map((section) => {
-            if (section === "skills" && skills) {
-              return (
-                <View
-                  style={{ width: "100%", marginBottom: "11px" }}
-                  wrap={false}
-                  key={section}
-                >
-                  <Title>Skills</Title>
-                  {Object.entries(skills).map(([category, keywords], index) => {
-                    return (
-                      <View
-                        key={index}
-                        style={{ display: "flex", flexDirection: "row" }}
-                      >
-                        <Text
-                          style={{
-                            fontFamily: "Times-Bold",
-                            flexBasis: skillNameWidth,
-                          }}
-                        >
-                          {category}:
-                        </Text>
-                        <Text style={{ flex: "1" }}>{keywords.join(", ")}</Text>
-                      </View>
-                    );
-                  })}
-                </View>
-              );
-            }
-            if (section === "experience" && data.experiences?.length > 0) {
-              return (
-                <View
-                  style={{ width: "100%", marginBottom: "11px" }}
-                  key={section}
-                >
-                  <Title>Experience</Title>
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "11px",
-                    }}
-                  >
-                    {data.experiences.map((experience, index) => {
-                      return (
-                        <View wrap={false} key={index}>
-                          <BoldLine>
-                            <Text>{experience.companyName}</Text>
-                            <Text>{experience.location}</Text>
-                          </BoldLine>
-                          <ItalicLine>
-                            <Text>{experience.title}</Text>
-                          </ItalicLine>
-                          {experience.summary.map((point, innerIndex) => {
-                            return (
-                              <Bullet key={innerIndex}>
-                                <Text>{point.value}</Text>
-                              </Bullet>
-                            );
-                          })}
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
-              );
-            }
-            if (section === "projects" && data.projects?.length > 0) {
-              return (
-                <View
-                  style={{ width: "100%", marginBottom: "11px" }}
-                  key={section}
-                >
-                  <Title>Projects</Title>
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "11px",
-                    }}
-                  >
-                    {data.projects.map((project, index) => {
-                      return (
-                        <View wrap={false} key={index}>
-                          <BoldLine>
-                            <Text>{project.name}</Text>
-                            <Text>{project.link}</Text>
-                          </BoldLine>
-
-                          {project.summary.map((point, pointIndex) => {
-                            return (
-                              <Bullet key={pointIndex}>
-                                <Text>{point.value}</Text>
-                              </Bullet>
-                            );
-                          })}
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
-              );
-            }
-            if (section === "education" && data.education?.length > 0) {
-              return (
-                <View
-                  style={{ width: "100%", marginBottom: "11px" }}
-                  key={section}
-                >
-                  <Title>Education</Title>
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "11px",
-                    }}
-                  >
-                    {data.education?.map((edu, index) => {
-                      return (
-                        <View wrap={false} key={index}>
-                          <BoldLine>
-                            <Text>{edu.schoolName}</Text>
-                            <Text>
-                              {`${
-                                edu.date.to > new Date() ? "Expected " : ""
-                              }${format(edu.date.to, "LLLL y")}`}
-                            </Text>
-                          </BoldLine>
-
-                          <ItalicLine>
-                            <Text>{edu.degree}</Text>
-                          </ItalicLine>
-                          {edu.coursework && (
-                            <View
-                              style={{ display: "flex", flexDirection: "row" }}
-                            >
-                              <Text
-                                style={{
-                                  flexBasis: "100px",
-                                }}
-                              >
-                                Relevant coursework:
-                              </Text>
-
-                              <Text style={{ flex: "1" }}>
-                                {edu.coursework
-                                  .map((coursework) => coursework.value)
-                                  .join(", ")}
-                              </Text>
-                            </View>
-                          )}
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
-              );
-            }
-          })} */}
           {/* <View style={{ width: "100%", marginBottom: "11px" }}>
             <Title>CERTIFICATIONS</Title>
             <Text>AWS Certified Developer Certified JavaScript Developer</Text>

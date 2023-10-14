@@ -19,7 +19,13 @@ import { format } from "date-fns";
 import { Calendar } from "./ui/calendar";
 
 export default function EducationField({ item, index, form, removeEducation }) {
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [tags, setTags] = useState<Tag[]>(
+    item.coursework
+      ? item.coursework.map((course) => {
+          return { id: course.value, text: course.value };
+        })
+      : []
+  );
   return (
     <div
       key={item.id}

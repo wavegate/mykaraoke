@@ -76,7 +76,7 @@ const updateResume = async (req: Request, res: Response) => {
     let queryResult;
     const transformBody = { ...req.body };
     transformBody.summary = transformBody.summary
-      .map((point: any) => point.value)
+      ?.map((point: any) => point.value)
       .join("#@!");
     transformBody.skills = {
       connectOrCreate: transformBody.skills?.map((point: any) => ({
@@ -89,7 +89,7 @@ const updateResume = async (req: Request, res: Response) => {
       create: transformBody.experiences?.map((experience: any) => {
         const newExperience = { ...experience };
         newExperience.summary = newExperience.summary
-          .map((sum: any) => sum.value)
+          ?.map((sum: any) => sum.value)
           .join("#@!");
         newExperience.date = {
           create: {
@@ -104,7 +104,7 @@ const updateResume = async (req: Request, res: Response) => {
       create: transformBody.projects?.map((project: any) => {
         const newProject = { ...project };
         newProject.summary = newProject.summary
-          .map((sum: any) => sum.value)
+          ?.map((sum: any) => sum.value)
           .join("#@!");
         return newProject;
       }),
@@ -119,7 +119,7 @@ const updateResume = async (req: Request, res: Response) => {
           },
         };
         newEducation.coursework = newEducation.coursework
-          .map((point: any) => point.value)
+          ?.map((point: any) => point.value)
           .join("#@!");
         return newEducation;
       }),
@@ -154,7 +154,7 @@ const convertResume = async (req: Request, res: Response) => {
 
     const pyShell = new PythonShell("convert_pdf_to_docx.py", {
       mode: "text",
-      pythonPath: "python",
+      pythonPath: process.env.PYTHON_PATH,
       scriptPath: process.cwd(),
       args: [req.file.path],
     });

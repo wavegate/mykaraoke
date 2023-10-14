@@ -36,15 +36,15 @@ model Resume {
 }
 
 model Experience {
-  id          Int       @id @default(autoincrement())
-  companyName String
-  location    String
-  title       String
-  date        DateRange @relation(fields: [dateRangeId], references: [id])
-  summary     String
-  Resume      Resume?   @relation(fields: [resumeId], references: [id])
+  id          Int        @id @default(autoincrement())
+  companyName String?
+  location    String?
+  title       String?
+  date        DateRange? @relation(fields: [dateRangeId], references: [id])
+  summary     String?
+  Resume      Resume?    @relation(fields: [resumeId], references: [id])
   resumeId    Int?
-  dateRangeId Int
+  dateRangeId Int?
 }
 
 model Project {

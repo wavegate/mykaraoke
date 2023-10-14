@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { X } from "lucide-react";
@@ -122,8 +122,8 @@ export interface TagInputProps
   autocompleteFilter?: (option: string) => boolean;
 }
 
-const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
-  (props, ref) => {
+const TagInput = memo(
+  React.forwardRef<HTMLInputElement, TagInputProps>((props, ref) => {
     const {
       placeholder,
       tags,
@@ -155,9 +155,15 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
       maxLength,
     } = props;
 
+    const [myAutocompleteOptions, setMyAutocompleteOptions] = useState<any>([]);
     const [inputValue, setInputValue] = React.useState("");
     const [tagCount, setTagCount] = React.useState(Math.max(0, tags.length));
     const inputRef = React.useRef<HTMLInputElement>(null);
+    useEffect(() => {
+      if (autocompleteOptions) {
+        setMyAutocompleteOptions(autocompleteOptions);
+      }
+    }, [autocompleteOptions]);
 
     if (
       (maxTags !== undefined && maxTags < 0) ||
@@ -232,9 +238,13 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
       setTagCount((prevTagCount) => prevTagCount - 1);
     };
 
-    const filteredAutocompleteOptions = autocompleteFilter
-      ? autocompleteOptions?.filter((option) => autocompleteFilter(option.text))
-      : autocompleteOptions;
+    const filteredAutocompleteOptions = useMemo(() => {
+      return autocompleteFilter
+        ? autocompleteOptions?.filter((option) =>
+            autocompleteFilter(option.text)
+          )
+        : autocompleteOptions;
+    }, [autocompleteOptions]);
 
     const displayedTags = sortTags ? [...tags].sort() : tags;
 
@@ -287,6 +297,14 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
           <>
             <Command className="border mt-2 sm:min-w-[450px]">
               <CommandInput
+                onKeyDown={(e) => {
+                  if (e.code === "Enter") {
+                    setTags([
+                      ...tags,
+                      { id: e.target.value, text: e.target.value },
+                    ]);
+                  }
+                }}
                 placeholder={
                   maxTags !== undefined && tags.length >= maxTags
                     ? placeholderWhenFull
@@ -371,7 +389,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
         )}
       </div>
     );
-  }
+  })
 );
 
 TagInput.displayName = "TagInput";

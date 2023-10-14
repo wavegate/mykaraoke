@@ -1,5 +1,4 @@
 import AnimatedPage from "@/components/AnimatedPage/AnimatedPage";
-import MultipleComboBoxExample from "@/components/ComboBoxExample";
 import ExperienceField from "@/components/ExperienceField";
 import MyDocument from "@/components/MyDocument";
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,7 @@ import { BlobProvider, PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Minus, Plus } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
@@ -32,6 +31,8 @@ import { Tag, TagInput } from "@/components/TagInput";
 import { parseISO } from "date-fns";
 import InputMask from "react-input-mask";
 import Spinner from "@/components/Spinner";
+import MultipleComboBox from "@/components/MultipleComboBox";
+import AnimatedPage2 from "@/components/AnimatedPage/AnimatedPage2";
 
 function convertDatesToObject(obj) {
   for (const key in obj) {
@@ -50,7 +51,11 @@ function convertDatesToObject(obj) {
   }
 }
 
-const summarySchema = z.object({ value: z.string().min(1).max(1000) });
+const optionalString = (x) => {
+  return x.nullish().transform((e) => (e === "" ? undefined : e));
+};
+
+const summarySchema = z.object({ value: z.string().max(1000) });
 
 const dateSchema = z.object({
   from: z.date(),
@@ -58,39 +63,35 @@ const dateSchema = z.object({
 });
 
 const experienceSchema = z.object({
-  companyName: z.string().min(1).max(100),
-  location: z.string().min(1).max(100),
-  title: z.string().min(1).max(100),
+  companyName: optionalString(z.string().max(100)),
+  location: optionalString(z.string().max(100)),
+  title: optionalString(z.string().max(100)),
   date: dateSchema,
   summary: z.array(summarySchema),
 });
 
-const optionalString = (x) => {
-  return x.nullish().transform((e) => (e === "" ? undefined : e));
-};
-
 const educationSchema = z.object({
-  schoolName: z.string().min(1).max(100),
-  schoolLocation: z.string().max(100).optional(),
-  degree: z.string().min(1).max(100).optional(),
+  schoolName: optionalString(z.string().max(100)),
+  schoolLocation: optionalString(z.string().max(100)),
+  degree: optionalString(z.string().max(100)),
   date: dateSchema,
   gpa: optionalString(z.string().max(5)),
   coursework: z.array(summarySchema).optional(),
 });
 
 const projectSchema = z.object({
-  name: z.string().min(1).max(100),
-  link: z.string().min(1).max(100),
+  name: optionalString(z.string().max(100)),
+  link: optionalString(z.string().max(100)),
   summary: z.array(summarySchema),
 });
 
 const formSchema = z.object({
-  name: z.string().min(1).max(100),
-  email: z.string().min(1).max(100),
+  name: optionalString(z.string().max(100)),
+  email: optionalString(z.string().max(100)),
   location: optionalString(z.string().max(100)),
   phone: optionalString(z.string().max(20)),
-  githubLink: z.string().min(1).max(100).optional(),
-  portfolioLink: z.string().min(1).max(100).optional(),
+  githubLink: optionalString(z.string().max(100)),
+  portfolioLink: optionalString(z.string().max(100).optional()),
   summary: z.array(summarySchema).optional(),
   skills: z.array(summarySchema).optional(),
   experiences: z.array(experienceSchema).optional(),
@@ -126,27 +127,29 @@ export default function ResumePage() {
     },
   });
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["resume"],
-    queryFn: () =>
-      axios.get(`${API_URL}/resume`).then((res) => {
-        convertDatesToObject(res.data);
-        form.reset(res.data);
-        setTags(
-          res.data.skills?.map((skill, index) => {
-            return {
-              id: index,
-              text: skill.value,
-            };
-          })
-        );
-        return res?.data;
-      }),
-    refetchOnWindowFocus: false,
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["resume"],
+  //   queryFn: () =>
+  //     axios.get(`${API_URL}/resume`).then((res) => {
+  //       convertDatesToObject(res.data);
+  //       form.reset(res.data);
+  //       setTags(
+  //         res.data.skills?.map((skill, index) => {
+  //           return {
+  //             id: index,
+  //             text: skill.value,
+  //           };
+  //         })
+  //       );
+  //       return res?.data;
+  //     }),
+  //   refetchOnWindowFocus: false,
+  // });
 
   const watchAllFields = form.watch();
 
+  console.log(tags);
+  console.log(watchAllFields);
   const [debouncedData, setDebouncedData] = useState(watchAllFields);
 
   const [timerIdState, setTimerIdState] = useState<any>(0);
@@ -169,9 +172,9 @@ export default function ResumePage() {
     },
   });
 
-  useEffect(() => {
-    console.log(debouncedData);
-  }, [debouncedData]);
+  // useEffect(() => {
+  //   console.log(debouncedData);
+  // }, [debouncedData]);
 
   const { fields, append, prepend, remove, swap, move, insert, replace } =
     useFieldArray({
@@ -211,8 +214,53 @@ export default function ResumePage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("hi");
     mutation.mutate(values as any);
+  }
+
+  function saveLocally() {
+    localStorage.setItem("resume", JSON.stringify(watchAllFields));
+    toast({
+      title: "Resume saved!",
+    });
+  }
+
+  function convertDateStringsToDate(obj: any): any {
+    if (typeof obj === "string") {
+      // Check if the string is a valid date
+      const date = new Date(obj);
+      if (!isNaN(date.getTime())) {
+        return date;
+      }
+    } else if (Array.isArray(obj)) {
+      // If it's an array, recursively convert date strings in each element
+      return obj.map(convertDateStringsToDate);
+    } else if (typeof obj === "object" && obj !== null) {
+      // If it's an object, recursively convert date strings in its properties
+      const newObj: { [key: string]: any } = {};
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          newObj[key] = convertDateStringsToDate(obj[key]);
+        }
+      }
+      return newObj;
+    }
+
+    // Return other types as is
+    return obj;
+  }
+
+  function loadFromLocal() {
+    const localResume = JSON.parse(localStorage.getItem("resume"));
+    const convertedResume = convertDateStringsToDate(localResume);
+    setTags(
+      convertedResume.skills.map((skill) => {
+        return { id: skill.value, text: skill.value };
+      })
+    );
+    form.reset(convertedResume);
+    toast({
+      title: "Resume loaded!",
+    });
   }
 
   const docxMutation = useMutation({
@@ -241,7 +289,6 @@ export default function ResumePage() {
   };
 
   const tagOptions = useMemo(() => {
-    console.log("Trigger");
     if (dataKeywords) {
       return dataKeywords.map((keyword) => {
         return { id: keyword.name, text: keyword.name };
@@ -249,396 +296,432 @@ export default function ResumePage() {
     }
   }, [dataKeywords]);
 
-  return (
-    <AnimatedPage>
-      {data && dataKeywords ? (
-        <div className={`grid grid-cols-2 gap-[24px]`}>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <Card>
-                <CardHeader className={`pb-3 text-[18px] font-semibold`}>
-                  Contact Information
-                </CardHeader>
-                <CardContent>
-                  <div className={`grid grid-cols-2 gap-[12px]`}>
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="eg. John Doe" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="eg. johndoe@example.com"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                          <FormDescription>
-                            Use a modern email client such as Gmail/Outlook, NOT
-                            hotmail.
-                          </FormDescription>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Phone</FormLabel>
-                          <FormControl>
-                            <InputMask
-                              mask="(999) 999-9999"
-                              value={field.value}
-                              onChange={field.onChange}
-                              onBlur={field.onBlur}
-                            >
-                              {(inputProps) => (
-                                <Input
-                                  {...inputProps}
-                                  type="tel"
-                                  placeholder="eg. (255) 857-2255"
-                                />
-                              )}
-                            </InputMask>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="location"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Location</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="eg. Cincinnati, OH"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                          <FormDescription>
-                            Don't include your location (city/state) unless the
-                            specific job you're applying for is in that specific
-                            city.
-                          </FormDescription>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="githubLink"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>GitHub Link</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="eg. github.com/bob"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                          <FormDescription>
-                            {" "}
-                            Don't include full URLs for links.{" "}
-                            <span className={`line-through`}>https://www.</span>
-                            github.com/bob
-                          </FormDescription>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="portfolioLink"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Portfolio Link</FormLabel>
-                          <FormControl>
-                            <Input placeholder="eg. portfolio.com" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                          <FormDescription>
-                            Don't include full URLs for links.{" "}
-                            <span className={`line-through`}>https://www.</span>
-                            portfolio.com
-                          </FormDescription>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-              {tagOptions && (
-                <Card>
-                  <CardHeader className={`pb-3 text-[18px] font-semibold`}>
-                    Skills
-                  </CardHeader>
-                  <CardContent>
-                    <MultipleComboBoxExample
-                      form={form}
-                      keywords={dataKeywords}
-                    />
-                    {/* <FormItem>
-                    <FormControl>
-                      <TagInput
-                        // enableAutocomplete
-                        // autocompleteOptions={tagOptions}
-                        placeholder="eg. React.js"
-                        tags={tags}
-                        setTags={(newTags) => {
-                          setTags(newTags);
-                          form.setValue(
-                            `skills`,
-                            newTags.map((tag) => ({ value: tag.text })) as [
-                              Tag,
-                              ...Tag[],
-                            ]
-                          );
-                        }}
-                      />
-                    </FormControl>
-                    <FormDescription></FormDescription>
-                    <FormMessage />
-                  </FormItem> */}
-                  </CardContent>
-                </Card>
-              )}
-              <Card>
-                <CardHeader>
-                  <div
-                    className={`flex gap-[12px] items-center justify-between`}
-                  >
-                    <div className={`text-[18px] font-semibold`}>Summary</div>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      type="button"
-                      className={`gap-[6px]`}
-                      onClick={() => {
-                        append({ value: "" });
-                      }}
-                    >
-                      <Plus size={18} />
-                      <div>Add Summary Bullet Point</div>
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className={`flex flex-col gap-[12px]`}>
-                  {fields.map((item, index) => {
-                    return (
-                      <div className={`flex gap-[12px]`} key={item.id}>
-                        <div className={`flex-1`}>
-                          <Textarea
-                            {...form.register(`summary.${index}.value`, {
-                              required: true,
-                            })}
-                          />
-                        </div>
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          type="button"
-                          className={`gap-[6px]`}
-                          onClick={() => {
-                            remove(index);
-                          }}
-                        >
-                          <Minus size={18} />
-                          <div>Remove</div>
-                        </Button>
-                      </div>
-                    );
-                  })}
-                  <FormDescription>
-                    Don't include a summary or profile section unless you're a
-                    senior/staff engineer or above, or are making a career
-                    change.
-                  </FormDescription>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <div
-                    className={`flex gap-[12px] items-center justify-between`}
-                  >
-                    <div className={`text-[18px] font-semibold`}>
-                      Experience
-                    </div>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      type="button"
-                      className={`gap-[6px]`}
-                      onClick={() => {
-                        appendExperiences({
-                          companyName: "",
-                          location: "",
-                          title: "",
-                          date: {
-                            from: new Date(),
-                            to: new Date(),
-                          },
-                        });
-                      }}
-                    >
-                      <Plus size={18} />
-                      <div>Add Experience</div>
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className={`flex flex-col gap-[24px]`}>
-                  {fieldsExperiences.map((item, index) => {
-                    return (
-                      <ExperienceField
-                        form={form}
-                        item={item}
-                        index={index}
-                        key={index}
-                        removeExperiences={removeExperiences}
-                      />
-                    );
-                  })}
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <div
-                    className={`flex gap-[12px] items-center justify-between`}
-                  >
-                    <div className={`text-[18px] font-semibold`}>Projects</div>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      type="button"
-                      className={`gap-[6px]`}
-                      onClick={() => {
-                        appendProjects({
-                          name: "",
-                          link: "",
-                        });
-                      }}
-                    >
-                      <Plus size={18} />
-                      <div>Add Project</div>
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className={`flex flex-col gap-[24px]`}>
-                  {fieldsProjects.map((item, index) => {
-                    return (
-                      <ProjectField
-                        form={form}
-                        item={item}
-                        index={index}
-                        key={index}
-                        removeProjects={removeProjects}
-                      />
-                    );
-                  })}
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <div
-                    className={`flex gap-[12px] items-center justify-between`}
-                  >
-                    <div className={`text-[18px] font-semibold`}>Education</div>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      type="button"
-                      className={`gap-[6px]`}
-                      onClick={() => {
-                        appendEducation({
-                          schoolName: "",
-                          date: {
-                            from: new Date(),
-                            to: new Date(),
-                          },
-                        });
-                      }}
-                    >
-                      <Plus size={18} />
-                      <div>Add Education</div>
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className={`flex flex-col gap-[24px]`}>
-                  {fieldsEducation.map((item, index) => {
-                    return (
-                      <EducationField
-                        form={form}
-                        item={item}
-                        index={index}
-                        key={index}
-                        removeEducation={removeEducation}
-                      />
-                    );
-                  })}
-                  <FormDescription>
-                    Don't include your high school.
-                  </FormDescription>
-                </CardContent>
-              </Card>
-              <Button type="submit">Submit</Button>
-            </form>
-          </Form>
-          <div className={`w-full`}>
-            {debouncedData && (
-              <>
-                <PDFViewer className={`w-full h-[100dvh]`}>
-                  <MyDocument
-                    data={debouncedData}
-                    dataKeywords={dataKeywords}
-                  />
-                </PDFViewer>
+  const setTagsCallback = useCallback((newTags) => {
+    setTags(newTags);
+    form.setValue(
+      `skills`,
+      newTags.map((tag) => ({ value: tag.text })) as [Tag, ...Tag[]]
+    );
+  }, []);
 
+  const saveOnline = () => {
+    form.handleSubmit(onSubmit)();
+  };
+
+  return (
+    <AnimatedPage2>
+      {debouncedData && dataKeywords ? (
+        <div className={`grid grid-cols-2 `}>
+          <div>
+            <div className={`flex justify-between p-4`}>
+              <div className={`flex gap-2`}>
+                {/* <Button
+                  type="submit"
+                  onClick={saveOnline}
+                  loading={mutation.isLoading}
+                >
+                  Save Online
+                </Button> */}
+                <Button type="button" onClick={saveLocally}>
+                  Save to Browser
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={loadFromLocal}
+                >
+                  Load from Browser
+                </Button>
+              </div>
+
+              <div className={`flex gap-2`}>
                 <PDFDownloadLink
                   document={<MyDocument data={debouncedData} />}
-                  fileName="somename.pdf"
+                  fileName="resume.pdf"
                 >
                   {({ blob, url, loading, error }) =>
-                    loading ? "Loading document..." : "Download now!"
+                    loading ? (
+                      "Loading document..."
+                    ) : (
+                      <Button type="button" variant="secondary">
+                        Download .pdf
+                      </Button>
+                    )
                   }
                 </PDFDownloadLink>
-                {data && (
+                <Button type="button" variant="secondary">
                   <BlobProvider document={<MyDocument data={debouncedData} />}>
                     {({ blob, url, loading, error }) => {
                       // Do whatever you need with blob here
-
-                      //                   var converted = htmlDocx.asBlob(content, {orientation: 'landscape', margins: {top: 720}});
-                      // saveAs(converted, 'test.docx');
                       return (
                         <div onClick={() => handleDownloadDocx(blob)}>
-                          Download Docx
+                          Download .docx
                         </div>
                       );
                     }}
                   </BlobProvider>
+                </Button>
+              </div>
+            </div>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col gap-[24px] h-[calc(100dvh-131px)] overflow-y-auto pl-4 pb-4 pr-4"
+              >
+                <Card>
+                  <CardHeader className={`pb-3 text-[18px] font-semibold`}>
+                    Contact Information
+                  </CardHeader>
+                  <CardContent>
+                    <div className={`grid grid-cols-2 gap-[12px]`}>
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="eg. John Doe" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="eg. johndoe@example.com"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                            <FormDescription>
+                              Use a modern email client such as Gmail/Outlook,
+                              NOT hotmail.
+                            </FormDescription>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Phone</FormLabel>
+                            <FormControl>
+                              <InputMask
+                                mask="(999) 999-9999"
+                                value={field.value}
+                                onChange={field.onChange}
+                                onBlur={field.onBlur}
+                              >
+                                {(inputProps) => (
+                                  <Input
+                                    {...inputProps}
+                                    type="tel"
+                                    placeholder="eg. (255) 857-2255"
+                                  />
+                                )}
+                              </InputMask>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="location"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Location</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="eg. Cincinnati, OH"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                            <FormDescription>
+                              Don't include your location (city/state) unless
+                              the specific job you're applying for is in that
+                              specific city.
+                            </FormDescription>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="githubLink"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>GitHub Link</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="eg. github.com/bob"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                            <FormDescription>
+                              {" "}
+                              Don't include full URLs for links.{" "}
+                              <span className={`line-through`}>
+                                https://www.
+                              </span>
+                              github.com/bob
+                            </FormDescription>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="portfolioLink"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Portfolio Link</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="eg. portfolio.com"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                            <FormDescription>
+                              Don't include full URLs for links.{" "}
+                              <span className={`line-through`}>
+                                https://www.
+                              </span>
+                              portfolio.com
+                            </FormDescription>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+                {tagOptions && (
+                  <Card>
+                    <CardHeader className={`pb-3 text-[18px] font-semibold`}>
+                      Skills
+                    </CardHeader>
+                    <CardContent>
+                      {/* <MultipleComboBox form={form} keywords={dataKeywords} /> */}
+                      <FormItem>
+                        <FormControl>
+                          <TagInput
+                            enableAutocomplete
+                            autocompleteOptions={tagOptions}
+                            placeholder="eg. React.js"
+                            tags={tags}
+                            setTags={setTagsCallback}
+                          />
+                        </FormControl>
+                        <FormDescription></FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    </CardContent>
+                  </Card>
                 )}
-              </>
+                <Card>
+                  <CardHeader>
+                    <div
+                      className={`flex gap-[12px] items-center justify-between`}
+                    >
+                      <div className={`text-[18px] font-semibold`}>Summary</div>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        type="button"
+                        className={`gap-[6px]`}
+                        onClick={() => {
+                          append({ value: "" });
+                        }}
+                      >
+                        <Plus size={18} />
+                        <div>Add Summary Bullet Point</div>
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className={`flex flex-col gap-[12px]`}>
+                    {fields.map((item, index) => {
+                      return (
+                        <div className={`flex gap-[12px]`} key={item.id}>
+                          <div className={`flex-1`}>
+                            <Textarea
+                              {...form.register(`summary.${index}.value`, {
+                                required: true,
+                              })}
+                            />
+                          </div>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            type="button"
+                            className={`gap-[6px]`}
+                            onClick={() => {
+                              remove(index);
+                            }}
+                          >
+                            <Minus size={18} />
+                            <div>Remove</div>
+                          </Button>
+                        </div>
+                      );
+                    })}
+                    <FormDescription>
+                      Don't include a summary or profile section unless you're a
+                      senior/staff engineer or above, or are making a career
+                      change.
+                    </FormDescription>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <div
+                      className={`flex gap-[12px] items-center justify-between`}
+                    >
+                      <div className={`text-[18px] font-semibold`}>
+                        Experience
+                      </div>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        type="button"
+                        className={`gap-[6px]`}
+                        onClick={() => {
+                          appendExperiences({
+                            companyName: "",
+                            location: "",
+                            title: "",
+                            date: {
+                              from: new Date(),
+                              to: new Date(),
+                            },
+                          });
+                        }}
+                      >
+                        <Plus size={18} />
+                        <div>Add Experience</div>
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className={`flex flex-col gap-[24px]`}>
+                    {fieldsExperiences.map((item, index) => {
+                      return (
+                        <ExperienceField
+                          form={form}
+                          item={item}
+                          index={index}
+                          key={index}
+                          removeExperiences={removeExperiences}
+                        />
+                      );
+                    })}
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <div
+                      className={`flex gap-[12px] items-center justify-between`}
+                    >
+                      <div className={`text-[18px] font-semibold`}>
+                        Projects
+                      </div>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        type="button"
+                        className={`gap-[6px]`}
+                        onClick={() => {
+                          appendProjects({
+                            name: "",
+                            link: "",
+                          });
+                        }}
+                      >
+                        <Plus size={18} />
+                        <div>Add Project</div>
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className={`flex flex-col gap-[24px]`}>
+                    {fieldsProjects.map((item, index) => {
+                      return (
+                        <ProjectField
+                          form={form}
+                          item={item}
+                          index={index}
+                          key={index}
+                          removeProjects={removeProjects}
+                        />
+                      );
+                    })}
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <div
+                      className={`flex gap-[12px] items-center justify-between`}
+                    >
+                      <div className={`text-[18px] font-semibold`}>
+                        Education
+                      </div>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        type="button"
+                        className={`gap-[6px]`}
+                        onClick={() => {
+                          appendEducation({
+                            schoolName: "",
+                            date: {
+                              from: new Date(),
+                              to: new Date(),
+                            },
+                          });
+                        }}
+                      >
+                        <Plus size={18} />
+                        <div>Add Education</div>
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className={`flex flex-col gap-[24px]`}>
+                    {fieldsEducation.map((item, index) => {
+                      return (
+                        <EducationField
+                          form={form}
+                          item={item}
+                          index={index}
+                          key={index}
+                          removeEducation={removeEducation}
+                        />
+                      );
+                    })}
+                    <FormDescription>
+                      Don't include your high school.
+                    </FormDescription>
+                  </CardContent>
+                </Card>
+              </form>
+            </Form>
+          </div>
+          <div className={``}>
+            {debouncedData && (
+              <PDFViewer className={`w-full h-[calc(100dvh-56px)]`}>
+                <MyDocument data={debouncedData} dataKeywords={dataKeywords} />
+              </PDFViewer>
             )}
           </div>
         </div>
       ) : (
         <Spinner className={`w-full flex justify-center mt-[48px]`} />
       )}
-    </AnimatedPage>
+    </AnimatedPage2>
   );
 }

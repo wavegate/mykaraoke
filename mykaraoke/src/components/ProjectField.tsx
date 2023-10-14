@@ -36,7 +36,7 @@ export default function ProjectField({ item, index, form, removeProjects }) {
               }}
             >
               <Plus size={18} />
-              <div>Add Summary Bullet Point</div>
+              <div>Add Bullet Point</div>
             </Button>
             <Button
               variant="secondary"

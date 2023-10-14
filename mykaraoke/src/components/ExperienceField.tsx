@@ -48,7 +48,7 @@ export default function ExperienceField({
               }}
             >
               <Plus size={18} />
-              <div>Add Summary Bullet Point</div>
+              <div>Add Bullet Point</div>
             </Button>
             <Button
               variant="secondary"
