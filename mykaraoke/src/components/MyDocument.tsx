@@ -278,7 +278,9 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
             >
               {category}:
             </Text>
-            <Text style={{ flex: "1" }}>{keywords.join(", ")}</Text>
+            <Text style={{ flex: "1" }}>
+              {(keywords as string[]).join(", ")}
+            </Text>
           </View>
         );
       })}
@@ -471,8 +473,8 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
                   flexDirection: "row",
                   flexWrap: "wrap",
                   justifyContent: "center",
-                  rowGap: "2px",
-                  columnGap: "3px",
+                  rowGap: 2,
+                  columnGap: 3,
                 }}
               >
                 {joinedSubtitles}

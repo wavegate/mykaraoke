@@ -301,7 +301,10 @@ const TagInput = memo(
                   if (e.code === "Enter") {
                     setTags([
                       ...tags,
-                      { id: e.target.value, text: e.target.value },
+                      {
+                        id: (e.target as HTMLInputElement).value,
+                        text: (e.target as HTMLInputElement).value,
+                      },
                     ]);
                   }
                 }}

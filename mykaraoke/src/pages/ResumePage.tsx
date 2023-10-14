@@ -300,7 +300,7 @@ export default function ResumePage() {
     setTags(newTags);
     form.setValue(
       `skills`,
-      newTags.map((tag) => ({ value: tag.text })) as [Tag, ...Tag[]]
+      newTags.map((tag) => ({ value: tag.text }))
     );
   }, []);
 
