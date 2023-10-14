@@ -334,7 +334,12 @@ export default function ResumePage() {
 
               <div className={`flex gap-2`}>
                 <PDFDownloadLink
-                  document={<MyDocument data={debouncedData} />}
+                  document={
+                    <MyDocument
+                      data={debouncedData}
+                      dataKeywords={dataKeywords}
+                    />
+                  }
                   fileName="resume.pdf"
                 >
                   {({ blob, url, loading, error }) =>
@@ -347,22 +352,29 @@ export default function ResumePage() {
                     )
                   }
                 </PDFDownloadLink>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  loading={docxMutation.isLoading}
+
+                <BlobProvider
+                  document={
+                    <MyDocument
+                      data={debouncedData}
+                      dataKeywords={dataKeywords}
+                    />
+                  }
                 >
-                  <BlobProvider document={<MyDocument data={debouncedData} />}>
-                    {({ blob, url, loading, error }) => {
-                      // Do whatever you need with blob here
-                      return (
-                        <div onClick={() => handleDownloadDocx(blob)}>
-                          Download .docx
-                        </div>
-                      );
-                    }}
-                  </BlobProvider>
-                </Button>
+                  {({ blob, url, loading, error }) => {
+                    // Do whatever you need with blob here
+                    return (
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        loading={docxMutation.isLoading}
+                        onClick={() => handleDownloadDocx(blob)}
+                      >
+                        Download .docx
+                      </Button>
+                    );
+                  }}
+                </BlobProvider>
               </div>
             </div>
             <Form {...form}>

@@ -456,7 +456,7 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
             }}
             wrap={false}
           >
-            {data.name && (
+            {data.name ? (
               <Text
                 style={{
                   fontSize: "16px",
@@ -465,6 +465,8 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
               >
                 {data.name}
               </Text>
+            ) : (
+              false
             )}
             {subtitles.length > 0 && (
               <View
