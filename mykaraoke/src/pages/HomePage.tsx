@@ -108,15 +108,15 @@ export default function HomePage() {
       {data && <DataTable columns={columns} data={data} />}
       <div className={`grid grid-cols-2 gap-[48px]`}>
         {data && <ChloropethChart data={jobListingsByState} />}
-        {data && <BarChart data={data} category="Language" />}
-        {data && <BarChart data={data} category="Framework" />}
-        {data && <BarChart data={data} category="Soft Skill" />}
-        {data && <BarChart data={data} category="Personality Trait" />}
-        {data && <BarChart data={data} category="Process" />}
-        {data && <BarChart data={data} category="Practice" />}
-        {data && <BarChart data={data} category="Cloud Service Provider" />}
-        {data && <BarChart data={data} category="Specialization" />}
-        {data && <BarChart data={data} category="Knowledge Domain" />}
+        {data && <BarChart data={data} category="Languages" />}
+        {data && <BarChart data={data} category="Frameworks" />}
+        {data && <BarChart data={data} category="Soft Skills" />}
+        {data && <BarChart data={data} category="Personality Traits" />}
+        {data && <BarChart data={data} category="Processes" />}
+        {data && <BarChart data={data} category="Cloud Service Providers" />}
+        {data && <BarChart data={data} category="AWS Services" />}
+        {data && <BarChart data={data} category="Specializations" />}
+        {data && <BarChart data={data} category="Knowledge Domains" />}
       </div>
 
       {/* <Form {...form}>

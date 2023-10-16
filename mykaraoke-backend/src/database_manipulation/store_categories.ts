@@ -4,7 +4,7 @@ import fs from "fs";
 import prisma from "../config/database.js";
 
 const file =
-  "./src/database_manipulation/dataset_indeed-scraper_2023-10-06_00-26-33-590categories.json";
+  "./src/database_manipulation/dataset_indeed-scraper_2023-10-15_15-43-09-792categories.json";
 
 await prisma.category.deleteMany({});
 
