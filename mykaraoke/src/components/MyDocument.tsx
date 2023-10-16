@@ -98,6 +98,38 @@ const isDateWithinPast3Years = (inputDate) => {
   return inputDate >= threeYearsAgo;
 };
 
+const customSort = (arr) => {
+  const order = ["Language", "Framework"];
+
+  return arr.sort(([a, _], [b, __]) => {
+    if (a === "Other") {
+      return 1; // "Other" comes after everything else
+    } else if (b === "Other") {
+      return -1; // Everything else comes before "Other"
+    } else {
+      const indexA = order.indexOf(a);
+      const indexB = order.indexOf(b);
+
+      // If both elements are in the order array, compare their indices
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      }
+
+      // If only one element is in the order array, it should come first
+      if (indexA !== -1) {
+        return -1;
+      }
+
+      if (indexB !== -1) {
+        return 1;
+      }
+
+      // If neither element is in the order array, they are considered equal
+      return 0;
+    }
+  });
+};
+
 const MyDocument = memo(({ data, dataKeywords }: any) => {
   let skills = null;
   if (data?.skills && dataKeywords) {
@@ -119,7 +151,17 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
           skillsMap.Other = [skill.value];
         }
       }
-      skills = skillsMap;
+      const newMap: any = {};
+
+      for (let [key, value] of Object.entries(skillsMap)) {
+        if ((value as string[]).length > 2) {
+          newMap[key] = value;
+        } else {
+          newMap.Other = [...(newMap.Other || []), ...(value as string[])];
+        }
+      }
+
+      skills = newMap;
     }
   }
 
@@ -142,11 +184,22 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
   // }
   // console.log(order);
 
+  function countSpaces(str) {
+    let count = 0;
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === " " || str[i] === "\t") {
+        count++;
+      }
+    }
+    return count;
+  }
+
   const skillNameWidth = useMemo(() => {
     let maxChar = 0;
     if (skills) {
       Object.entries(skills).forEach(([key, value]) => {
-        const nameLength = key.length;
+        const spaces = countSpaces(key);
+        const nameLength = key.length - spaces * 3;
         if (nameLength > maxChar) {
           maxChar = nameLength;
         }
@@ -154,73 +207,6 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
     }
     return `${maxChar * 7}px`;
   }, [skills]);
-
-  const experiences = [
-    {
-      company: "ABC Tech Solutions",
-      location: "Plainsboro Township, NJ, USA",
-      title: "Web Dveloper",
-      date: "January 2023 - Present",
-      points: [
-        "Developed and maintained web applications using React.js, Node.js, and TypeScript resulting in a 50% increase in application performance.",
-        "Collaborated with UI/UX designers ensuring seamless implementation and optimized user experience.",
-        "Conducted code reviews to maintain coding standards and implemented CI/CD pipelines using AWS.",
-        "Utilized agile methodologies for iterative development and efficient delivery.",
-      ],
-    },
-    {
-      company: "ABC Tech Solutions",
-      location: "Plainsboro Township, NJ, USA",
-      title: "Web Dveloper",
-      date: "January 2023 - Present",
-      points: [
-        "Developed and maintained web applications using React.js, Node.js, and TypeScript resulting in a 50% increase in application performance.",
-        "Collaborated with UI/UX designers ensuring seamless implementation and optimized user experience.",
-        "Conducted code reviews to maintain coding standards and implemented CI/CD pipelines using AWS.",
-        "Utilized agile methodologies for iterative development and efficient delivery.",
-      ],
-    },
-  ];
-
-  const projects = [
-    {
-      name: "Project Name",
-      link: "github.com/bla/bla",
-      points: [
-        "Developed and maintained web applications using React.js, Node.js, and TypeScript resulting in a 50% increase in application performance.",
-        "Collaborated with UI/UX designers ensuring seamless implementation and optimized user experience.",
-        "Conducted code reviews to maintain coding standards and implemented CI/CD pipelines using AWS.",
-        "Utilized agile methodologies for iterative development and efficient delivery.",
-      ],
-    },
-    {
-      name: "Project Name",
-      link: "github.com/bla/bla",
-      points: [
-        "Developed and maintained web applications using React.js, Node.js, and TypeScript resulting in a 50% increase in application performance.",
-        "Collaborated with UI/UX designers ensuring seamless implementation and optimized user experience.",
-        "Conducted code reviews to maintain coding standards and implemented CI/CD pipelines using AWS.",
-        "Utilized agile methodologies for iterative development and efficient delivery.",
-      ],
-    },
-  ];
-
-  const education = [
-    {
-      schoolName: "San Jose State University",
-      schoolLocation: "San Jose, CA",
-      degree: "Master of Science",
-      date: "August 2001 - May 2005",
-      relevantCoursework: ["HCI", "AI"],
-    },
-    {
-      schoolName: "San Jose State University",
-      schoolLocation: "San Jose, CA",
-      degree: "Master of Science",
-      date: "August 2001 - May 2005",
-      relevantCoursework: ["HCI", "AI"],
-    },
-  ];
 
   const subtitles = [];
   if (data.phone) {
@@ -265,25 +251,39 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
     }
   }, []);
 
-  const skillSection = skills && (
+  const skillsSection = skills && (
     <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
       <Title>Skills</Title>
-      {Object.entries(skills).map(([category, keywords], index) => {
-        return (
-          <View key={index} style={{ display: "flex", flexDirection: "row" }}>
-            <Text
-              style={{
-                flexBasis: skillNameWidth,
-              }}
-            >
-              {category}:
-            </Text>
-            <Text style={{ flex: "1" }}>
-              {(keywords as string[]).join(", ")}
-            </Text>
-          </View>
-        );
-      })}
+      {customSort(Object.entries(skills))
+        // .sort(([aCategory, aValues], b) => {
+        //   if (aCategory === "Other") {
+        //     return 1;
+        //   } else {
+        //     return -1;
+        //   }
+        // })
+        .map(([category, keywords], index, arr) => {
+          let displayCategory = null;
+          if (arr.length === 1 && category === "Other") {
+            displayCategory = "Skills";
+          } else {
+            displayCategory = category;
+          }
+          return (
+            <View key={index} style={{ display: "flex", flexDirection: "row" }}>
+              <Text
+                style={{
+                  flexBasis: skillNameWidth,
+                }}
+              >
+                {displayCategory}:
+              </Text>
+              <Text style={{ flex: "1" }}>
+                {(keywords as string[]).join(", ")}
+              </Text>
+            </View>
+          );
+        })}
     </View>
   );
 
@@ -419,11 +419,11 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
       educationSection,
       experienceSection,
       projectsSection,
-      skillSection,
+      skillsSection,
     ];
   } else {
     orderDisplay = [
-      skillSection,
+      skillsSection,
       experienceSection,
       projectsSection,
       educationSection,

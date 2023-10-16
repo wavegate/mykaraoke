@@ -8,6 +8,7 @@ from filter_out_words import filter_out_words
 
 filename = "dataset_indeed-scraper_2023-09-16_01-10-37-409"
 filename2 = "dataset_indeed-scraper_2023-10-06_00-26-33-590"
+filename3 = "dataset_indeed-scraper_2023-10-15_15-43-09-792"
 
 with open(
     f"keywords_extracted/{filename}.json",
@@ -19,6 +20,13 @@ with open(
 
 with open(
     f"keywords_extracted/{filename2}.json",
+    "r",
+    encoding="utf-8",
+) as json_file:
+    data = data + json.load(json_file)
+
+with open(
+    f"keywords_extracted/{filename3}.json",
     "r",
     encoding="utf-8",
 ) as json_file:
@@ -89,5 +97,5 @@ for keyword_tuple in filtered_words:
 #     if fuzz.ratio(item[0], "next") > 30:
 #         print(item)
 
-with open(f"keywords_counted/{filename2}.json", "w", encoding="utf-8") as file:
+with open(f"keywords_counted/{filename3}.json", "w", encoding="utf-8") as file:
     json.dump(category_map, file, indent=4)

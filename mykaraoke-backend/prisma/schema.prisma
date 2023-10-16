@@ -112,7 +112,8 @@ model JobListing {
 }
 
 model Keyword {
-  name        String       @id
+  id          Int          @id @default(autoincrement())
+  name        String
   jobListings JobListing[]
   categories  Category[]
   resumes     Resume[]

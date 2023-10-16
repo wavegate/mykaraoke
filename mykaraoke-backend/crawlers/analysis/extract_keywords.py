@@ -6,50 +6,85 @@ import os
 from dotenv import load_dotenv
 import openai
 import time
+import threading
 
 load_dotenv()
 
 openai.api_key = os.environ.get("OPENAI_KEY")
 
-filename = "dataset_indeed-scraper_2023-10-06_00-26-33-590"
+max_restarts = 10
+restart_count = 0
 
-with open(
-    f"input_data/{filename}.json",
-    "r",
-    encoding="utf-8",
-) as json_file:
-    data = json.load(json_file)
+start_time = [time.time()]
 
-try:
-    with open(f"keywords_extracted/{filename}.json", "r", encoding="utf-8") as file:
-        previous_data = json.load(file)
-except FileNotFoundError:
-    previous_data = []
 
-descriptions = [item["description"] for item in data]
-# print(len(previous_data))
+# Function to print elapsed time every 1 second
+def print_elapsed_time(start_time):
+    while True:
+        current_time = time.time()
+        elapsed_seconds = current_time - start_time
+        print(f"Elapsed time: {elapsed_seconds:.2f} seconds")
+        time.sleep(5)
 
-start_index = len(previous_data)
-for index, description in enumerate(descriptions):
-    if index >= start_index:
-        completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "The user will give you a job description. I want you to return to me a comma delimited list of technical keywords sought for in the job description.",
-                },
-                {"role": "user", "content": description},
-            ],
-        )
-        keywords = completion.choices[0].message.content
-        keywords = [word.strip() for word in keywords.split(",")]
-        previous_data.append(keywords)
-        with open(f"keywords_extracted/{filename}.json", "w", encoding="utf-8") as file:
-            json.dump(previous_data, file, indent=4)
-        print(f"added {index}")
-        print(completion)
-        time.sleep(2)
+
+elapsed_time_thread = threading.Thread(target=print_elapsed_time, args=(start_time[0],))
+elapsed_time_thread.daemon = True
+elapsed_time_thread.start()
+
+
+while restart_count < max_restarts:
+    try:
+        filename = "dataset_indeed-scraper_2023-10-15_15-43-09-792"
+
+        with open(
+            f"input_data/{filename}.json",
+            "r",
+            encoding="utf-8",
+        ) as json_file:
+            data = json.load(json_file)
+
+        try:
+            with open(
+                f"keywords_extracted/{filename}.json", "r", encoding="utf-8"
+            ) as file:
+                previous_data = json.load(file)
+        except FileNotFoundError:
+            previous_data = []
+
+        descriptions = [item["description"] for item in data]
+        # print(len(previous_data))
+
+        start_index = len(previous_data)
+        for index, description in enumerate(descriptions):
+            if index >= start_index:
+                completion = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "The user will give you a job description. I want you to return to me a comma delimited list of technical keywords sought for in the job description.",
+                        },
+                        {"role": "user", "content": description},
+                    ],
+                )
+                keywords = completion.choices[0].message.content
+                keywords = [word.strip() for word in keywords.split(",")]
+                previous_data.append(keywords)
+                with open(
+                    f"keywords_extracted/{filename}.json", "w", encoding="utf-8"
+                ) as file:
+                    json.dump(previous_data, file, indent=4)
+                print(f"Restart count: {restart_count}")
+                print(f"added {index}")
+                start_time[0] = time.time()
+                print(completion)
+                time.sleep(2)
+        break
+    except Exception as e:
+        print(f"Error: {e}")
+        restart_count += 1
+
+elapsed_time_thread.join()
 
 # completion = openai.ChatCompletion.create(
 #     model="gpt-3.5-turbo",
