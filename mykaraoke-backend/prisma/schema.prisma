@@ -113,13 +113,14 @@ model JobListing {
 
 model Keyword {
   id          Int          @id @default(autoincrement())
-  name        String
+  name        String       @unique
   jobListings JobListing[]
   categories  Category[]
   resumes     Resume[]
 }
 
 model Category {
-  name     String    @id
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
   keywords Keyword[]
 }

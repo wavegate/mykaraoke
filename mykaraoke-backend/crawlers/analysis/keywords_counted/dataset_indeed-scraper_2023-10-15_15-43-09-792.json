@@ -915,7 +915,6 @@
     "business objectives": 18,
     "deliverables": 18,
     "routing": 18,
-    "springboot": 18,
     "managing": 18,
     "languages": 18,
     "desktop": 18,
@@ -1104,7 +1103,6 @@
     "techniques": 23,
     "autonomy": 23,
     "career development": 23,
-    "front end developer": 23,
     "orm": 23,
     "development teams": 23,
     "design systems": 23,
@@ -1117,7 +1115,6 @@
     "long-term disability": 23,
     "application developer": 23,
     "project manager": 23,
-    "cucumber": 23,
     "accountability": 23,
     "c#.net": 23,
     "technical guidance": 23,
@@ -1133,7 +1130,6 @@
     "xhtml": 23,
     "veterans": 23,
     "big data": 23,
-    "subversion": 23,
     "Swift": [
         23,
         "Languages"
@@ -1143,11 +1139,15 @@
         "Visualization Tools"
     ],
     "SAML": 23,
+    "Cucumber": [
+        23,
+        "Testing Frameworks"
+    ],
     "architects": 24,
     "programming skills": 24,
     "computer vision": [
         24,
-        "Computer Science Topics"
+        "Knowledge Domains"
     ],
     "recommendations": 24,
     "professional experience": 24,
@@ -1157,10 +1157,7 @@
     "inclusive": 24,
     "remote position": 24,
     "programming language": 24,
-    "spring mvc": 24,
     "ui development": 24,
-    "agile development methodology": 24,
-    "ms sql": 24,
     "safety": 24,
     "cloudwatch": 24,
     "sharepoint online": 24,
@@ -1179,10 +1176,8 @@
     "functional requirements": 25,
     "customization": 25,
     "jdbc": 25,
-    "oral communication": 25,
     "api gateway": 25,
     "end users": 25,
-    "java development": 25,
     "mvc frameworks": 25,
     "automation tools": 26,
     "aws cloud": 26,
@@ -1190,15 +1185,11 @@
     "business logic": 26,
     "accuracy": 26,
     "software products": 26,
-    "full stack engineer": 26,
     "restful": 26,
     "high performance": 26,
-    "team collaboration": 26,
     "production issues": 26,
     "data management": 26,
-    "html 5": 26,
     "security best practices": 26,
-    "express": 26,
     "refactoring": 26,
     "visual basic": 26,
     "process improvements": 26,
@@ -1210,9 +1201,14 @@
     "cms": 26,
     "user stories": 26,
     "microsoft visual studio": 26,
+    "h5ml": 26,
     "RabbitMQ": [
         26,
         "Messaging Systems"
+    ],
+    "Express.js": [
+        26,
+        "Frameworks"
     ],
     "tcp/ip": 27,
     "release management": 27,
@@ -1224,18 +1220,14 @@
     "decision-making": 27,
     "application security": 27,
     "system requirements": 27,
-    "illustrator": 27,
-    "agile team": 27,
     "responsibilities": 27,
     "functional programming": 27,
     "diversity and inclusion": 27,
     "openshift": 27,
     "cloud environments": 27,
-    "js": 27,
     "oral communication skills": 27,
     "defects": 27,
     "background check": 27,
-    "devops practices": 27,
     "system administration": 27,
     "vendors": 27,
     "security tools": 27,
@@ -1250,6 +1242,10 @@
         "Databases"
     ],
     "ES6": 27,
+    "Illustrator": [
+        27,
+        "Design Tools"
+    ],
     "work-life balance": 28,
     "observability": 28,
     "application design": 28,
@@ -1311,27 +1307,22 @@
     "power bi": 30,
     "windows server": 30,
     "microsoft office": 30,
-    "content management systems": 31,
-    "automated tests": 31,
-    "application architecture": 31,
-    "innovative solutions": 31,
-    "business processes": 31,
-    "reliable": 31,
-    "xslt": 31,
-    "clients": 31,
-    "va": 31,
-    "Spark": 31,
-    "product owners": 32,
-    "full-stack development": 32,
-    "risk management": 32,
-    "e-commerce": 32,
-    "firewalls": 32,
-    "performance testing": 32,
-    "relational database": 32,
-    "hybrid": 32,
-    "information security": 32,
-    "coaching": 32,
-    "000.00 per year": 32,
+    "Spark": [
+        31,
+        "Distributed Computing"
+    ],
+    "XSLT": [
+        31,
+        "Languages"
+    ],
+    "performance testing": [
+        32,
+        "Processes"
+    ],
+    "information security": [
+        32,
+        "Knowledge Domains"
+    ],
     "Flask": [
         32,
         "Frameworks"
@@ -1340,30 +1331,31 @@
         33,
         "Knowledge Domains"
     ],
-    "restful api": 33,
-    "data science": 33,
-    "regression testing": 33,
-    "installation": 33,
-    "8 hour shift": 33,
-    "pay": 33,
-    "react js": 33,
-    "wpf": 33,
+    "regression testing": [
+        33,
+        "Processes"
+    ],
     "expertise": 33,
-    "less": 33,
-    "analyze": 33,
-    "motivated": 33,
-    "leadership skills": 33,
+    "motivated": [
+        33,
+        "Personality Traits"
+    ],
     "401(k) plan": 33,
-    "business needs": 33,
-    "ci/cd pipeline": 34,
-    "data scientists": 34,
-    "rdbms": 34,
+    "LESS": [
+        33,
+        "CSS Preprocessors"
+    ],
+    "WPF": [
+        33,
+        "Frameworks"
+    ],
     "work experience": 34,
     "flexible schedule": 34,
-    "penetration testing": 34,
-    "eclipse": 34,
+    "penetration testing": [
+        34,
+        "Processes"
+    ],
     "adaptability": 34,
-    "ui/ux design": 34,
     "Postman": [
         34,
         "Tool"
@@ -1372,15 +1364,14 @@
         34,
         "Content Management Systems"
     ],
-    "technical lead": 35,
-    "analytical": 35,
-    "in person": 35,
-    "authorization": 35,
-    "cypress": 35,
-    "prioritize": 35,
-    "angular js": 35,
-    "technical expertise": 35,
-    "kanban": 35,
+    "Eclipse": [
+        34,
+        "Integrated Development Environments"
+    ],
+    "analytical": [
+        35,
+        "Personality Traits"
+    ],
     "Kotlin": [
         35,
         "Languages"
@@ -1389,46 +1380,74 @@
         35,
         "AWS Services"
     ],
-    "mathematics": 36,
-    "dns": 36,
-    "bash": 36,
-    "software architecture": 36,
-    "data analytics": 36,
-    "deadlines": 36,
-    "t-sql": 36,
-    "health savings account": 36,
-    "design reviews": 36,
-    "architect": 36,
-    "jsp": 36,
-    "u.s. citizenship": 36,
+    "Kanban": [
+        35,
+        "Project Management"
+    ],
+    "Cypress": [
+        35,
+        "Testing Frameworks"
+    ],
+    "mathematics": [
+        36,
+        "Knowledge Domains"
+    ],
+    "bash": [
+        36,
+        "Scripting Languages"
+    ],
     "SOA": [
         36,
         "Architecture"
     ],
-    "change management": 37,
-    "configuration management": 37,
-    "software testing": 37,
-    "root cause analysis": 37,
-    "software systems": 37,
-    "business analysts": 37,
-    "google analytics": 37,
-    "apache": 37,
-    "graphic design": 37,
+    "JSP": [
+        36,
+        "Template Engines"
+    ],
+    "T-SQL": [
+        36,
+        "Query Languages"
+    ],
+    "change management": [
+        37,
+        "Processes"
+    ],
+    "configuration management": [
+        37,
+        "Processes"
+    ],
+    "root cause analysis": [
+        37,
+        "Processes"
+    ],
+    "graphic design": [
+        37,
+        "Specializations"
+    ],
     "Salesforce": [
         37,
         "Customer Relationship Management"
     ],
-    "rds": 38,
-    "implementing": 38,
-    "dashboards": 39,
-    "dynamodb": 39,
-    "critical thinking": 39,
-    "containers": 39,
+    "Apache": [
+        37,
+        "Servers"
+    ],
+    "Google Analytics": [
+        37,
+        "Analysis Tools"
+    ],
+    "RDS": [
+        38,
+        "AWS Services"
+    ],
     "Splunk": [
         39,
         "Log Management"
     ],
-    "multi-tasking": 40,
+    "DynamoDB": [
+        39,
+        "AWS Services"
+    ],
     "detail-oriented": [
         40,
         "Personality Traits"
@@ -1437,8 +1456,6 @@
         40,
         "Personality Traits"
     ],
-    "guidance": 40,
-    "us citizen": 40,
     "J2EE": [
         40,
         "Specifications"
@@ -1451,7 +1468,6 @@
         40,
         "Query Languages"
     ],
-    "ms sql server": 41,
     "project managers": 42,
     "fast-paced": [
         42,
@@ -1460,22 +1476,22 @@
     "linq": 42,
     "laravel": 42,
     "devsecops": 42,
-    "us citizenship": 42,
     "SSRS": [
         42,
         "Reporting Tool"
     ],
-    "development team": 43,
     "Photoshop": [
         43,
         "Design Tool"
     ],
-    "asp.net mvc": 44,
     "Figma": [
         44,
         "Design Tools"
     ],
-    "technical issues": 45,
+    "ASP.NET MVC": [
+        44,
+        "Frameworks"
+    ],
     "cybersecurity": [
         45,
         "Knowledge Domains"
@@ -1488,7 +1504,6 @@
         45,
         "Operating Systems"
     ],
-    "collaborative environment": 46,
     "TFS": [
         46,
         "Version Control Systems"
@@ -1501,24 +1516,22 @@
         47,
         "Knowledge Domains"
     ],
-    "integrity": 47,
-    "full stack development": 47,
-    "innovative": 47,
+    "innovative": [
+        47,
+        "Personality Traits"
+    ],
     "requirements analysis": [
         48,
         "Processes"
-    ],
-    "source control": 48,
-    "hardware": 48,
-    "SVN": [
-        48,
-        "Version Control Systems"
     ],
     "Lambda": [
         48,
         "AWS Services"
     ],
-    "confluence": 49,
+    "Confluence": [
+        49,
+        "Project Management"
+    ],
     "creativity": [
         50,
         "Personality Traits"
@@ -1547,8 +1560,10 @@
         51,
         "Content Management Systems"
     ],
-    "product management": 52,
-    "microsoft azure": 52,
+    "product management": [
+        52,
+        "Processes"
+    ],
     "VB.NET": [
         52,
         "Languages"
@@ -1561,12 +1576,10 @@
         53,
         "Frameworks"
     ],
-    "professional development": 54,
     "availability": [
         54,
         "Principles"
     ],
-    "powershell": 54,
     "Jest": [
         54,
         "Testing Frameworks"
@@ -1575,17 +1588,22 @@
         54,
         "AWS Services"
     ],
+    "PowerShell": [
+        54,
+        "Scripting Languages"
+    ],
     "npm": [
         55,
         "Package Managers"
     ],
-    "stored procedures": 55,
-    "scripting": 56,
+    "scripting": [
+        56,
+        "Processes"
+    ],
     "integration testing": [
         56,
         "Processes"
     ],
-    "test plans": 56,
     "efficiency": [
         57,
         "Personality Traits"
@@ -1634,7 +1652,6 @@
         61,
         "Processes"
     ],
-    "technical specifications": 62,
     "Ruby on Rails": [
         63,
         "Frameworks"
@@ -1651,7 +1668,6 @@
         66,
         "Principles"
     ],
-    "technical support": 66,
     "Selenium": [
         66,
         "Testing Frameworks"
@@ -1678,7 +1694,7 @@
     ],
     "Hibernate": [
         67,
-        "Object Relational Mapping"
+        "Object Relational Mapper"
     ],
     "Redis": [
         68,
@@ -1688,12 +1704,18 @@
         70,
         "Principles"
     ],
-    "stakeholders": 71,
+    "SVN": [
+        71,
+        "Version Control Systems"
+    ],
     "Django": [
         71,
         "Frameworks"
     ],
-    "cross-browser compatibility": 72,
+    "cross-browser compatibility": [
+        72,
+        "Principles"
+    ],
     "Kafka": [
         72,
         "Messaging Systems"
@@ -1728,7 +1750,7 @@
     ],
     "SASS": [
         81,
-        "CSS Preprocessesors"
+        "CSS Preprocessors"
     ],
     "C": [
         83,
@@ -1746,7 +1768,6 @@
         89,
         "Processes"
     ],
-    "fast-paced environment": 89,
     "Maven": [
         89,
         "Build Tools"
@@ -1792,8 +1813,6 @@
         106,
         "Integrated Development Environments"
     ],
-    "new technologies": 108,
-    "coding standards": 108,
     "Go": [
         108,
         "Languages"
@@ -1805,10 +1824,6 @@
     "Redux": [
         113,
         "Global State Management"
-    ],
-    "Spring Boot": [
-        119,
-        "Frameworks"
     ],
     "GraphQL": [
         121,
@@ -1826,10 +1841,6 @@
         126,
         "Personality Traits"
     ],
-    "leadership": [
-        128,
-        "Soft Skills"
-    ],
     "NoSQL": [
         128,
         "Databases"
@@ -1838,10 +1849,6 @@
         129,
         "Methodologies"
     ],
-    "fullstack": [
-        129,
-        "Specializations"
-    ],
     "training": [
         133,
         "Soft Skills"
@@ -1849,6 +1856,10 @@
     "clean code": [
         137,
         "Principles"
+    ],
+    "Spring Boot": [
+        137,
+        "Frameworks"
     ],
     "MVC": [
         139,
@@ -1898,9 +1909,9 @@
         159,
         "Version Control Systems"
     ],
-    "project management": [
-        160,
-        "Processes"
+    "leadership": [
+        161,
+        "Soft Skills"
     ],
     "interpersonal skills": [
         162,
@@ -1929,10 +1940,6 @@
     "Jenkins": [
         188,
         "Automation"
-    ],
-    "DevOps": [
-        191,
-        "Specializations"
     ],
     "automation": [
         192,
@@ -1963,6 +1970,10 @@
         "Data Formats"
     ],
     "object-oriented programming": 214,
+    "DevOps": [
+        218,
+        "Specializations"
+    ],
     "analytical skills": [
         219,
         "Soft Skills"
@@ -1971,9 +1982,9 @@
         231,
         "Frameworks"
     ],
-    "Spring": [
-        240,
-        "Frameworks"
+    "fullstack": [
+        234,
+        "Specializations"
     ],
     "XML": [
         244,
@@ -1986,6 +1997,14 @@
     "data analysis": [
         263,
         "Processes"
+    ],
+    "project management": [
+        264,
+        "Processes"
+    ],
+    "Spring": [
+        264,
+        "Frameworks"
     ],
     "security": [
         266,
@@ -2015,10 +2034,6 @@
         307,
         "Containerization"
     ],
-    "SQL Server": [
-        310,
-        "Databases"
-    ],
     "mentorship": [
         319,
         "Soft Skills"
@@ -2031,9 +2046,9 @@
         369,
         "Processes"
     ],
-    "Azure": [
-        374,
-        "Cloud Service Providers"
+    "SQL Server": [
+        375,
+        "Databases"
     ],
     "code review": [
         379,
@@ -2044,12 +2059,16 @@
         "Libraries"
     ],
     "frontend": [
-        396,
+        419,
         "Specializations"
     ],
     "documentation": [
         426,
         "Processes"
+    ],
+    "Azure": [
+        426,
+        "Cloud Service Providers"
     ],
     "Node.js": [
         458,
@@ -2063,17 +2082,17 @@
         493,
         "Cloud Service Providers"
     ],
-    "collaboration": [
-        511,
-        "Soft Skills"
-    ],
-    "REST": [
-        512,
-        "Architecture"
-    ],
     "Git": [
         526,
         "Version Control Systems"
+    ],
+    "collaboration": [
+        537,
+        "Soft Skills"
+    ],
+    "REST": [
+        545,
+        "Architecture"
     ],
     "Python": [
         555,
@@ -2091,36 +2110,36 @@
         579,
         "Frameworks"
     ],
-    "testing": [
-        591,
-        "Soft Skills"
-    ],
     "CI/CD": [
-        591,
+        625,
         "Practices"
     ],
-    "UI/UX": [
-        622,
-        "Processes"
-    ],
     "Java": [
-        631,
+        656,
         "Languages"
     ],
-    "agile": [
+    "UI/UX": [
         656,
-        "Methodologies"
+        "Processes"
     ],
     "design": [
         657,
         "Soft Skills"
+    ],
+    "agile": [
+        707,
+        "Methodologies"
+    ],
+    "testing": [
+        715,
+        "Processes"
     ],
     ".NET": [
         801,
         "Frameworks"
     ],
     "React.js": [
-        897,
+        930,
         "Frameworks"
     ],
     "CSS": [
@@ -2136,11 +2155,11 @@
         "Languages"
     ],
     "communication": [
-        1193,
+        1218,
         "Soft Skills"
     ],
     "JavaScript": [
-        1519,
+        1546,
         "Languages"
     ]
 }

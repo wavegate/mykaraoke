@@ -7,7 +7,7 @@ await prisma.jobListing.deleteMany({});
 await prisma.keyword.deleteMany({});
 
 const file =
-  "./src/database_manipulation/dataset_indeed-scraper_2023-10-06_00-26-33-590.json";
+  "./src/database_manipulation/dataset_indeed-scraper_2023-10-15_15-43-09-792.json";
 
 function chunkArray(arr: any[], chunkSize: number) {
   const chunkedArr = [];
