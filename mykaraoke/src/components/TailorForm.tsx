@@ -25,22 +25,62 @@ import {
 } from "./ui/form";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { convertDatesToObject } from "@/pages/ResumePage";
 
 const formSchema = z.object({
   jobDescription: z.string().min(1).max(10000),
 });
 
-export default function TailorForm({ resumeForm }: any) {
+export default function TailorForm({ resumeForm, setTags }: any) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      jobDescription: "",
+      jobDescription: `
+      In this Frontend Engineer role, you will develop and maintain many aspects of our product, will manage the Github repo and PR reviews, manage the release pipeline, and will assist and mentor other members of the team. This position will work closely with the backend for data contracts.
+Responsibilities
+
+Build and maintain React applications using TypeScript.
+Develop and manage reusable React functional components.
+Translate and implement designs into React code.
+Take ownership of end-to-end feature delivery and post-launch support.
+Lead software project development/maintenance efforts.
+Contribute to architectural processes.
+Research and integrate technological updates.
+Demonstrate the ability to work remotely while effectively managing tasks.
+Requirements
+
+5+ years of experience in software engineering.
+2+ years of experience with React or similar libraries/frameworks (e.g., Vue).
+Proficiency in HTML, CSS, and JavaScript.
+Proven expertise in TypeScript.
+Proficient in state management systems, specifically Redux Toolkit.
+Nice to have
+
+Experience working with AWS or comparable cloud environments.
+Familiarity with CI/CD pipelines such as Amplify and CodeBuild.
+Experience with Styled Components or CSS in JS (or frameworks like Chakra/Material)
+Experience with MJML or similar Email templating systems
+Startup experience - Experience with scale
+Experience working in a remote environment
+      `,
     },
   });
 
   const mutation = useMutation({
     mutationFn: (updateResume) =>
       axios.post(`${API_URL}/resume/tailor`, updateResume),
+    onSuccess: (data) => {
+      convertDatesToObject(data?.data?.resume);
+      setTags(
+        data?.data?.resume?.skills.map((skill) => ({
+          id: skill.value,
+          text: skill.value,
+        }))
+      );
+      resumeForm.reset(data?.data?.resume);
+      setOpen(false);
+    },
     onSettled: () => {
       toast({
         title: "Resume tailored!",
@@ -55,9 +95,11 @@ export default function TailorForm({ resumeForm }: any) {
     } as any);
   }
 
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
-    <Dialog>
-      <DialogTrigger>Tailor Resume</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger onClick={() => setOpen(true)}>Tailor Resume</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Tailor your Resume</DialogTitle>
@@ -88,7 +130,12 @@ export default function TailorForm({ resumeForm }: any) {
 
           <DialogDescription></DialogDescription>
           <DialogFooter>
-            <Button onClick={form.handleSubmit(onSubmit)}>Tailor</Button>
+            <Button
+              onClick={form.handleSubmit(onSubmit)}
+              loading={mutation.isLoading}
+            >
+              Tailor
+            </Button>
           </DialogFooter>
         </DialogHeader>
       </DialogContent>

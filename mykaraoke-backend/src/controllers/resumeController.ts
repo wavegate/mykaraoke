@@ -149,52 +149,65 @@ const updateResume = async (req: Request, res: Response) => {
 
 const tailorResume = async (req: Request, res: Response) => {
   try {
-    let queryResult;
-    console.log(req.body);
+    const chatCompletion1 = await openai.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: `You are an assistant for tailoring a user's resume to a given job description. The user will give you a job description, and you should retrieve the most important qualifications, technical skills, and experiences from the job description. Ignore anything that is business-related or specific to the company. We will use what you return to tailor the user's resume in the next step.`,
+        },
+        { role: "user", content: req.body.jobDescription },
+      ],
+      model: "gpt-4",
+    });
+    const chatCompletion1Response = chatCompletion1.choices[0].message.content;
+    console.log(chatCompletion1Response);
     for (const experience of req.body.resume.experiences) {
       const bullets = experience.summary
         ?.map((bullet) => bullet.value)
         .join(";");
-      console.log(bullets);
       const chatCompletion = await openai.chat.completions.create({
         messages: [
           {
             role: "system",
-            content: `You are given a job description delimited by triple quotations:
+            content: `You are an assistant for tailoring a user's resume to a given job description. You are given the following job requirements:
             """
-            ${req.body.jobDescription}
+            ${chatCompletion1Response}
             """
-            The user will give you a list of resume bullet points, delimited by semicolons. Please tailor these bullet points to the job description and return the list delimited by semicolons.
+            The user will give you a list of resume bullet points, delimited by semicolons. These bullet points are part of the user's work with their company as a ${experience.title}. Please tailor these bullet points to the job description. Use semicolons to separate each bullet point. Do not use spaces or dashes or new lines to separate the strings. Only use semicolons. Write the bullet point from the applicant's perspective. For example, the words "nice to have" should not be in the result.
             `,
           },
           { role: "user", content: bullets },
         ],
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
       });
-
-      console.log(chatCompletion.choices[0].message.content);
+      const response = chatCompletion.choices[0].message.content;
+      experience.summary = response
+        ?.split(";")
+        .map((point) => ({ value: point }));
     }
     const skills = req.body.resume.skills
       ?.map((skill) => skill.value)
       .join(";");
-    // const chatCompletion = await openai.chat.completions.create({
-    //   messages: [
-    //     {
-    //       role: "system",
-    //       content: `You are given a job description delimited by triple quotations:
-    //             """
-    //             ${req.body.jobDescription}
-    //             """
-    //             The user will give you a list of technical skills, delimited by semicolons. Please append or modify this list of skills for the given job description. Only include hard skills of specific technologies.
-    //             `,
-    //     },
-    //     { role: "user", content: skills },
-    //   ],
-    //   model: "gpt-3.5-turbo",
-    // });
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: `You are given a job description delimited by triple quotations:
+                """
+                ${req.body.jobDescription}
+                """
+                The user will give you a list of technical skills, delimited by semicolons. Please append or modify this list of skills for the given job description. Only include hard skills of specific technologies.
+                `,
+        },
+        { role: "user", content: skills },
+      ],
+      model: "gpt-3.5-turbo",
+    });
 
-    // console.log(chatCompletion.choices[0].message.content);
-    return res.sendStatus(200);
+    req.body.resume.skills = chatCompletion.choices[0].message.content
+      ?.split(";")
+      .map((skill) => ({ value: skill }));
+    return res.json(req.body);
   } catch (error) {
     console.error("Error querying resume:", error);
   }

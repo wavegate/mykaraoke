@@ -33,17 +33,9 @@ import InputMask from "react-input-mask";
 import Spinner from "@/components/Spinner";
 import MultipleComboBox from "@/components/MultipleComboBox";
 import AnimatedPage2 from "@/components/AnimatedPage/AnimatedPage2";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import TailorForm from "@/components/TailorForm";
 
-function convertDatesToObject(obj) {
+export function convertDatesToObject(obj) {
   for (const key in obj) {
     if (obj[key]) {
       if (typeof obj[key] === "string") {
@@ -231,8 +223,8 @@ export default function ResumePage() {
     });
   }
 
-  function convertDateStringsToDate(obj: any): any {
-    if (typeof obj === "string") {
+  function convertDateStringsToDate(obj: any, key: string): any {
+    if (typeof obj === "string" && (key === "to" || key === "from")) {
       // Check if the string is a valid date
       const date = new Date(obj);
       if (!isNaN(date.getTime())) {
@@ -240,13 +232,13 @@ export default function ResumePage() {
       }
     } else if (Array.isArray(obj)) {
       // If it's an array, recursively convert date strings in each element
-      return obj.map(convertDateStringsToDate);
+      return obj.map((val) => convertDateStringsToDate(val, ""));
     } else if (typeof obj === "object" && obj !== null) {
       // If it's an object, recursively convert date strings in its properties
       const newObj: { [key: string]: any } = {};
       for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
-          newObj[key] = convertDateStringsToDate(obj[key]);
+          newObj[key] = convertDateStringsToDate(obj[key], key);
         }
       }
       return newObj;
@@ -259,11 +251,13 @@ export default function ResumePage() {
   function loadFromLocal() {
     const localResume = JSON.parse(localStorage.getItem("resume"));
     const convertedResume = convertDateStringsToDate(localResume);
+
     setTags(
       convertedResume.skills.map((skill) => {
         return { id: skill.value, text: skill.value };
       })
     );
+
     form.reset(convertedResume);
     toast({
       title: "Resume loaded!",
@@ -342,7 +336,7 @@ export default function ResumePage() {
               </div>
 
               <div className={`flex gap-2`}>
-                <TailorForm resumeForm={form} />
+                <TailorForm resumeForm={form} setTags={setTags} />
                 <PDFDownloadLink
                   document={
                     <MyDocument
