@@ -47,6 +47,28 @@ export const jobListingColumns: ColumnDef<Job>[] = [
   // columnDef("specialization", "Specialization"),
   // columnDef("level", "Level"),
   columnDef("postingDate", "Posted"),
+  {
+    accessorKey: "description",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Description
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div
+          className="text-right font-medium"
+          dangerouslySetInnerHTML={{ __html: row.original.description }}
+        ></div>
+      );
+    },
+  },
   columnDef("crawlDate", "Crawled"),
   columnDef("location", "Location"),
   columnDef("salary", "Salary"),

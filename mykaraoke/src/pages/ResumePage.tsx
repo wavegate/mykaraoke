@@ -33,6 +33,15 @@ import InputMask from "react-input-mask";
 import Spinner from "@/components/Spinner";
 import MultipleComboBox from "@/components/MultipleComboBox";
 import AnimatedPage2 from "@/components/AnimatedPage/AnimatedPage2";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import TailorForm from "@/components/TailorForm";
 
 function convertDatesToObject(obj) {
   for (const key in obj) {
@@ -333,6 +342,7 @@ export default function ResumePage() {
               </div>
 
               <div className={`flex gap-2`}>
+                <TailorForm resumeForm={form} />
                 <PDFDownloadLink
                   document={
                     <MyDocument

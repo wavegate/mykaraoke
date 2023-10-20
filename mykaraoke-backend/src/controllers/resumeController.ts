@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import process from "process";
 import fs from "fs";
+import openai from "../config/openai.js";
 
 const getResume = async (req: Request, res: Response) => {
   try {
@@ -146,6 +147,59 @@ const updateResume = async (req: Request, res: Response) => {
   }
 };
 
+const tailorResume = async (req: Request, res: Response) => {
+  try {
+    let queryResult;
+    console.log(req.body);
+    for (const experience of req.body.resume.experiences) {
+      const bullets = experience.summary
+        ?.map((bullet) => bullet.value)
+        .join(";");
+      console.log(bullets);
+      const chatCompletion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: "system",
+            content: `You are given a job description delimited by triple quotations:
+            """
+            ${req.body.jobDescription}
+            """
+            The user will give you a list of resume bullet points, delimited by semicolons. Please tailor these bullet points to the job description and return the list delimited by semicolons.
+            `,
+          },
+          { role: "user", content: bullets },
+        ],
+        model: "gpt-3.5-turbo",
+      });
+
+      console.log(chatCompletion.choices[0].message.content);
+    }
+    const skills = req.body.resume.skills
+      ?.map((skill) => skill.value)
+      .join(";");
+    // const chatCompletion = await openai.chat.completions.create({
+    //   messages: [
+    //     {
+    //       role: "system",
+    //       content: `You are given a job description delimited by triple quotations:
+    //             """
+    //             ${req.body.jobDescription}
+    //             """
+    //             The user will give you a list of technical skills, delimited by semicolons. Please append or modify this list of skills for the given job description. Only include hard skills of specific technologies.
+    //             `,
+    //     },
+    //     { role: "user", content: skills },
+    //   ],
+    //   model: "gpt-3.5-turbo",
+    // });
+
+    // console.log(chatCompletion.choices[0].message.content);
+    return res.sendStatus(200);
+  } catch (error) {
+    console.error("Error querying resume:", error);
+  }
+};
+
 const convertResume = async (req: Request, res: Response) => {
   try {
     if (!req.file) {
@@ -185,4 +239,4 @@ const convertResume = async (req: Request, res: Response) => {
   }
 };
 
-export { getResume, updateResume, convertResume };
+export { getResume, updateResume, convertResume, tailorResume };

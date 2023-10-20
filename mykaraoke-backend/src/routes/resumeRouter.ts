@@ -3,6 +3,7 @@ import path from "path";
 import {
   convertResume,
   getResume,
+  tailorResume,
   updateResume,
 } from "../controllers/resumeController.js";
 import multer from "multer";
@@ -23,6 +24,7 @@ const router = express.Router();
 router.get("/resume", getResume);
 router.post("/resume", updateResume);
 router.post("/convert", upload.single("blob"), convertResume);
+router.post("/resume/tailor", tailorResume);
 
 const resumeRouter = router;
 
