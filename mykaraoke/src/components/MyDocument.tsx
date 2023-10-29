@@ -130,59 +130,51 @@ const customSort = (arr) => {
   });
 };
 
-const MyDocument = memo(({ data, dataKeywords }: any) => {
-  let skills = null;
-  if (data?.skills && dataKeywords) {
-    const skillsMap: any = {};
-    for (const skill of data.skills) {
-      const skillCategory = dataKeywords.find(
-        (keyword) => keyword.name === skill.value
-      )?.categories[0];
-      if (skillCategory) {
-        if (skillsMap[skillCategory]) {
-          skillsMap[skillCategory].push(skill.value);
-        } else {
-          skillsMap[skillCategory] = [skill.value];
-        }
+function convertSkillsToMap(skills: any, dataKeywords: any) {
+  const skillsMap: any = {};
+  for (const skill of skills) {
+    const skillCategory = dataKeywords.find(
+      (keyword) => keyword.name === skill.value
+    )?.categories[0];
+    if (skillCategory) {
+      if (skillsMap[skillCategory]) {
+        skillsMap[skillCategory].push(skill.value);
       } else {
-        if (skillsMap.Other) {
-          skillsMap.Other.push(skill.value);
-        } else {
-          skillsMap.Other = [skill.value];
-        }
+        skillsMap[skillCategory] = [skill.value];
       }
-      const newMap: any = {};
-
-      for (let [key, value] of Object.entries(skillsMap)) {
-        if ((value as string[]).length > 2) {
-          newMap[key] = value;
-        } else {
-          newMap.Other = [...(newMap.Other || []), ...(value as string[])];
-        }
+    } else {
+      if (skillsMap.Other) {
+        skillsMap.Other.push(skill.value);
+      } else {
+        skillsMap.Other = [skill.value];
       }
-
-      skills = newMap;
     }
   }
+  const newMap: any = {};
+  for (let [key, value] of Object.entries(skillsMap)) {
+    if ((value as string[]).length > 2 && key !== "Other") {
+      newMap[key] = value;
+    } else {
+      newMap.Other = [...(newMap.Other || []), ...(value as string[])];
+    }
+  }
+  if (Object.entries(newMap).length === 0) {
+    return undefined;
+  }
+  return newMap;
+}
+
+const MyDocument = memo(({ data, dataKeywords, hasExperience }: any) => {
+  const skills = useMemo(() => {
+    if (data?.skills && dataKeywords) {
+      return convertSkillsToMap(data.skills, dataKeywords);
+    }
+  }, [data?.skills, dataKeywords]);
 
   const hasEducationDate = data.education?.[0]?.date;
 
   const latestEducationisWithin3Years =
     hasEducationDate && isDateWithinPast3Years(hasEducationDate.to);
-  // let order = null;
-  // if (hasEducationDate) {
-  //   const latestEducationIsWithin3Years = isDateWithinPast3Years(
-  //     hasEducationDate.to
-  //   );
-  //   if (latestEducationIsWithin3Years) {
-  //     order = ["education", "experience", "projects", "skills"];
-  //   } else {
-  //     order = ["skills", "experience", "projects", "education"];
-  //   }
-  // } else {
-  //   order = ["skills", "experience", "projects", "education"];
-  // }
-  // console.log(order);
 
   function countSpaces(str) {
     let count = 0;
@@ -254,15 +246,8 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
   const skillsSection = skills && (
     <View style={{ width: "100%", marginBottom: "11px" }} wrap={false}>
       <Title>Skills</Title>
-      {customSort(Object.entries(skills))
-        // .sort(([aCategory, aValues], b) => {
-        //   if (aCategory === "Other") {
-        //     return 1;
-        //   } else {
-        //     return -1;
-        //   }
-        // })
-        .map(([category, keywords], index, arr) => {
+      {customSort(Object.entries(skills)).map(
+        ([category, keywords], index, arr) => {
           let displayCategory = null;
           if (arr.length === 1 && category === "Other") {
             displayCategory = "Skills";
@@ -283,7 +268,8 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
               </Text>
             </View>
           );
-        })}
+        }
+      )}
     </View>
   );
 
@@ -414,7 +400,7 @@ const MyDocument = memo(({ data, dataKeywords }: any) => {
   );
 
   let orderDisplay = null;
-  if (latestEducationisWithin3Years) {
+  if (latestEducationisWithin3Years && !hasExperience) {
     orderDisplay = [
       educationSection,
       experienceSection,

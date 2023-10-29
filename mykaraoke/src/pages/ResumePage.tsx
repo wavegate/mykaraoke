@@ -19,7 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { BlobProvider, PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Minus, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Minus, Plus } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -42,6 +42,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import TailorForm from "@/components/TailorForm";
+import { Switch } from "@/components/ui/switch";
 
 function convertDatesToObject(obj) {
   for (const key in obj) {
@@ -154,6 +155,7 @@ export default function ResumePage() {
   //     }),
   //   refetchOnWindowFocus: false,
   // });
+  const [showPreview, setShowPreview] = useState<boolean>(true);
 
   const watchAllFields = form.watch();
 
@@ -315,11 +317,17 @@ export default function ResumePage() {
     form.handleSubmit(onSubmit)();
   };
 
+  const [hasExperience, setHasExperience] = useState<boolean>(false);
+
+  function handleExperienceSwitch(checked) {
+    setHasExperience(checked);
+  }
+
   return (
     <AnimatedPage2>
       {debouncedData && dataKeywords ? (
-        <div className={`grid grid-cols-2 `}>
-          <div>
+        <div className={`flex`}>
+          <div className={`grow`}>
             <div className={`flex justify-between p-4`}>
               <div className={`flex gap-2`}>
                 {/* <Button
@@ -341,13 +349,15 @@ export default function ResumePage() {
                 </Button>
               </div>
 
-              <div className={`flex gap-2`}>
+              <div className={`flex gap-2 items-center`}>
+                <Switch onCheckedChange={handleExperienceSwitch}></Switch>
                 <TailorForm resumeForm={form} />
                 <PDFDownloadLink
                   document={
                     <MyDocument
                       data={debouncedData}
                       dataKeywords={dataKeywords}
+                      hasExperience={hasExperience}
                     />
                   }
                   fileName="resume.pdf"
@@ -368,6 +378,7 @@ export default function ResumePage() {
                     <MyDocument
                       data={debouncedData}
                       dataKeywords={dataKeywords}
+                      hasExperience={hasExperience}
                     />
                   }
                 >
@@ -735,10 +746,20 @@ export default function ResumePage() {
               </form>
             </Form>
           </div>
-          <div className={``}>
-            {debouncedData && (
+          <div className={`flex shrink-0 ${showPreview && `w-1/2`}`}>
+            <div
+              className={`h-full w-[20px] bg-slate-50 flex items-center justify-center cursor-pointer`}
+              onClick={() => setShowPreview((prev) => !prev)}
+            >
+              {showPreview ? <ChevronRight /> : <ChevronLeft />}
+            </div>
+            {debouncedData && showPreview && (
               <PDFViewer className={`w-full h-[calc(100dvh-56px)]`}>
-                <MyDocument data={debouncedData} dataKeywords={dataKeywords} />
+                <MyDocument
+                  data={debouncedData}
+                  dataKeywords={dataKeywords}
+                  hasExperience={hasExperience}
+                />
               </PDFViewer>
             )}
           </div>
