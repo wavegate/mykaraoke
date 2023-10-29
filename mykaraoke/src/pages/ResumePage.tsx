@@ -252,7 +252,7 @@ export default function ResumePage() {
 
   function loadFromLocal() {
     const localResume = JSON.parse(localStorage.getItem("resume"));
-    const convertedResume = convertDateStringsToDate(localResume);
+    const convertedResume = convertDateStringsToDate(localResume, undefined);
 
     setTags(
       convertedResume.skills.map((skill) => {
