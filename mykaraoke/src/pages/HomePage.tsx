@@ -21,6 +21,7 @@ import { API_URL } from "@/constants";
 import BarChart from "@/components/BarChart/BarChart";
 import ChloropethChart from "@/components/ChloropethChart/ChloropethChart";
 import Spinner from "@/components/Spinner";
+import { keywords, jobListingsByState, states } from "./data";
 
 // const formSchema = z.object({
 //   title: z.string().min(2).max(50),
@@ -29,23 +30,23 @@ import Spinner from "@/components/Spinner";
 // });
 
 export default function HomePage() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["keywords"],
-    queryFn: () =>
-      axios.get(`${API_URL}/keywords`).then((res) => {
-        return res?.data;
-      }),
-    refetchOnWindowFocus: false,
-  });
-  const { data: jobListingsByState, isLoading: jobListingsIsLoading } =
-    useQuery({
-      queryKey: ["jobListingsByState"],
-      queryFn: () =>
-        axios.get(`${API_URL}/jobListingsByState`).then((res) => {
-          return res?.data;
-        }),
-      refetchOnWindowFocus: false,
-    });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["keywords"],
+  //   queryFn: () =>
+  //     axios.get(`${API_URL}/keywords`).then((res) => {
+  //       return res?.data;
+  //     }),
+  //   refetchOnWindowFocus: false,
+  // });
+  // const { data: jobListingsByState, isLoading: jobListingsIsLoading } =
+  //   useQuery({
+  //     queryKey: ["jobListingsByState"],
+  //     queryFn: () =>
+  //       axios.get(`${API_URL}/jobListingsByState`).then((res) => {
+  //         return res?.data;
+  //       }),
+  //     refetchOnWindowFocus: false,
+  //   });
 
   // const { toast } = useToast();
 
@@ -100,14 +101,16 @@ export default function HomePage() {
   //   mutation.mutate(values as any);
   // }
 
+  const data = keywords;
+
   return (
     <AnimatedPage>
-      {(isLoading || jobListingsIsLoading) && (
+      {(false || false) && (
         <Spinner className={`w-full flex justify-center mt-[48px]`} />
       )}
       {data && <DataTable columns={columns} data={data} />}
       <div className={`grid grid-cols-2 gap-[48px]`}>
-        {data && <ChloropethChart data={jobListingsByState} />}
+        {/* {data && <ChloropethChart data={jobListingsByState} />} */}
         {data && <BarChart data={data} category="Languages" />}
         {data && <BarChart data={data} category="Frameworks" />}
         {data && <BarChart data={data} category="Soft Skills" />}

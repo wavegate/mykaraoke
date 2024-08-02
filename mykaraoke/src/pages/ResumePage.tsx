@@ -105,14 +105,14 @@ export default function ResumePage() {
   const [tags, setTags] = useState<Tag[]>([]);
   const { toast } = useToast();
 
-  const { data: dataKeywords, isLoading: isLoadingKeywords } = useQuery({
-    queryKey: ["keywords"],
-    queryFn: () =>
-      axios.get(`${API_URL}/keywords`).then((res) => {
-        return res?.data;
-      }),
-    refetchOnWindowFocus: false,
-  });
+  // const { data: dataKeywords, isLoading: isLoadingKeywords } = useQuery({
+  //   queryKey: ["keywords"],
+  //   queryFn: () =>
+  //     axios.get(`${API_URL}/keywords`).then((res) => {
+  //       return res?.data;
+  //     }),
+  //   refetchOnWindowFocus: false,
+  // });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -291,13 +291,13 @@ export default function ResumePage() {
     docxMutation.mutate(formData as any);
   };
 
-  const tagOptions = useMemo(() => {
-    if (dataKeywords) {
-      return dataKeywords.map((keyword) => {
-        return { id: keyword.name, text: keyword.name };
-      });
-    }
-  }, [dataKeywords]);
+  // const tagOptions = useMemo(() => {
+  //   if (dataKeywords) {
+  //     return dataKeywords.map((keyword) => {
+  //       return { id: keyword.name, text: keyword.name };
+  //     });
+  //   }
+  // }, [dataKeywords]);
 
   const setTagsCallback = useCallback((newTags) => {
     setTags(newTags);
@@ -319,7 +319,7 @@ export default function ResumePage() {
 
   return (
     <AnimatedPage2>
-      {debouncedData && dataKeywords ? (
+      {debouncedData ? (
         <div className={`flex`}>
           <div className={`grow`}>
             <div className={`flex justify-between p-4`}>
@@ -350,7 +350,7 @@ export default function ResumePage() {
                   document={
                     <MyDocument
                       data={debouncedData}
-                      dataKeywords={dataKeywords}
+                      dataKeywords={[]}
                       hasExperience={hasExperience}
                     />
                   }
@@ -371,7 +371,7 @@ export default function ResumePage() {
                   document={
                     <MyDocument
                       data={debouncedData}
-                      dataKeywords={dataKeywords}
+                      dataKeywords={[]}
                       hasExperience={hasExperience}
                     />
                   }
@@ -533,7 +533,7 @@ export default function ResumePage() {
                     </div>
                   </CardContent>
                 </Card>
-                {tagOptions && (
+                {false && (
                   <Card>
                     <CardHeader className={`pb-3 text-[18px] font-semibold`}>
                       Skills
@@ -544,7 +544,7 @@ export default function ResumePage() {
                         <FormControl>
                           <TagInput
                             enableAutocomplete
-                            autocompleteOptions={tagOptions}
+                            autocompleteOptions={[]}
                             placeholder="eg. React.js"
                             tags={tags}
                             setTags={setTagsCallback}
@@ -751,7 +751,7 @@ export default function ResumePage() {
               <PDFViewer className={`w-full h-[calc(100dvh-56px)]`}>
                 <MyDocument
                   data={debouncedData}
-                  dataKeywords={dataKeywords}
+                  dataKeywords={[]}
                   hasExperience={hasExperience}
                 />
               </PDFViewer>
